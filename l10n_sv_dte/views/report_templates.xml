@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!--    <template id="web_address_layout_inherited" inherit_id="web.address_layout">-->
+<!--        &lt;!&ndash; do not show company address on document header  &ndash;&gt;-->
+<!--        <xpath expr="//div[@t-if='address']" position="inside">-->
+<!--&lt;!&ndash;            <attribute name="t-if">doc_model != "account.move" or (doc_model == "account.move" and o.company_id.l10n_do_country_code != "DO")</attribute>&ndash;&gt;-->
+<!--            <p>fdfd1111</p>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+
+    <template id="external_layout_standard_inherited" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@name='company_address']" position="attributes">
+            <attribute name="t-if">doc_model != "account.move" or (doc_model == "account.move" and o.company_id.l10n_sv_country_code != "SV")</attribute>
+        </xpath>
+    </template>
+<!--    <template id="external_layout_boxed_inherited" inherit_id="web.external_layout_boxed">-->
+<!--        <xpath expr="//div[@name='company_address']" position="attributes">-->
+<!--            <attribute name="t-if">doc_model != "account.move" or (doc_model == "account.move" and o.company_id.l10n_do_country_code != "DO")</attribute>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//div/div[@class='pt-5']" position="attributes">-->
+<!--            <attribute name="class"></attribute>-->
+<!--        </xpath>-->
+<!--    </template>-->
+</odoo>

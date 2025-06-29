@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+
+from . import account_chart_template
+from . import account_journal
+from . import account_tax
+from . import account_tax_group
+from . import l10n_sv_dte_document
+from . import res_company
+from . import l10n_sv_voucher_type
+from . import l10n_sv_economic_activity
+from . import l10n_sv_identification_type
+from . import l10n_sv_location
+from . import l10n_sv_terminal
+from . import account_move
+from . import res_partner
+from . import res_config_settings
+from . import product_template

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form11" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.l10n_cr_invoice</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Facturación Electrónica (SV)" name="fe_setting_container" invisible="country_code not in ['SV']">
+                    <setting string="Credenciales de acceso"
+                             help="Configure your credentials to auth Hacienda.">
+
+                        <div class="row">
+                            <label string="Username" for="l10n_sv_mh_auth_user" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_mh_auth_user"/>
+                        </div>
+                        <div class="row">
+                            <label string="Password" for="l10n_sv_mh_auth_pass" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_mh_auth_pass" password="True"/>
+                        </div>
+                        <div class="row">
+                            <label string="Testing" for="l10n_sv_dte_mh_test_env" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_dte_mh_test_env" class="oe_inline"/>
+                        </div>
+                        <button name="l10n_sv_dte_action_verify" type="object" string="PROBAR CONEXION" class="oe_highlight"/>
+                    </setting>
+                    <setting string="Credenciales de firma"
+                             help="Configure your credentials to sign your DTE documents.">
+                        <div class="row">
+                            <label string="Signer Route" for="l10n_sv_signer_route" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_signer_route"/>
+                        </div>
+                        <div class="row">
+                            <label string="Private Password" for="l10n_sv_mh_private_pass" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_mh_private_pass" password="True"/>
+                        </div>
+                    </setting>
+                    <setting id="activity_setting" documentation="/applications/productivity/mail_plugins.html" help="Integrate with mail client plugins">
+                        <span class="o_form_label">
+                            Actividades Económicas
+                        </span>
+                        <br/>
+                        <div class="text-muted">
+                            <a href="https://da.go.cr/wp-content/uploads/2016/06/DA-GRH-0067-Gu%C3%ADa-CIIU-INEC-Costa-Rica.pdf">Clasificador Actividades Económicas</a>
+                        </div>
+                        <div class="mt8">
+                            <button name="%(l10n_sv_dte.action_res_caecr)d" icon="oi-arrow-right" type="action" string="Manage Economic Activities" class="btn-link"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

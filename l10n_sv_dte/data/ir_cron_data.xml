@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_l10n_sv_send_to_hacienda" model="ir.cron">
+            <field name="name">SV: Enviar DTE Hacienda</field>
+            <field name="model_id" ref="model_l10n_sv_dte_document"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_l10n_sv_invoices_to_sent(max_doc=10)</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+        <record id="cron_send_mails" model="ir.cron">
+            <field name="name">SV: Envio Email a clientes</field>
+            <field name="model_id" ref="model_l10n_sv_dte_document" />
+            <field name="state">code</field>
+            <field name="code">model._send_mail(max_mails=1)</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

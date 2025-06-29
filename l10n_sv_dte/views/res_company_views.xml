@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_inherit" model="ir.ui.view">
+        <field name="name">res.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form>
+                <field name="l10n_sv_country_code" invisible="1"/>
+            </form>
+            <xpath expr="//page[1]" position="after">
+                <page string="Facturación Electrónica" invisible="l10n_sv_country_code not in ['SV']">
+                    <group col="2">
+                        <field name="l10n_sv_establishment_type"/>
+                    </group>
+                    <p class="oe_grey">
+                        Configure the company economic activities.
+                    </p>
+                    <div>
+                        <field name="l10n_sv_economic_activity_ids" nolabel="1"
+                               widget="many2many_tags" options="{'no_create_edit': True}" context="{'default_order': sequence}"/>
+                    </div>
+                    <group col="2">
+                        <button type="object" class="btn-link" name="action_view_economic_activity" colspan="2"
+                                context="{'search_default_company_id': context.get('active_id'), 'default_company_id': context.get('active_id')}" string="View Detail"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

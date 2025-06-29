@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="l10n_sv_identification_36" model="l10n_sv.identification.type">
+            <field name="code">36</field>
+            <field name="name">NIT</field>
+<!--            <field name="notes">Se agrega tres ceros antes de iniciar con el número de cédula para completar 12-->
+<!--                dígitos-->
+<!--            </field>-->
+        </record>
+        <record id="l10n_sv_identification_13" model="l10n_sv.identification.type">
+            <field name="code">13</field>
+            <field name="name">DUI</field>
+<!--            <field name="notes">Se debe agregar dos ceros antes de iniciar con el número de cédula para completar 12-->
+<!--                dígitos-->
+<!--            </field>-->
+        </record>
+        <record id="l10n_sv_identification_37" model="l10n_sv.identification.type">
+            <field name="code">37</field>
+            <field name="name">Otro</field>
+<!--            <field name="notes">En aquellos casos donde la cédula se encuentre compuesta de 11 dígitos se debe agregar-->
+<!--                un cero al inicio para completar 12 dígitos-->
+<!--            </field>-->
+        </record>
+        <record id="l10n_sv_identification_03" model="l10n_sv.identification.type">
+            <field name="code">04</field>
+            <field name="name">Pasaporte</field>
+<!--            <field name="notes">Se debe agregar dos ceros antes de iniciar con el número de identificación para-->
+<!--                completar 12 dígitos-->
+<!--            </field>-->
+        </record>
+        <record id="l10n_sv_identification_02" model="l10n_sv.identification.type">
+            <field name="code">02</field>
+            <field name="name">Carnet de Residente</field>
+<!--            <field name="notes">Número de identificación en caso de que el receptor sea un extranjero. Máximo 20-->
+<!--                caracteres-->
+<!--            </field>-->
+        </record>
+    </data>
+</odoo>

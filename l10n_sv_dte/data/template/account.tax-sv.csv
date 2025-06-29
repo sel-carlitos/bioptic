@@ -1,0 +1,5 @@
+"id","l10n_sv_code","tax_scope","name","description","amount","amount_type","type_tax_use","tax_group_id"
+"account_tax_template_IV_0","20","","","","","","",""
+"account_tax_template_IV_1","20","","","","","","",""
+"account_tax_01_01","20","","IVA (Exento)","IVA (Exento)","0.0","percent","sale",""
+"account_tax_01_02","C3","","Impuesto al Valor Agregado (exportaciones) 0%","Impuesto al Valor Agregado (exportaciones) 0%","0.0","percent","sale",""
