@@ -1,0 +1,264 @@
+id,name,dte_code,country_id/id,state_id/id
+municipality_0101,AHUACHAPAN,01,base.sv,l10n_sv_address.state_sv_01
+municipality_0102,APANECA,02,base.sv,l10n_sv_address.state_sv_01
+municipality_0103,ATIQUIZAYA,03,base.sv,l10n_sv_address.state_sv_01
+municipality_0104,CONCEPCION DE ATACO,04,base.sv,l10n_sv_address.state_sv_01
+municipality_0105,EL REFUGIO,05,base.sv,l10n_sv_address.state_sv_01
+municipality_0106,GUAYMANGO,06,base.sv,l10n_sv_address.state_sv_01
+municipality_0107,JUJUTLA,07,base.sv,l10n_sv_address.state_sv_01
+municipality_0108,SAN FRANCISCO MENENDEZ,08,base.sv,l10n_sv_address.state_sv_01
+municipality_0109,SAN LORENZO,09,base.sv,l10n_sv_address.state_sv_01
+municipality_0110,SAN PEDRO PUXTLA,10,base.sv,l10n_sv_address.state_sv_01
+municipality_0111,TACUBA,11,base.sv,l10n_sv_address.state_sv_01
+municipality_0112,TURÍN,12,base.sv,l10n_sv_address.state_sv_01
+municipality_0201,CANDELARIA DE LA FRONTERA,01,base.sv,l10n_sv_address.state_sv_02
+municipality_0202,COATEPEQUE,02,base.sv,l10n_sv_address.state_sv_02
+municipality_0203,CHALCHUAPA,03,base.sv,l10n_sv_address.state_sv_02
+municipality_0204,EL CONGO,04,base.sv,l10n_sv_address.state_sv_02
+municipality_0205,EL PORVENIR,05,base.sv,l10n_sv_address.state_sv_02
+municipality_0206,MASAHUAT,06,base.sv,l10n_sv_address.state_sv_02
+municipality_0207,METAPÁN,07,base.sv,l10n_sv_address.state_sv_02
+municipality_0208,SAN ANTONIO PAJONAL,08,base.sv,l10n_sv_address.state_sv_02
+municipality_0209,SAN SEBASTIÁN SALITRILLO,09,base.sv,l10n_sv_address.state_sv_02
+municipality_0210,SANTA ANA,10,base.sv,l10n_sv_address.state_sv_02
+municipality_0211,STA ROSA GUACHI,11,base.sv,l10n_sv_address.state_sv_02
+municipality_0212,STGO D LA FRONT,12,base.sv,l10n_sv_address.state_sv_02
+municipality_0213,TEXISTEPEQUE,13,base.sv,l10n_sv_address.state_sv_02
+municipality_0301,ACAJUTLA,01,base.sv,l10n_sv_address.state_sv_03
+municipality_0301,ACAJUTLA,01,base.sv,l10n_sv_address.state_sv_03
+municipality_0302,ARMENIA,02,base.sv,l10n_sv_address.state_sv_03
+municipality_0303,CALUCO,03,base.sv,l10n_sv_address.state_sv_03
+municipality_0304,CUISNAHUAT,04,base.sv,l10n_sv_address.state_sv_03
+municipality_0305,STA I ISHUATAN,05,base.sv,l10n_sv_address.state_sv_03
+municipality_0306,IZALCO,06,base.sv,l10n_sv_address.state_sv_03
+municipality_0307,JUAYÚA,07,base.sv,l10n_sv_address.state_sv_03
+municipality_0308,NAHUIZALCO,08,base.sv,l10n_sv_address.state_sv_03
+municipality_0309,NAHULINGO,09,base.sv,l10n_sv_address.state_sv_03
+municipality_0310,SALCOATITÁN,10,base.sv,l10n_sv_address.state_sv_03
+municipality_0311,SAN ANTONIO DEL MONTE,11,base.sv,l10n_sv_address.state_sv_03
+municipality_0312,SAN JULIÁN,12,base.sv,l10n_sv_address.state_sv_03
+municipality_0313,STA C MASAHUAT,13,base.sv,l10n_sv_address.state_sv_03
+municipality_0314,SANTO DOMINGO GUZMÁN,14,base.sv,l10n_sv_address.state_sv_03
+municipality_0315,SONSONATE,15,base.sv,l10n_sv_address.state_sv_03
+municipality_0316,SONZACATE,16,base.sv,l10n_sv_address.state_sv_03
+municipality_0401,AGUA CALIENTE,01,base.sv,l10n_sv_address.state_sv_04
+municipality_0402,ARCATAO,02,base.sv,l10n_sv_address.state_sv_04
+municipality_0403,AZACUALPA,03,base.sv,l10n_sv_address.state_sv_04
+municipality_0404,CITALÁ,04,base.sv,l10n_sv_address.state_sv_04
+municipality_0405,COMALAPA,05,base.sv,l10n_sv_address.state_sv_04
+municipality_0406,CONCEPCIÓN QUEZALTEPEQUE,06,base.sv,l10n_sv_address.state_sv_04
+municipality_0407,CHALATENANGO,07,base.sv,l10n_sv_address.state_sv_04
+municipality_0408,DULCE NOM MARÍA,08,base.sv,l10n_sv_address.state_sv_04
+municipality_0409,EL CARRIZAL,09,base.sv,l10n_sv_address.state_sv_04
+municipality_0410,EL PARAÍSO,10,base.sv,l10n_sv_address.state_sv_04
+municipality_0411,LA LAGUNA,11,base.sv,l10n_sv_address.state_sv_04
+municipality_0412,LA PALMA,12,base.sv,l10n_sv_address.state_sv_04
+municipality_0413,LA REINA,13,base.sv,l10n_sv_address.state_sv_04
+municipality_0414,LAS VUELTAS,14,base.sv,l10n_sv_address.state_sv_04
+municipality_0415,NOMBRE DE JESUS,15,base.sv,l10n_sv_address.state_sv_04
+municipality_0416,NVA CONCEPCIÓN,16,base.sv,l10n_sv_address.state_sv_04
+municipality_0417,NUEVA TRINIDAD,17,base.sv,l10n_sv_address.state_sv_04
+municipality_0418,OJOS DE AGUA,18,base.sv,l10n_sv_address.state_sv_04
+municipality_0419,POTONICO,19,base.sv,l10n_sv_address.state_sv_04
+municipality_0420,SAN ANT LA CRUZ,20,base.sv,l10n_sv_address.state_sv_04
+municipality_0421,SAN ANT RANCHOS,21,base.sv,l10n_sv_address.state_sv_04
+municipality_0422,SAN FERNANDO,22,base.sv,l10n_sv_address.state_sv_04
+municipality_0423,SAN FRANCISCO LEMPA,23,base.sv,l10n_sv_address.state_sv_04
+municipality_0424,SAN FRANCISCO MORAZÁN,24,base.sv,l10n_sv_address.state_sv_04
+municipality_0425,SAN IGNACIO,25,base.sv,l10n_sv_address.state_sv_04
+municipality_0426,SAN I LABRADOR,26,base.sv,l10n_sv_address.state_sv_04
+municipality_0427,SAN J CANCASQUE,27,base.sv,l10n_sv_address.state_sv_04
+municipality_0428,SAN JOSE FLORES,28,base.sv,l10n_sv_address.state_sv_04
+municipality_0429,SAN LUIS CARMEN,29,base.sv,l10n_sv_address.state_sv_04
+municipality_0430,SN MIG MERCEDES,30,base.sv,l10n_sv_address.state_sv_04
+municipality_0431,SAN RAFAEL,31,base.sv,l10n_sv_address.state_sv_04
+municipality_0432,SANTA RITA,32,base.sv,l10n_sv_address.state_sv_04
+municipality_0433,TEJUTLA,33,base.sv,l10n_sv_address.state_sv_04
+municipality_0501,ANTGO CUSCATLÁN,01,base.sv,l10n_sv_address.state_sv_05
+municipality_0502,CIUDAD ARCE,02,base.sv,l10n_sv_address.state_sv_05
+municipality_0503,COLON,03,base.sv,l10n_sv_address.state_sv_05
+municipality_0504,COMASAGUA,04,base.sv,l10n_sv_address.state_sv_05
+municipality_0505,CHILTIUPAN,05,base.sv,l10n_sv_address.state_sv_05
+municipality_0506,HUIZÚCAR,06,base.sv,l10n_sv_address.state_sv_05
+municipality_0507,JAYAQUE,07,base.sv,l10n_sv_address.state_sv_05
+municipality_0508,JICALAPA,08,base.sv,l10n_sv_address.state_sv_05
+municipality_0509,LA LIBERTAD,09,base.sv,l10n_sv_address.state_sv_05
+municipality_0510,NUEVO CUSCATLÁN,10,base.sv,l10n_sv_address.state_sv_05
+municipality_0511,SANTA TECLA,11,base.sv,l10n_sv_address.state_sv_05
+municipality_0512,QUEZALTEPEQUE,12,base.sv,l10n_sv_address.state_sv_05
+municipality_0513,SACACOYO,13,base.sv,l10n_sv_address.state_sv_05
+municipality_0514,SN J VILLANUEVA,14,base.sv,l10n_sv_address.state_sv_05
+municipality_0515,SAN JUAN OPICO,15,base.sv,l10n_sv_address.state_sv_05
+municipality_0516,SAN MATÍAS,16,base.sv,l10n_sv_address.state_sv_05
+municipality_0517,SAN P TACACHICO,17,base.sv,l10n_sv_address.state_sv_05
+municipality_0518,TAMANIQUE,18,base.sv,l10n_sv_address.state_sv_05
+municipality_0519,TALNIQUE,19,base.sv,l10n_sv_address.state_sv_05
+municipality_0520,TEOTEPEQUE,20,base.sv,l10n_sv_address.state_sv_05
+municipality_0521,TEPECOYO,21,base.sv,l10n_sv_address.state_sv_05
+municipality_0522,ZARAGOZA,22,base.sv,l10n_sv_address.state_sv_05
+municipality_0601,AGUILARES,01,base.sv,l10n_sv_address.state_sv_06
+municipality_0602,APOPA,02,base.sv,l10n_sv_address.state_sv_06
+municipality_0603,AYUTUXTEPEQUE,03,base.sv,l10n_sv_address.state_sv_06
+municipality_0604,CUSCATANCINGO,04,base.sv,l10n_sv_address.state_sv_06
+municipality_0605,EL PAISNAL,05,base.sv,l10n_sv_address.state_sv_06
+municipality_0606,GUAZAPA,06,base.sv,l10n_sv_address.state_sv_06
+municipality_0607,ILOPANGO,07,base.sv,l10n_sv_address.state_sv_06
+municipality_0608,MEJICANOS,08,base.sv,l10n_sv_address.state_sv_06
+municipality_0609,NEJAPA,09,base.sv,l10n_sv_address.state_sv_06
+municipality_0610,PANCHIMALCO,10,base.sv,l10n_sv_address.state_sv_06
+municipality_0611,ROSARIO DE MORA,11,base.sv,l10n_sv_address.state_sv_06
+municipality_0612,SAN MARCOS,12,base.sv,l10n_sv_address.state_sv_06
+municipality_0613,SAN MARTIN,13,base.sv,l10n_sv_address.state_sv_06
+municipality_0614,SAN SALVADOR,14,base.sv,l10n_sv_address.state_sv_06
+municipality_0615,STG TEXACUANGOS,15,base.sv,l10n_sv_address.state_sv_06
+municipality_0616,SANTO TOMAS,16,base.sv,l10n_sv_address.state_sv_06
+municipality_0617,SOYAPANGO,17,base.sv,l10n_sv_address.state_sv_06
+municipality_0618,TONACATEPEQUE,18,base.sv,l10n_sv_address.state_sv_06
+municipality_0619,CIUDAD DELGADO,19,base.sv,l10n_sv_address.state_sv_06
+municipality_0701,CANDELARIA,01,base.sv,l10n_sv_address.state_sv_07
+municipality_0702,COJUTEPEQUE,02,base.sv,l10n_sv_address.state_sv_07
+municipality_0703,EL CARMEN,03,base.sv,l10n_sv_address.state_sv_07
+municipality_0704,EL ROSARIO,04,base.sv,l10n_sv_address.state_sv_07
+municipality_0705,MONTE SAN JUAN,05,base.sv,l10n_sv_address.state_sv_07
+municipality_0706,ORAT CONCEPCIÓN,06,base.sv,l10n_sv_address.state_sv_07
+municipality_0707,SAN B PERULAPIA,07,base.sv,l10n_sv_address.state_sv_07
+municipality_0708,SAN CRISTÓBAL,08,base.sv,l10n_sv_address.state_sv_07
+municipality_0709,SAN J GUAYABAL,09,base.sv,l10n_sv_address.state_sv_07
+municipality_0710,SAN P PERULAPÁN,10,base.sv,l10n_sv_address.state_sv_07
+municipality_0711,SAN RAF CEDROS,11,base.sv,l10n_sv_address.state_sv_07
+municipality_0712,SAN RAMON,12,base.sv,l10n_sv_address.state_sv_07
+municipality_0713,STA C ANALQUITO,13,base.sv,l10n_sv_address.state_sv_07
+municipality_0714,STA C MICHAPA,14,base.sv,l10n_sv_address.state_sv_07
+municipality_0715,SUCHITOTO,15,base.sv,l10n_sv_address.state_sv_07
+municipality_0716,TENANCINGO,16,base.sv,l10n_sv_address.state_sv_07
+municipality_0801,CUYULTITÁN,01,base.sv,l10n_sv_address.state_sv_08
+municipality_0802,EL ROSARIO,02,base.sv,l10n_sv_address.state_sv_08
+municipality_0803,JERUSALÉN,03,base.sv,l10n_sv_address.state_sv_08
+municipality_0804,MERCED LA CEIBA,04,base.sv,l10n_sv_address.state_sv_08
+municipality_0805,OLOCUILTA,05,base.sv,l10n_sv_address.state_sv_08
+municipality_0806,PARAÍSO OSORIO,06,base.sv,l10n_sv_address.state_sv_08
+municipality_0807,SN ANT MASAHUAT,07,base.sv,l10n_sv_address.state_sv_08
+municipality_0808,SAN EMIGDIO,08,base.sv,l10n_sv_address.state_sv_08
+municipality_0809,SN FCO CHINAMEC,09,base.sv,l10n_sv_address.state_sv_08
+municipality_0810,SAN J NONUALCO,10,base.sv,l10n_sv_address.state_sv_08
+municipality_0811,SAN JUAN TALPA,11,base.sv,l10n_sv_address.state_sv_08
+municipality_0812,SAN JUAN TEPEZONTES,12,base.sv,l10n_sv_address.state_sv_08
+municipality_0813,SAN LUIS TALPA,13,base.sv,l10n_sv_address.state_sv_08
+municipality_0814,SAN MIGUEL TEPEZONTES,14,base.sv,l10n_sv_address.state_sv_08
+municipality_0815,SAN PEDRO MASAHUAT,15,base.sv,l10n_sv_address.state_sv_08
+municipality_0816,SAN PEDRO NONUALCO,16,base.sv,l10n_sv_address.state_sv_08
+municipality_0817,STA MA OSTUMA,17,base.sv,l10n_sv_address.state_sv_08
+municipality_0818,STA MA OSTUMA,18,base.sv,l10n_sv_address.state_sv_08
+municipality_0819,STGO NONUALCO,19,base.sv,l10n_sv_address.state_sv_08
+municipality_0820,TAPALHUACA,20,base.sv,l10n_sv_address.state_sv_08
+municipality_0821,ZACATECOLUCA,21,base.sv,l10n_sv_address.state_sv_08
+municipality_0822,SN LUIS LA HERR,22,base.sv,l10n_sv_address.state_sv_08
+municipality_0901,CINQUERA,01,base.sv,l10n_sv_address.state_sv_09
+municipality_0902,GUACOTECTI,02,base.sv,l10n_sv_address.state_sv_09
+municipality_0903,ILOBASCO,03,base.sv,l10n_sv_address.state_sv_09
+municipality_0904,JUTIAPA,04,base.sv,l10n_sv_address.state_sv_09
+municipality_0905,SAN ISIDRO,05,base.sv,l10n_sv_address.state_sv_09
+municipality_0906,SENSUNTEPEQUE,06,base.sv,l10n_sv_address.state_sv_09
+municipality_0907,TEJUTEPEQUE,07,base.sv,l10n_sv_address.state_sv_09
+municipality_0908,VICTORIA,08,base.sv,l10n_sv_address.state_sv_09
+municipality_0909,DOLORES,09,base.sv,l10n_sv_address.state_sv_09
+municipality_1001,APASTEPEQUE,01,base.sv,l10n_sv_address.state_sv_10
+municipality_1002,GUADALUPE,02,base.sv,l10n_sv_address.state_sv_10
+municipality_1003,SAN CAY ISTEPEQ,03,base.sv,l10n_sv_address.state_sv_10
+municipality_1004,SANTA CLARA,04,base.sv,l10n_sv_address.state_sv_10
+municipality_1005,SANTO DOMINGO,05,base.sv,l10n_sv_address.state_sv_10
+municipality_1006,SN EST CATARINA,06,base.sv,l10n_sv_address.state_sv_10
+municipality_1007,SAN ILDEFONSO,07,base.sv,l10n_sv_address.state_sv_10
+municipality_1008,SAN LORENZO,08,base.sv,l10n_sv_address.state_sv_10
+municipality_1009,SAN SEBASTIÁN,09,base.sv,l10n_sv_address.state_sv_10
+municipality_1010,SAN VICENTE,10,base.sv,l10n_sv_address.state_sv_10
+municipality_1011,TECOLUCA,11,base.sv,l10n_sv_address.state_sv_10
+municipality_1012,TEPETITÁN,12,base.sv,l10n_sv_address.state_sv_10
+municipality_1013,VERAPAZ,13,base.sv,l10n_sv_address.state_sv_10
+municipality_1101,ALEGRÍA,01,base.sv,l10n_sv_address.state_sv_11
+municipality_1102,BERLÍN,02,base.sv,l10n_sv_address.state_sv_11
+municipality_1103,CALIFORNIA,03,base.sv,l10n_sv_address.state_sv_11
+municipality_1104,CONCEP BATRES,04,base.sv,l10n_sv_address.state_sv_11
+municipality_1105,EL TRIUNFO,05,base.sv,l10n_sv_address.state_sv_11
+municipality_1106,EREGUAYQUÍN,06,base.sv,l10n_sv_address.state_sv_11
+municipality_1107,ESTANZUELAS,07,base.sv,l10n_sv_address.state_sv_11
+municipality_1108,JIQUILISCO,08,base.sv,l10n_sv_address.state_sv_11
+municipality_1109,JUCUAPA,09,base.sv,l10n_sv_address.state_sv_11
+municipality_1110,JUCUARÁN,10,base.sv,l10n_sv_address.state_sv_11
+municipality_1111,MERCEDES UMAÑA,11,base.sv,l10n_sv_address.state_sv_11
+municipality_1112,NUEVA GRANADA,12,base.sv,l10n_sv_address.state_sv_11
+municipality_1113,OZATLÁN,13,base.sv,l10n_sv_address.state_sv_11
+municipality_1114,PTO EL TRIUNFO,14,base.sv,l10n_sv_address.state_sv_11
+municipality_1115,SAN AGUSTÍN,15,base.sv,l10n_sv_address.state_sv_11
+municipality_1116,SN BUENAVENTURA,16,base.sv,l10n_sv_address.state_sv_11
+municipality_1117,SAN DIONISIO,17,base.sv,l10n_sv_address.state_sv_11
+municipality_1118,SANTA ELENA,18,base.sv,l10n_sv_address.state_sv_11
+municipality_1119,SAN FCO JAVIER,19,base.sv,l10n_sv_address.state_sv_11
+municipality_1120,SANTA MARÍA,20,base.sv,l10n_sv_address.state_sv_11
+municipality_1121,STGO DE MARÍA,21,base.sv,l10n_sv_address.state_sv_11
+municipality_1122,TECAPÁN,22,base.sv,l10n_sv_address.state_sv_11
+municipality_1123,USULUTÁN,23,base.sv,l10n_sv_address.state_sv_11
+municipality_1201,CAROLINA,01,base.sv,l10n_sv_address.state_sv_12
+municipality_1202,CIUDAD BARRIOS,02,base.sv,l10n_sv_address.state_sv_12
+municipality_1203,COMACARÁN,03,base.sv,l10n_sv_address.state_sv_12
+municipality_1204,CHAPELTIQUE,04,base.sv,l10n_sv_address.state_sv_12
+municipality_1205,CHINAMECA,05,base.sv,l10n_sv_address.state_sv_12
+municipality_1206,CHIRILAGUA,06,base.sv,l10n_sv_address.state_sv_12
+municipality_1207,EL TRANSITO,07,base.sv,l10n_sv_address.state_sv_12
+municipality_1208,LOLOTIQUE,08,base.sv,l10n_sv_address.state_sv_12
+municipality_1209,MONCAGUA,09,base.sv,l10n_sv_address.state_sv_12
+municipality_1210,NUEVA GUADALUPE,10,base.sv,l10n_sv_address.state_sv_12
+municipality_1211,NVO EDÉN S JUAN,11,base.sv,l10n_sv_address.state_sv_12
+municipality_1212,QUELEPA,12,base.sv,l10n_sv_address.state_sv_12
+municipality_1213,SAN ANT D MOSCO,13,base.sv,l10n_sv_address.state_sv_12
+municipality_1214,SAN GERARDO,14,base.sv,l10n_sv_address.state_sv_12
+municipality_1215,SAN JORGE,15,base.sv,l10n_sv_address.state_sv_12
+municipality_1216,SAN LUIS REINA,16,base.sv,l10n_sv_address.state_sv_12
+municipality_1217,SAN MIGUEL,17,base.sv,l10n_sv_address.state_sv_12
+municipality_1218,SAN RAF ORIENTE,18,base.sv,l10n_sv_address.state_sv_12
+municipality_1219,SESORI,19,base.sv,l10n_sv_address.state_sv_12
+municipality_1220,ULUAZAPA,20,base.sv,l10n_sv_address.state_sv_12
+municipality_1301,ARAMBALA,01,base.sv,l10n_sv_address.state_sv_13
+municipality_1302,CACAOPERA,02,base.sv,l10n_sv_address.state_sv_13
+municipality_1303,CORINTO,03,base.sv,l10n_sv_address.state_sv_13
+municipality_1304,CHILANGA,04,base.sv,l10n_sv_address.state_sv_13
+municipality_1305,DELIC DE CONCEP,05,base.sv,l10n_sv_address.state_sv_13
+municipality_1306,EL DIVISADERO,06,base.sv,l10n_sv_address.state_sv_13
+municipality_1307,EL ROSARIO,07,base.sv,l10n_sv_address.state_sv_13
+municipality_1308,GUALOCOCTI,08,base.sv,l10n_sv_address.state_sv_13
+municipality_1309,GUATAJIAGUA,09,base.sv,l10n_sv_address.state_sv_13
+municipality_1310,JOATECA,10,base.sv,l10n_sv_address.state_sv_13
+municipality_1311,JOCOAITIQUE,11,base.sv,l10n_sv_address.state_sv_13
+municipality_1312,JOCORO,12,base.sv,l10n_sv_address.state_sv_13
+municipality_1313,LOLOTIQUILLO,13,base.sv,l10n_sv_address.state_sv_13
+municipality_1314,MEANGUERA,14,base.sv,l10n_sv_address.state_sv_13
+municipality_1315,OSICALA,15,base.sv,l10n_sv_address.state_sv_13
+municipality_1316,PERQUÍN,16,base.sv,l10n_sv_address.state_sv_13
+municipality_1317,SAN CARLOS,17,base.sv,l10n_sv_address.state_sv_13
+municipality_1318,SAN FERNANDO,18,base.sv,l10n_sv_address.state_sv_13
+municipality_1319,SAN FCO GOTERA,19,base.sv,l10n_sv_address.state_sv_13
+municipality_1320,SAN ISIDRO,20,base.sv,l10n_sv_address.state_sv_13
+municipality_1321,SAN SIMÓN,21,base.sv,l10n_sv_address.state_sv_13
+municipality_1322,SENSEMBRA,22,base.sv,l10n_sv_address.state_sv_13
+municipality_1323,SOCIEDAD,23,base.sv,l10n_sv_address.state_sv_13
+municipality_1324,TOROLA,24,base.sv,l10n_sv_address.state_sv_13
+municipality_1325,YAMABAL,25,base.sv,l10n_sv_address.state_sv_13
+municipality_1326,YOLOAIQUÍN,26,base.sv,l10n_sv_address.state_sv_13
+municipality_1401,ANAMOROS,01,base.sv,l10n_sv_address.state_sv_14
+municipality_1402,BOLÍVAR,02,base.sv,l10n_sv_address.state_sv_14
+municipality_1403,CONCEP DE OTE,03,base.sv,l10n_sv_address.state_sv_14
+municipality_1404,CONCHAGUA,04,base.sv,l10n_sv_address.state_sv_14
+municipality_1405,EL CARMEN,05,base.sv,l10n_sv_address.state_sv_14
+municipality_1406,EL SAUCE,06,base.sv,l10n_sv_address.state_sv_14
+municipality_1407,INTIPUCÁ,07,base.sv,l10n_sv_address.state_sv_14
+municipality_1408,LA UNIÓN,08,base.sv,l10n_sv_address.state_sv_14
+municipality_1409,LISLIQUE,09,base.sv,l10n_sv_address.state_sv_14
+municipality_1410,MEANG DEL GOLFO,10,base.sv,l10n_sv_address.state_sv_14
+municipality_1411,NUEVA ESPARTA,11,base.sv,l10n_sv_address.state_sv_14
+municipality_1412,PASAQUINA,12,base.sv,l10n_sv_address.state_sv_14
+municipality_1413,POLORÓS,13,base.sv,l10n_sv_address.state_sv_14
+municipality_1414,SAN ALEJO,14,base.sv,l10n_sv_address.state_sv_14
+municipality_1415,SAN JOSE,15,base.sv,l10n_sv_address.state_sv_14
+municipality_1416,SANTA ROSA LIMA,16,base.sv,l10n_sv_address.state_sv_14
+municipality_1417,YAYANTIQUE,17,base.sv,l10n_sv_address.state_sv_14
+municipality_1418,YUCUAIQUÍN,18,base.sv,l10n_sv_address.state_sv_14

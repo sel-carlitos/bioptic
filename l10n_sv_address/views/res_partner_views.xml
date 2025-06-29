@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_form_partner_inherit" model="ir.ui.view">
+        <field name="name">view.form.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="state_id" position="attributes">
+                <attribute name="placeholder">Department</attribute>
+            </field>
+            <field name="country_id" position="after">
+                <field name="res_municipality_id" class="o_address_municipality" placeholder="Municipality"
+                    domain="[('state_id', '=', state_id)]" invisible="'SV' not in fiscal_country_codes"
+                    options="{'no_open': 1,'no_create': 1, 'no_create_edit': 1}" context="{'state_id': state_id}"/>
+            </field>
+        </field>
+    </record>
+</odoo>
