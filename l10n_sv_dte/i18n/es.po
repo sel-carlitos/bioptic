@@ -1516,3 +1516,23 @@ msgstr ""
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "Your company has not defined an email which is mandatory"
 msgstr ""
+
+#. module: l10n_sv_dte
+#: model:account.tax.group,selection:l10n_sv_dte.account_tax_group
+msgid "Tips"
+msgstr "Propinas"
+
+#. module: l10n_sv_dte
+#: model:account.tax.group,selection:l10n_sv_dte.account_tax_group
+msgid "Not Applicable"
+msgstr "No Aplica"
+
+#. module: l10n_sv_dte
+#: model:account.tax.group,selection:l10n_sv_dte.account_tax_group
+msgid "Taxable"
+msgstr "Gravado"
+
+#. module: l10n_sv_dte
+#: model:account.tax.group,selection:l10n_sv_dte.account_tax_group
+msgid "Exempt"
+msgstr "Exento"
