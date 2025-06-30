@@ -7,7 +7,7 @@
     'category': 'Accounting/Localizations/Account Charts',
     'description': """
 This is the base module to manage the accounting chart for El Salvador.
-=====================================================================
+=======================================================================
 
 Agrega una nomenclatura contable para El Salvador. También icluye impuestos.
 Adds accounting chart for El Salvador. It also includes taxes.""",
