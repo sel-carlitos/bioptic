@@ -142,7 +142,7 @@
             </p>
         </field>
     </record>
-    <menuitem id="ecf_documents_root" name="Hacienda" groups="account.group_account_manager" web_icon="l10n_sv_dte,static/img/logo-mh.png">
+    <menuitem id="ecf_documents_root" name="Hacienda" groups="account.group_account_manager" web_icon="l10n_sv_dte,static/img/logo-mh.svg">
         <menuitem id="ecf_documents_main" name="Electronic Vouchers">
             <menuitem id="ecf_documents_menu"
                       action="action_ecf_document_action"
