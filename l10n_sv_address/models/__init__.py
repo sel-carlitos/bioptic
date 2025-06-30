@@ -2,5 +2,5 @@
 
 from . import res_country
 from . import res_municipality
-from . import res_state
 from . import res_partner
+from . import res_state
