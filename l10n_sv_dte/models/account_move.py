@@ -42,7 +42,7 @@ class AccountMove(models.Model):
     l10n_sv_qr_code = fields.Binary(string="Code QR", readonly=True, related="l10_sv_dte_id.l10n_sv_qr_code")
     l10n_sv_electronic_stamp = fields.Text(string="Electronic Stamp", readonly=True, copy=False,
                                            related="l10_sv_dte_id.l10n_sv_electronic_stamp")
-    l10n_sv_incoterm = fields.Selection(L10N_SV_INCOTERMS, string="Incoterm", default="05")
+    l10n_sv_incoterm = fields.Selection(L10N_SV_INCOTERMS, string="Incoterms", default="05")
     l10n_sv_type_item_to_import = fields.Selection([("1", "Bienes"),
                                                     ("2", "Servicios"),
                                                     ("3", "Ambos (Bienes y Servicios, incluye los dos inherente a los Productos o servicios)"),
