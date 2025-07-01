@@ -6,7 +6,7 @@
         <field name="model">account.tax.group</field>
         <field name="inherit_id" ref="account.view_tax_group_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet" position="after">
+            <xpath expr="//sheet" position="inside">
                 <notebook>
                     <page string="Taxes">
                         <field name="tax_ids" widget="one2many_list" nolabel="1"
