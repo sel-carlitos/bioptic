@@ -11,7 +11,7 @@
                     <page string="Taxes">
                         <field name="tax_ids" widget="one2many_list" nolabel="1"
                             options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}">
-                            <list create="false">
+                            <list create="false" delete="false">
                                 <field name="name"/>
                                 <field name="description"/>
                                 <field name="type_tax_use"/>
