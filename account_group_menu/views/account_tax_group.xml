@@ -10,13 +10,14 @@
                 <notebook>
                     <page string="Taxes">
                         <field name="tax_ids" widget="one2many_list" nolabel="1"
-                            options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}"/>
-                        <list create="false">
-                                <field name="code"/>
-                                <field name="name"/>
-                                <field name="account_type"/>
-                                <field name="reconcile"/>
-                        </list>
+                            options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}">
+                            <list create="false">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="account_type"/>
+                                    <field name="reconcile"/>
+                            </list>
+                        </field>
                     </page>
                 </notebook>
             </xpath>

@@ -10,16 +10,17 @@
                 <notebook>
                     <page string="Accounts">
                         <field name="account_ids" widget="one2many_list" nolabel="1"
-                            options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}"/>
-                        <list create="false">
-                                <field name="name"/>
-                                <field name="description"/>
-                                <field name="type_tax_use"/>
-                                <field name="tax_scope"/>
-                                <field name="invoice_label"/>
-                                <field name="country_id"/>
-                                <field name="active"/>
-                        </list>
+                            options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}">
+                            <list create="false">
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                    <field name="type_tax_use"/>
+                                    <field name="tax_scope"/>
+                                    <field name="invoice_label"/>
+                                    <field name="country_id"/>
+                                    <field name="active"/>
+                            </list>
+                        </field>
                     </page>
                 </notebook>                                  
             </xpath>
