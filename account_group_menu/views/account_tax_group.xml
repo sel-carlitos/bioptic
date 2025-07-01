@@ -6,14 +6,13 @@
         <field name="model">account.tax.group</field>
         <field name="inherit_id" ref="account.view_tax_group_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group" position="after">
-                <group>
-                    <group id="links">
-                        <label for="tax_ids"/>
-                        <field name="tax_ids" widget="one2many_list" colspan="4" nolabel="1"
-                            options="{'no_create_edit': True}"/>
-                    </group>
-                </group>
+            <xpath expr="//form/sheet" position="after">
+                <notebook>
+                    <page string="Taxes">
+                        <field name="tax_ids" widget="one2many_list" nolabel="1"
+                            options="{'no_create': True, 'no_edit': True, 'no_delete': True, 'no_open': True}"/>
+                    </page>
+                </notebook>
             </xpath>
         </field>
     </record>
