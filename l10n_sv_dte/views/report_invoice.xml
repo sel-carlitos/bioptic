@@ -13,11 +13,11 @@
         <xpath expr="///div[hasclass('page')]//div[@id='payment_term']//p[@name='payment_communication']" position="attributes">
             <attribute name="t-if">not is_l10n_sv_invoice</attribute>
         </xpath>
-        <xpath expr="//div[@class='row']" position="attributes">
+        <xpath expr="//div[hasclass('row')]" position="attributes">
             <attribute name="t-if">not is_l10n_sv_invoice</attribute>
         </xpath>
 
-        <xpath expr="//div[@class='row']" position="before">
+        <xpath expr="//div[hasclass('row')]" position="before">
             <div class="row" t-if="is_l10n_sv_invoice">
                 <div id="sv_informations" class="col-7 mt36 mb32 mr8">
 
