@@ -9,7 +9,7 @@
                 <xpath expr="//button[@name='button_draft']" position="after">
                     <button string="Create Sale Order" type="object" class="oe_highlight"
                             name="create_sale_order"
-                            invisible="sale_order_count != 0"/>
+                            invisible="sale_order_count != 0 or state != 'posted' or move_type not in ['out_invoice']"/>
                 </xpath>
             </field>
         </record>
