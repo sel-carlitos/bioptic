@@ -2,7 +2,8 @@
 <odoo>
     <menuitem id="l4l_main_menu_product_catalogue"
               name="Product Catalogue"
-              sequence="6"/>
+              sequence="6"
+              web_icon="l4l_product_catalogue,static/img/logo.png"/>
 
     <menuitem id="l4l_sub_menu_generate_product_catalogue"
               name="Generate Product Catalogue"
