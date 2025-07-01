@@ -19,7 +19,7 @@
                     <group>
                         <group id="links">
                             <label for="tax_ids"/>
-                            <field name="tax_ids" widget="one2many_list" colspan="4" nolabel="1" mode="tree"
+                            <field name="tax_ids" widget="one2many_list" colspan="4" nolabel="1" mode="list"
                                 options="{'no_create_edit': True}"/>
                         </group>
                     </group>
@@ -43,10 +43,10 @@
             <field name="name">account.tax.group.tree</field>
             <field name="model">account.tax.group</field>
             <field name="arch" type="xml">
-                <tree name="account_tax_group">
+                <list name="account_tax_group">
                     <field name="sequence"/>
                     <field name="name"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -54,7 +54,7 @@
             <field name="name">Account Tax Groups</field>
             <field name="res_model">account.tax.group</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="search_view_id" ref="view_account_tax_group_search"/>
         </record>
     
