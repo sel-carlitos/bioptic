@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="l4l_mail_template_product_catalogue" model="mail.template">
+            <field name="name">Product Catalogue: Send By Email</field>
+            <field name="model_id" ref="l4l_product_catalogue.model_leap_product_catalogue"/>
+            <field name="subject">Product Catalogue of {{ (object.company_id.name) }}</field>
+            <field name="email_from">{{ (user.email_formatted or object.company_id.email_formatted or object.create_uid.email_formatted) }}</field>
+            <field name="description">Sent Product Catalogue to Customers</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 12px;">
+                        Hello Dear,
+                        <br/>
+                        <br/>
+                        Here I am Share Our Product Catalogue with You. It's Attached to this Email. Feel Free to Check It Out and Reach Out if You Have any Questions or if Something Interests You. We're Here to Assist You!
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

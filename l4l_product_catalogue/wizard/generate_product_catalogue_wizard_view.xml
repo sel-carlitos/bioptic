@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="l4l_generate_product_catalogue_form" model="ir.ui.view">
+        <field name="name">l4l.generate.product.catalogue.form</field>
+        <field name="model">generate.leap.product.catalogue</field>
+        <field name="arch" type="xml">
+            <form string="Generate Product Catalogue">
+                <sheet>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <group string="Catalogue">
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="send_catalogue" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="partner_ids" widget="many2many_tags" invisible="not send_catalogue" required="send_catalogue" options="{'no_create':True}"/>
+                        </group>
+                    </group>
+                    <group string="Product Filter">
+                        <field name="catalogue_type" widget="radio" required="1" options="{'horizontal': true}"/>
+                        <field name="product_ids" widget="many2many_tags"
+                               invisible="catalogue_type != 'product'" options="{'no_create':True}"/>
+                        <field name="category_ids" widget="many2many_tags"
+                               invisible="catalogue_type != 'category'" options="{'no_create':True}"/>
+                    </group>
+                    <group string="Catalogue Style">
+                        <field name="catalogue_style" widget="radio" required="1" options="{'horizontal': true}"/>
+                        <field name="box_per_row" invisible="catalogue_style != 'style_4'" widget="radio" required="1" options="{'horizontal': true}"/>
+                    </group>
+                    <group string="Product Information">
+                        <group>
+                            <field name="show_internal_reference" widget="boolean_toggle"/>
+                            <field name="show_product_link" widget="boolean_toggle"/>
+                            <field name="show_price" widget="boolean_toggle"/>
+                            <field name="currency_id" invisible="not show_price" required="show_price"
+                                   options="{'no_create':True}"/>
+                            <field name="pricelist_id" invisible="not show_price"
+                                   options="{'no_create':True, 'no_open':True}"
+                                   groups="product.group_product_pricelist"/>
+                        </group>
+                        <group>
+                            <field name="show_category" widget="boolean_toggle"/>
+                            <field name="show_description" widget="boolean_toggle"/>
+                            <field name="show_uom" widget="boolean_toggle"/>
+                            <field name="show_image" widget="boolean_toggle" invisible="catalogue_style in ('style_3', 'style_5')"/>
+                            <field name="image_size" widget="radio" required="1" options="{'horizontal': true}" invisible="not show_image or catalogue_style in ('style_2', 'style_5')"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Print" invisible="send_catalogue" type="object" name="button_print_product_catalogue" class="btn-primary"/>
+                    <button string="Send" invisible="not send_catalogue" type="object" name="button_send_product_catalogue_to_customers" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l4l_action_generate_product_catalogue" model="ir.actions.act_window">
+        <field name="name">Generate Product Catalogue</field>
+        <field name="res_model">generate.leap.product.catalogue</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l4l_product_catalogue.l4l_generate_product_catalogue_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

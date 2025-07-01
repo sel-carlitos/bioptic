@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="l4l_report_product_catalogue_style_3">
+        <t t-set="style_3_image_settings" t-value="{
+                        'small': 300,
+                        'medium': 500,
+                        'large': 700
+                    }"/>
+
+        <t t-set="style_3_image_size" t-value="style_3_image_settings[doc.image_size]"/>
+
+        <style>
+            .card-deck {
+            margin: 20px;
+            }
+
+            .card-3 {
+            page-break-inside: avoid;
+            padding: 10px;
+            display: flex;
+            align-items: flex-start;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            }
+
+            .card-3 img {
+            max-height: 700px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            }
+
+            .price_and_link_3 {
+            text-align: center;
+            }
+
+            .card-body-3 {
+            flex: 1;
+            }
+
+            .product_info_3 div {
+            margin: 5px;
+            }
+        </style>
+
+        <t t-foreach="all_data" t-as="product">
+            <div class="container card-deck">
+                <div class="row card card-3">
+                    <t t-if="product.get('image')">
+                        <img t-att-src="'data:image/png;base64,' + product['image'].decode('utf-8')"
+                             t-att-style="'width: ' + str(style_3_image_size) + 'px; height: ' + str(style_3_image_size) + 'px;'"
+                             t-if="product.get('image')"/>
+                    </t>
+                    <t t-else="">
+                        <img t-att-src="'/l4l_product_catalogue/static/img/placeholder.png'"
+                             t-att-style="'width: ' + str(style_3_image_size) + 'px; height: ' + str(style_3_image_size) + 'px;'"/>
+                    </t>
+                    <div class="card-body card-body-3">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-8 product_info_3">
+                                    <div style="border-bottom: 2px solid #b2b8b7; padding-bottom: 5px;">
+                                        <h4 class="card-title">
+                                            <strong>
+                                                <t t-if="product.get('name')" t-esc="product['name']"/>
+                                            </strong>
+                                        </h4>
+                                        <t t-if="product.get('description')"
+                                           t-esc="product['description']"/>
+                                    </div>
+                                    <div class="row" style="text-align: center;">
+                                        <div class="col-5">
+                                            <span style="font-size: 1.1em;">
+                                                <t t-if="product.get('internal_reference')"
+                                                   t-esc="product['internal_reference']"/>
+                                            </span>
+                                        </div>
+                                        <div class="col-5">
+                                            <t t-if="product.get('category')">
+                                                <span style="font-weight: bold; font-size: 1.1em; background-color: #f0f0f0; padding: 3px 8px; border-radius: 5px;">
+                                                    <t t-esc="product['category']"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 price_and_link_3">
+                                    <h5 class="card-text">
+                                        <t t-if="product.get('product_price')"
+                                           t-esc="product['product_price']"
+                                           t-options='{"widget": "monetary", "display_currency": doc.currency_id, "precision": 2}'/>
+                                    </h5>
+                                    <h6 class="card-text">
+                                        <t t-if="product.get('uom')" t-esc="product['uom']"/>
+                                    </h6>
+                                    <a t-if="product.get('product_url')" class="btn btn-primary"
+                                       style="width:100%;"
+                                       t-attf-href="{{ product['product_url'] }}">
+                                        DETAILS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

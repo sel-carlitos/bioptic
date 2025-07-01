@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="l4l_report_product_catalogue_style_4">
+        <t t-set="style_4_box_settings" t-value="{
+            '2': {'box_width': 47.5, 'small': 150, 'medium': 250, 'large': 350},
+            '3': {'box_width': 30.5, 'small': 100, 'medium': 165, 'large': 230},
+            '4': {'box_width': 22, 'small': 100, 'medium': 132, 'large': 160}
+        }"/>
+
+        <t t-set="style_4_settings" t-value="style_4_box_settings[doc.box_per_row]"/>
+        <t t-set="style_4_box_width" t-value="style_4_settings['box_width']"/>
+        <t t-set="style_4_image_size" t-value="style_4_settings[doc.image_size]"/>
+
+        <style>
+            *,
+            *::before,
+            *::after {
+            box-sizing: border-box;
+            }
+            .container_4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            }
+            .card_4 {
+            border: 2px solid #ccc;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            text-align: center;
+            height: 100%;
+            margin: 10px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            }
+            .product-image-4 {
+            object-fit: cover;
+            margin-bottom: 10px;
+            }
+            .product-name-price-description-4 {
+            margin: 10px;
+            text-align: left;
+            }
+            .product-sub-info-4 {
+            background-color: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin: 5px;
+            }
+        </style>
+
+        <div class="grid-container container_4">
+            <t t-foreach="all_data" t-as="product">
+                <div class="product-card card_4" t-att-style="'width: ' + str(style_4_box_width) + '%'">
+                    <t t-if="doc.show_image">
+                        <t t-if="product.get('image')">
+                            <img t-att-src="'data:image/png;base64,' + product['image'].decode('utf-8')"
+                                 class="product-image-4"
+                                 t-att-style="'width: ' + str(style_4_image_size) + 'px; height: ' + str(style_4_image_size) + 'px;'"/>
+                        </t>
+                        <t t-else="">
+                            <img t-att-src="'/l4l_product_catalogue/static/img/placeholder.png'"
+                                 class="product-image-4"
+                                 t-att-style="'width: ' + str(style_4_image_size) + 'px; height: ' + str(style_4_image_size) + 'px;'"/>
+                        </t>
+                    </t>
+                    <div class="product-name-price-description-4">
+                        <t t-if="product.get('name')" t-esc="product['name']"/>
+                    </div>
+                    <div class="product-name-price-description-4">
+                        <t t-if="product.get('product_price')"
+                           t-esc="product['product_price']"
+                           t-options='{"widget": "monetary", "display_currency": doc.currency_id, "precision": 2}'/>
+                    </div>
+                    <div t-if="product.get('internal_reference')" class="product-sub-info-4">
+                        <t t-esc="product['internal_reference']"/>
+                    </div>
+                    <div t-if="product.get('category')" class="product-sub-info-4">
+                        <t t-esc="product['category']"/>
+                    </div>
+                    <div t-if="product.get('uom')" class="product-sub-info-4">
+                        <t t-esc="product['uom']"/>
+                    </div>
+                    <div class="product-name-price-description-4">
+                        <t t-if="product.get('description')" t-esc="product['description']"/>
+                    </div>
+                    <a t-if="product.get('product_url')" class="btn btn-primary"
+                       style="width:100%;"
+                       t-attf-href="{{ product['product_url'] }}">
+                        DETAILS
+                    </a>
+                </div>
+            </t>
+        </div>
+    </template>
+</odoo>

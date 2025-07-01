@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="l4l_main_menu_product_catalogue"
+              name="Product Catalogue"
+              sequence="6"/>
+
+    <menuitem id="l4l_sub_menu_generate_product_catalogue"
+              name="Generate Product Catalogue"
+              sequence="3"
+              parent="l4l_product_catalogue.l4l_main_menu_product_catalogue"
+              action="l4l_product_catalogue.l4l_action_generate_product_catalogue"/>
+</odoo>

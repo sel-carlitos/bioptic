@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_generate_leap_product_catalogue_all,access.generate.leap.product.catalogue.all,model_generate_leap_product_catalogue,l4l_product_catalogue.l4l_sale_group_product_catalogue_manager,1,1,1,1
+access_leap_product_catalogue_all,access.leap.product.catalogue.all,model_leap_product_catalogue,l4l_product_catalogue.l4l_group_product_catalogue_user,1,1,1,1

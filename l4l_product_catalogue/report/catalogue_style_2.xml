@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="l4l_report_product_catalogue_style_2">
+        <style>
+            .card-deck-2 {
+            margin: 20px;
+            }
+            .card-2 {
+            page-break-inside: avoid;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            display: flex;
+            align-items: flex-start;
+            }
+            .card-body-2 {
+            flex: 1;
+            font-size: 20px;
+            }
+            .card-body-2 div {
+            margin: 10px;
+            }
+        </style>
+
+        <t t-foreach="all_data" t-as="product">
+            <div class="container s_allow_columns card-deck card-deck-2">
+                <div class="row card card-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div t-if="doc.show_image" class="col-3"
+                                 style="margin-top: 10px; margin-bottom: 10px; text-align: center; vertical-align: middle;">
+                                <t t-if="product.get('image')">
+                                    <img t-att-src="'data:image/png;base64,' + product['image'].decode('utf-8')"
+                                         class="img-fluid"/>
+                                </t>
+                                <t t-else="">
+                                    <img t-att-src="'/l4l_product_catalogue/static/img/placeholder.png'"
+                                         class="img-fluid"/>
+                                </t>
+                            </div>
+                            <div class="col-6 col-sm-6 mb-3 card-body card-body-2">
+                                <div style="border-bottom: 2px solid #b2b8b7;">
+                                    <h5>
+                                        <strong>
+                                            <t t-if="product.get('name')" t-esc="product['name']"/>
+                                        </strong>
+                                    </h5>
+                                </div>
+                                <div>
+                                    <t t-if="product.get('internal_reference')"
+                                       t-esc="product['internal_reference']"/>
+                                </div>
+                                <div>
+                                    <span t-if="doc.show_category" class="badge bg-secondary rounded-pill">
+                                        <t t-if="product.get('category')" t-esc="product['category']"/>
+                                    </span>
+                                </div>
+                                <div>
+                                    <t t-if="product.get('description')" t-esc="product['description']"/>
+                                </div>
+                            </div>
+                            <div class="col-3 col-sm-6 mb-3 card-body card-body-2"
+                                 t-if="doc.show_price or doc.show_product_link">
+                                <div>
+                                    <h5 class="card-text">
+                                        <t t-if="product.get('product_price')"
+                                           t-esc="product['product_price']"
+                                           t-options='{"widget": "monetary", "display_currency": doc.currency_id, "precision": 2}'/>
+                                    </h5>
+                                </div>
+                                <div>
+                                    <h6>
+                                        <t t-if="product.get('uom')" t-esc="product['uom']"/>
+                                    </h6>
+                                </div>
+                                <div>
+                                    <a t-if="product.get('product_url')" class="btn btn-primary"
+                                       style="width:100%;"
+                                       t-attf-href="{{ product['product_url'] }}">
+                                        DETAILS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="l4l_report_product_catalogue_style_5">
+        <style>
+            *,
+            *::before,
+            *::after {
+            box-sizing: border-box;
+            }
+            .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            }
+            .product-card {
+            border: 1px solid #ccc;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            text-align: center;
+            height: 100%;
+            margin: 10px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            width:47.5%;
+            min-height:300px;
+            }
+            .product-image-5 {
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            width:100px;
+            height:100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .style_5_product_info div {
+            margin: 10px;
+            }
+        </style>
+
+        <div class="grid-container">
+            <t t-foreach="all_data" t-as="product">
+                <div class="product-card">
+                    <div class="col-12">
+                        <div class="row">
+                            <div t-if="doc.show_image" class="col-4">
+                                <t t-if="product.get('image')">
+                                    <img t-att-src="'data:image/png;base64,' + product['image'].decode('utf-8')"
+                                         class="product-image-5"/>
+                                </t>
+                                <t t-else="">
+                                    <img t-att-src="'/l4l_product_catalogue/static/img/placeholder.png'"
+                                         class="product-image-5"/>
+                                </t>
+                            </div>
+                            <div class="col-8 col-sm-8 style_5_product_info" style="text-align: left;">
+                                <div t-if="product.get('internal_reference')">
+                                    <t t-esc="product['internal_reference']"/>
+                                </div>
+                                <div>
+                                    <h5>
+                                        <strong>
+                                            <t t-if="product.get('name')" t-esc="product['name']"/>
+                                        </strong>
+                                    </h5>
+                                </div>
+                                <div>
+                                    <t t-if="product.get('product_price')"
+                                       t-esc="product['product_price']"
+                                       t-options='{"widget": "monetary", "display_currency": doc.currency_id, "precision": 2}'/>
+                                </div>
+                                <div>
+                                    <span t-if="doc.show_category" class="badge bg-secondary rounded-pill">
+                                        <t t-if="product.get('category')" t-esc="product['category']"/>
+                                    </span>
+                                    <span t-if="doc.show_uom" class="badge bg-secondary rounded-pill">
+                                        <t t-if="product.get('uom')" t-esc="product['uom']"/>
+                                    </span>
+                                </div>
+                                <div>
+                                    <t t-if="product.get('description')" t-esc="product['description']"/>
+                                </div>
+                                <a t-if="product.get('product_url')" class="btn btn-primary"
+                                   style="width:100%;"
+                                   t-attf-href="{{ product['product_url'] }}">
+                                    DETAILS
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template>
+</odoo>

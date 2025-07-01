@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="l4l_report_product_catalogue_style_1">
+        <style>
+            .table1 th {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            }
+
+            .table1 td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 10px;
+            }
+        </style>
+
+        <table class="table1" style="width:100%; border: 1px solid black; text-align: center; background-color: white;">
+            <thead style="background: #d4d3d2;">
+                <tr style="height: 40px; border: 1px solid black;">
+                    <th>Sr.No.</th>
+                    <th t-if="doc.show_image">Image</th>
+                    <th>Product Name</th>
+                    <th t-if="doc.show_internal_reference">Internal Reference</th>
+                    <th t-if="doc.show_category">Category Name</th>
+                    <th t-if="doc.show_uom">UOM</th>
+                    <th t-if="doc.show_price">Price</th>
+                    <th t-if="doc.show_description">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="all_data" t-as="product">
+                    <tr>
+                        <td>
+                            <t t-if="product.get('sr_no')" t-esc="product['sr_no']"/>
+                        </td>
+                        <td t-if="doc.show_image">
+                            <t t-if="product.get('image')" t-esc="product['image']"
+                               t-options='{"widget": "image"}'/>
+                        </td>
+                        <td>
+                            <t t-if="product.get('product_url') and product.get('name')">
+                                <a t-attf-href="{{ product['product_url'] }}">
+                                    <t t-esc="product['name']"/>
+                                </a>
+                            </t>
+                            <t t-if="not product.get('product_url')">
+                                <t t-if="product.get('name')" t-esc="product['name']"/>
+                            </t>
+                        </td>
+                        <td t-if="doc.show_internal_reference">
+                            <t t-if="product.get('internal_reference')"
+                               t-esc="product['internal_reference']"/>
+                        </td>
+                        <td t-if="doc.show_category">
+                            <t t-if="product.get('category')" t-esc="product['category']"/>
+                        </td>
+                        <td t-if="doc.show_uom">
+                            <t t-if="product.get('uom')" t-esc="product['uom']"/>
+                        </td>
+                        <td t-if="doc.show_price">
+                            <t t-if="product.get('product_price')" t-esc="product['product_price']"
+                               t-options='{"widget": "monetary", "display_currency": doc.currency_id, "precision": 2}'/>
+                        </td>
+                        <td t-if="doc.show_description">
+                            <t t-if="product.get('description')" t-esc="product['description']"/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </template>
+</odoo>

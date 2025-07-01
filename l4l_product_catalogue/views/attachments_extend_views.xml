@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="l4l_view_attachment_extend_product_catalogue_form" model="ir.ui.view">
+        <field name="name">l4l.view.attachment.extend.product.catalogue.form</field>
+        <field name="model">ir.attachment</field>
+        <field name="arch" type="xml">
+            <form string="Attachments" create="0" edit="0" delete="0" duplicate="0">
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="datas" filename="name" invisible="type == 'url'"/>
+                            <field name="mimetype" groups="base.group_no_one" invisible="1"/>
+                        </group>
+                        <group string="Attached To" groups="base.group_no_one">
+                            <field name="res_model" invisible="1"/>
+                            <field name="res_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                        <group name="description_group" string="Description" groups="base.group_no_one" colspan="4">
+                            <field name="description" nolabel="1" colspan="2"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
