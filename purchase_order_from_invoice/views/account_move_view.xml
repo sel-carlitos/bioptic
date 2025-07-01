@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_draft']" position="after">
+                    <button string="Create Purchase Order" type="object" class="oe_highlight"
+                            name="create_purchase_order"
+                            invisible="purchase_order_count != 0 or state != 'posted' or move_type not in ['in_invoice']"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
