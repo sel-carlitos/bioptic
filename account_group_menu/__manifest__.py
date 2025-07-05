@@ -14,10 +14,16 @@
         'stock_account',
     ],
     'data': [
+        'data/admin_group_data.xml',
+        'security/res_groups.xml',
+        'views/menu.xml',
+        'views/res_config_settings.xml',
+        'views/account_bank_statement.xml',
         'views/account_group.xml',
+        'views/account_move_line.xml',
+        'views/account_tag.xml',
         'views/account_tax_group.xml',
         'views/product_category.xml',
-        'data/admin_group_data.xml',
     ],
     'demo': [
         'demo/account_group.xml',
