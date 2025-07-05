@@ -9,7 +9,6 @@
     'name': "Create Sale Order from Invoice",
     'category': 'Accounting/Accounting',
     'version': '18.0.1.0',
-    'sequence': 1,
     'summary': """Create Sale Order from Invoice, Create Sale Order in Invoice, Create Sale Order, Create SO, Sale Order, Invoice, Account, Sales, Sale.""",
     'description': """In Odoo There is no Option to Reverse Process Like User can Create Sale Order from the Invoice so This Plugin will Help to Create Sale Order from Customer Invoice.""",
     'author': 'Leap4Logic Solutions Private Limited',
