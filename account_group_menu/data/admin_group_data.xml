@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        This record modifies the existing 'Administration / Settings' group
+        (base.group_system) to include the groups:
+        - 'Technical / Show Full Accounting Features' 
+        - 'Technical / Stock Accounting Automatic'
+    -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('account.group_account_user')), (4, ref('stock_account.group_stock_accounting_automatic'))]"/>
+    </record>
+
+    <!--
+        This record modifies the existing 'Invoicing / Administrator' group
+        (account.group_account_manager) to include the groups:
+        - 'Technical / Show Full Accounting Features' 
+        - 'Technical / Stock Accounting Automatic'
+    -->
+    <record id="account.group_account_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('account.group_account_user')), (4, ref('stock_account.group_stock_accounting_automatic'))]"/>
+    </record>
+
+</odoo>

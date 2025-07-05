@@ -9,10 +9,18 @@
     'summary': "Adds menu entries for Account Group and Tax Group",
     'author': "Forest and Biomass Romania, Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/account-financial-tools',
-    'depends': ['account'],
-    'data': ['views/account_group.xml',
-             'views/account_tax_group.xml'],
-    'demo': ['demo/account_group.xml',
-             'demo/account_tax_group.xml'],
+    'depends': [
+        'account',
+        'stock_account',
+    ],
+    'data': [
+        'views/account_group.xml',
+        'views/account_tax_group.xml',
+        'data/admin_group_data.xml',
+    ],
+    'demo': [
+        'demo/account_group.xml',
+        'demo/account_tax_group.xml'
+    ],
     'installable': True,
 }
