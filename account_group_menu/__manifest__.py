@@ -16,6 +16,7 @@
     'data': [
         'views/account_group.xml',
         'views/account_tax_group.xml',
+        'views/product_category.xml',
         'data/admin_group_data.xml',
     ],
     'demo': [

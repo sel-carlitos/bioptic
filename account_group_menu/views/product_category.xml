@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_category_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="active" invisible="1" />
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_category_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.category.tree.view.inherit</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_list_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="active" column_invisible="1" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_category_search_view_inherit" model="ir.ui.view">
+        <field name="name">product.category.search.view.inherit.archive</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Archived" name="archived_categories" domain="[('active', '=', False)]" help="Archived Categories"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
