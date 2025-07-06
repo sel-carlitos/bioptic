@@ -8,7 +8,7 @@
             <field name="state_id" position="attributes">
                 <attribute name="placeholder">Department</attribute>
             </field>
-            <field name="country_id" position="after">
+            <field name="country_id" position="before">
                 <field name="res_municipality_id" class="o_address_municipality" placeholder="Municipality"
                     domain="[('state_id', '=', state_id)]" invisible="'SV' not in fiscal_country_codes"
                     options="{'no_open': 1,'no_create': 1, 'no_create_edit': 1}" context="{'state_id': state_id}"/>
