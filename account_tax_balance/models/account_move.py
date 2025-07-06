@@ -36,6 +36,13 @@ class AccountMove(models.Model):
 
         for move in self:
             account_types = move.line_ids.mapped("account_id.account_type")
+
+            if (
+                "asset_receivable" in account_types and "liability_payable" in account_types
+            ) or len(set(account_types)) > 7:
+                move.financial_type = "other"
+                continue
+
             if (
                 "asset_cash" in account_types
                 or "liability_credit_card" in account_types
