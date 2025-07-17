@@ -207,3 +207,4 @@ __marimo__/
 # Ignore pre-commit and .pylintrc
 .pre-commit-config.yaml
 .pylintrc
+pyproject.toml
