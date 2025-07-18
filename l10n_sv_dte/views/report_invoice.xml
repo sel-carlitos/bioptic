@@ -95,12 +95,12 @@
                             <t t-esc="o.company_id.name"/>
                             <br/>
                         </span>
-                        <span t-if="o.company_id.vat" style="color:#111 !important;">NIT:
-                            <t t-esc="o.company_id.vat"/>
+                        <span t-if="o.company_id.partner_id.nit" style="color:#111 !important;">NIT:
+                            <t t-esc="o.company_id.partner_id.nit"/>
                             <br/>
                         </span>
-                        <span t-if="o.company_id.partner_id.rnc" style="color:#111 !important;">NRC:
-                            <t t-esc="o.company_id.partner_id.rnc"/>
+                        <span t-if="o.company_id.partner_id.vat" style="color:#111 !important;">NRC:
+                            <t t-esc="o.company_id.partner_id.vat"/>
                             <br/>
                         </span>
                         <span t-if="o.company_id.l10n_sv_economic_activity_ids" style="color:#111 !important;">Actividad económica:
@@ -132,12 +132,12 @@
                         <address>
                             <span style="color:#111 !important;" t-field="o.partner_id"/>
                             <br/>
-                            <span t-if="o.partner_id.vat" style="color:#111 !important;">NIT:
-                                <t t-esc="o.partner_id.vat"/>
+                            <span t-if="o.partner_id.nit" style="color:#111 !important;">NIT:
+                                <t t-esc="o.partner_id.nit"/>
                                 <br/>
                             </span>
-                            <span t-if="o.partner_id.rnc" style="color:#111 !important;">RNC:
-                                <t t-esc="o.partner_id.rnc"/>
+                            <span t-if="o.partner_id.vat" style="color:#111 !important;">RNC:
+                                <t t-esc="o.partner_id.vat"/>
                                 <br/>
                             </span>
                             <span t-if="o.partner_id.phone" style="color:#111 !important;">
@@ -244,6 +244,3 @@
 <!--        </xpath>-->
     </template>
 </odoo>
-
-
-

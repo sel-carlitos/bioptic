@@ -4,16 +4,12 @@
         <record id="l10n_sv_identification_36" model="l10n_sv.identification.type">
             <field name="code">36</field>
             <field name="name">NIT</field>
-<!--            <field name="notes">Se agrega tres ceros antes de iniciar con el número de cédula para completar 12-->
-<!--                dígitos-->
-<!--            </field>-->
+            <field name="notes">Número de Identificación Tributaria</field>
         </record>
         <record id="l10n_sv_identification_13" model="l10n_sv.identification.type">
             <field name="code">13</field>
             <field name="name">DUI</field>
-<!--            <field name="notes">Se debe agregar dos ceros antes de iniciar con el número de cédula para completar 12-->
-<!--                dígitos-->
-<!--            </field>-->
+            <field name="notes">Documento Único de Identidad</field>
         </record>
         <record id="l10n_sv_identification_37" model="l10n_sv.identification.type">
             <field name="code">37</field>

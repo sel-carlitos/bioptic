@@ -1171,6 +1171,12 @@ msgstr "Sello recibido: %s"
 #. module: l10n_sv_dte
 #. odoo-python
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
+msgid "Invalidate Stamp: %s"
+msgstr "Sello de invalidación: %s"
+
+#. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "Email to invalidated DTE sent"
 msgstr "Enviado correo electrónico de DTE invalidado"
 
@@ -1228,7 +1234,7 @@ msgstr ""
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_form_view
 msgid "Send Hacienda"
-msgstr "Envia a Hacienda"
+msgstr "Enviar a Hacienda"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_economic_activity__sequence
@@ -1260,7 +1266,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_terminal__state
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_view_search
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_bank_statement_line__l10n_sv_dte_situation

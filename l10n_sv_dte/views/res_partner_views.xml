@@ -11,46 +11,29 @@
                 <field name="l10n_sv_identification_code" invisible="1"/>
             </form>
             <xpath expr="//div[hasclass('oe_title')]" position="after">
+                <div>
+                    <field name="l10n_sv_identification_id"
+                        placeholder="Identification Type"
+                        invisible="'SV' not in fiscal_country_codes"
+                        options="{'no_open': 1,'no_create': 1, 'no_create_edit': 1}"/>
+                    <field name="nit" placeholder="NIT"
+                           invisible="l10n_sv_identification_code != '36' or 'SV' not in fiscal_country_codes"/>
+                    <field name="dui" placeholder="DUI"
+                           invisible="l10n_sv_identification_code != '13' or 'SV' not in fiscal_country_codes"/>
+                </div>
                 <field name="l10n_sv_commercial_name" placeholder="Commercial Name"
                     invisible="'SV' not in fiscal_country_codes"/>
             </xpath>
             <xpath expr="//field[@name='vat']" position="attributes">
                 <attribute name="placeholder">RNC</attribute>
             </xpath>
-<!--            <xpath expr="//field[@name='vat']" position="attributes">-->
-<!--                <attribute name="class" add="oe_inline" separator=" "/>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//field[@name='vat']" position="after">-->
-<!--                    <label for="vat" string="Identification Number"/>-->
-<!--                    <div name="vat_vies_container"/>-->
-<!--                </xpath>-->
-<!--                <xpath expr="//div[@name='vat_vies_container']" position="inside">-->
-<!--                    <field name="l10n_sv_identification_id"-->
-<!--                           invisible="'SV' not in fiscal_country_codes"-->
-<!--                           options="{'no_open': 1,'no_create': 1, 'no_create_edit': 1}"/>-->
-<!--                    <xpath expr="//field[@name='vat']" position="move"/>-->
-<!--                </xpath>-->
-<!--            <field name="vat" position="attributes">-->
-<!--                <attribute name="required">l10n_sv_identification_id != False</attribute>-->
-<!--                <attribute name="invisible">l10n_sv_identification_code != '36'</attribute>-->
-<!--            </field>-->
-<!--            <field name="vat" position="after">-->
-<!--                <field name="rnc" placeholder="RNC"-->
-<!--                       invisible="l10n_sv_identification_code != '36' or 'SV' not in fiscal_country_codes"/>-->
-<!--                <field name="dui" placeholder="DUI"-->
-<!--                       invisible="l10n_sv_identification_code != '13' or 'SV' not in fiscal_country_codes"/>-->
-<!--            </field>-->
-            <xpath expr="//field[@name='vat']" position="after">
-                <field name="l10n_sv_identification_id"
-                    placeholder="Identification Type"
-                    invisible="'SV' not in fiscal_country_codes"
-                    options="{'no_open': 1,'no_create': 1, 'no_create_edit': 1}"/>
-                <field name="nit" placeholder="NIT"
-                    invisible="l10n_sv_identification_code != '36' or 'SV' not in fiscal_country_codes"/>
-                <field name="dui" placeholder="DUI"
-                    invisible="l10n_sv_identification_code != '13' or 'SV' not in fiscal_country_codes"/>
-                <field name="l10n_sv_activity_id"
-                    invisible="'SV' not in fiscal_country_codes"/>
+            <xpath expr="//form/sheet/notebook" position="before">
+                <group invisible="'SV' not in fiscal_country_codes or company_type == 'person'">
+                    <group>
+                        <separator colspan="7"/>
+                        <field name="l10n_sv_activity_id"/>
+                    </group>
+                </group>
             </xpath>
         </field>
     </record>

@@ -56,14 +56,13 @@
                             <field name="l10n_sv_receipt_stamp" readonly="1" invisible="not l10n_sv_receipt_stamp"/>
                         </group>
                     </group>
-                    <group string="Annulation DTE">
+                    <group string="Annulation DTE" invisible="not jon_andte_file">
                         <group invisible="not jon_andte_file">
-                            <field name="l10n_sv_annulation_generation_code"/>
                             <field name="l10n_sv_cancellation_type"/>
                             <field name="l10n_sv_cancellation_reason"/>
-
                         </group>
                         <group invisible="not jon_andte_file">
+                            <field name="l10n_sv_annulation_generation_code"/>
                             <field name="jon_andte_file" readonly="1"
                                    invisible="not jon_andte_file"
                                    filename="json_andte_file_name"/>

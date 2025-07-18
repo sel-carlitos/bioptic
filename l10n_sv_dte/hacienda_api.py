@@ -1,30 +1,30 @@
-# -*- coding: utf-8 -*-
+import logging
+
+import requests
 
 from odoo.exceptions import UserError
-import requests
-import logging
 
 _logger = logging.getLogger(__name__)
 
 DTE_VOUCHER_TYE_MAP = {
-    "01": 1,
-    "03": 3,
-    "04": 3,
-    "05": 3,
-    "06": 3,
-    "11": 1,
-    "14": 1,
-    "15": 1,
+    '01': 1,
+    '03': 3,
+    '04': 3,
+    '05': 3,
+    '06': 3,
+    '07': 1,
+    '11': 1,
+    '14': 1,
+    '15': 1,
 }
 HACIENDA_ENV_MAP = {
-    "00": "apitest",
-    "01": "api",
+    '00': 'apitest',
+    '01': 'api',
 }
 
 
 class HaciendaApi:
-
-    def __init__(self, company_id=None):
+    def __init__(self, company_id):
         self.company_id = company_id
         self.env = '00' if self.company_id.l10n_sv_dte_mh_test_env else '01'
 
@@ -36,15 +36,15 @@ class HaciendaApi:
             'Content-type': 'application/json',
         }
         data = {
-            "nit": partner_id.nit,
-            "activo": True,
-            "passwordPri": self.company_id.l10n_sv_mh_private_pass,
-            "dteJson": dte_json,
+            'nit': partner_id.nit,
+            'activo': True,
+            'passwordPri': self.company_id.l10n_sv_mh_private_pass,
+            'dteJson': dte_json,
         }
         try:
             response = requests.post(endpoint, headers=headers, json=data)
-            response_json = response.json()
             if response.status_code == 200:
+                response_json = response.json()
                 status = response_json.get('status')
                 _logger.info(status)
                 # return response_json.get('body')
@@ -57,16 +57,15 @@ class HaciendaApi:
 
         except requests.exceptions.HTTPError as err:
             _logger.error(err.response.text)
-            raise UserError('Error al firmar %s' % err)
+            raise UserError(f'Error al firmar {err}') from err
             # return False
         except requests.exceptions.RequestException as e:
-            _logger.error('Error Obteniendo el Token desde MH. Excepcion %s' % e)
-            raise UserError('Error al firmar %s' % e)
+            _logger.error(f'Error Obteniendo el Token desde MH. Error: {e}')
+            raise UserError(f'Error al firmar {e}') from e
             # return False
 
     def _get_auth1(self):
-        """ Retorna un token de seguridad
-            """
+        """Retorna un token de seguridad"""
 
         headers = {
             'Content-type': 'application/x-www-form-urlencoded',
@@ -78,11 +77,11 @@ class HaciendaApi:
         env = self.env
         # env = '00' if self.company_id.l10n_sv_dte_mh_test_env else '01'
         environment = HACIENDA_ENV_MAP[env]
-        endpoint = "https://{}.dtes.mh.gob.sv/seguridad/auth".format(environment)
+        endpoint = f'https://{environment}.dtes.mh.gob.sv/seguridad/auth'
         try:
             response = requests.post(endpoint, headers=headers, data=data)
-            response_json = response.json()
             if response.status_code == 200:
+                response_json = response.json()
                 status = response_json.get('status')
                 _logger.info(status)
                 return response_json.get('body')
@@ -106,20 +105,21 @@ class HaciendaApi:
     def recepcion_dte(self, doc):
         kernel = self._get_auth1()
         if not isinstance(kernel, dict):
-            return False
+            raise UserError(f'Error en la autenticación: \n {kernel}')
 
         env = self.env
         # env = '00' if self.company_id.l10n_sv_dte_mh_test_env else '01'
         headers = {'Authorization': kernel.get('token', ''), 'Content-type': 'application/json'}
-        data = {'ambiente': env,
-                'idEnvio': 1,
-                'version': DTE_VOUCHER_TYE_MAP[doc.l10n_sv_voucher_type_id.code],
-                'tipoDte': doc.l10n_sv_voucher_type_id.code,
-                'documento': doc.json_signed,
-                }
+        data = {
+            'ambiente': env,
+            'idEnvio': 1,
+            'version': DTE_VOUCHER_TYE_MAP[doc.l10n_sv_voucher_type_id.code],
+            'tipoDte': doc.l10n_sv_voucher_type_id.code,
+            'documento': doc.json_signed,
+        }
 
         environment = HACIENDA_ENV_MAP[env]
-        endpoint = "https://{}.dtes.mh.gob.sv/fesv/recepciondte".format(environment)
+        endpoint = f'https://{environment}.dtes.mh.gob.sv/fesv/recepciondte'
         response = requests.post(endpoint, headers=headers, json=data)
         _logger.info(response.status_code)
         _logger.info(response)
@@ -128,17 +128,18 @@ class HaciendaApi:
     def consulta_dte(self, doc):
         kernel = self._get_auth1()
         if not isinstance(kernel, dict):
-            return False
+            raise UserError(f'Error en la autenticación: \n {kernel}')
 
         env = self.env
         headers = {'Authorization': kernel.get('token', ''), 'Content-type': 'application/json'}
-        data = {'nitEmisor': self.company_id.l10n_sv_mh_auth_user,
-                'tdte': doc.l10n_sv_voucher_type_id.code,
-                'codigoGeneracion': doc.l10n_sv_generation_code,
-                }
+        data = {
+            'nitEmisor': self.company_id.l10n_sv_mh_auth_user,
+            'tdte': doc.l10n_sv_voucher_type_id.code,
+            'codigoGeneracion': doc.l10n_sv_generation_code,
+        }
 
         environment = HACIENDA_ENV_MAP[env]
-        endpoint = "https://{}.dtes.mh.gob.sv/fesv/recepcion/consultadte/".format(environment)
+        endpoint = f'https://{environment}.dtes.mh.gob.sv/fesv/recepcion/consultadte/'
         response = requests.post(endpoint, json=data, headers=headers)
         _logger.info(response.status_code)
         _logger.info(response.text)
@@ -147,18 +148,19 @@ class HaciendaApi:
     def anular_dte(self, doc):
         kernel = self._get_auth1()
         if not isinstance(kernel, dict):
-            return False
+            raise UserError(f'Error en la autenticación: \n {kernel}')
 
         env = self.env
         headers = {'Authorization': kernel.get('token', ''), 'Content-type': 'application/json'}
-        data = {'ambiente': env,
-                'idEnvio': 1,
-                'version': 2,
-                'documento': doc.json_andte_signed,
-                }
+        data = {
+            'ambiente': env,
+            'idEnvio': 1,
+            'version': 2,
+            'documento': doc.json_andte_signed,
+        }
         _logger.info(data)
         environment = HACIENDA_ENV_MAP[env]
-        endpoint = "https://{}.dtes.mh.gob.sv/fesv/anulardte".format(environment)
+        endpoint = f'https://{environment}.dtes.mh.gob.sv/fesv/anulardte'
         response = requests.post(endpoint, json=data, headers=headers)
         _logger.info(response.status_code)
         _logger.info(response.text)

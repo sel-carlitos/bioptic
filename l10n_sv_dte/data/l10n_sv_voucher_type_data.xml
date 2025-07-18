@@ -29,6 +29,8 @@
         </record>
         <record id="voucher_07" model="l10n_sv.voucher.type">
             <field name="name">Comprobante de retención</field>
+            <field name="internal_type">invoice</field>
+            <field name="move_type">in_invoice</field>
             <field name="code">07</field>
         </record>
         <record id="voucher_08" model="l10n_sv.voucher.type">
