@@ -9,7 +9,6 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from odoo.http import request
 import base64
-from odoo.tests import Form
 
 
 class GenerateLeapProductCatalogue(models.TransientModel):
@@ -44,6 +43,20 @@ class GenerateLeapProductCatalogue(models.TransientModel):
                                    default='2')
     send_catalogue = fields.Boolean(string='Send Catalogue')
     partner_ids = fields.Many2many('res.partner', string='Customers', domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")
+    description_fields = fields.Many2one('ir.model.fields',
+                                         domain="[('model_id', '=', 'product.product'), ('ttype', 'in', ['char', 'text'])]",
+                                         string='Description Field', help='Choose the product description field')
+    template_id = fields.Many2one("mail.template", string='Load Template',
+                                  domain="[('model_id', '=', 'leap.product.catalogue')]")
+
+    # Header and footer fields
+    catalogue_header = fields.Binary(string="Header pages",
+                                     help="Please upload the PDF with the header pages to be printed before the product catalog")
+    catalogue_header_name = fields.Char()
+    catalogue_footer = fields.Binary(string="Footer pages",
+                                     help="Please upload the PDF with the footer pages to be printed after the product catalog")
+    catalogue_footer_name = fields.Char()
+
 
     def get_categories(self):
         categories = self.category_ids
@@ -149,7 +162,9 @@ class GenerateLeapProductCatalogue(models.TransientModel):
                 product_values.update({'product_price': product_price})
 
             if self.show_description:
-                product_values.update({'description': product.description_sale})
+                field_name = str(self.description_fields.name) if self.description_fields and self.description_fields.name else ''
+                description_value = getattr(product, field_name, '')
+                product_values.update({'description': description_value})
 
             product_info_list.append(product_values)
         return product_info_list
@@ -185,11 +200,11 @@ class GenerateLeapProductCatalogue(models.TransientModel):
         self.get_data()
         catalogue_id = self.create_catalogue()
         if catalogue_id:
-            template = catalogue_id._find_catalogue_mail_template()
+            template = self.template_id
             partner_ids = ', '.join(map(str, self.partner_ids.ids))
+            attachments = catalogue_id.get_attachments()
             template.write({'partner_to': partner_ids})
-            res_dict = catalogue_id.compose_product_catalogue_mail(template)
-            compose_wizard = Form(self.env[res_dict['res_model']].with_context(res_dict['context'])).save()
-            compose_wizard.action_send_mail()
+            template.send_mail(catalogue_id.id, force_send=True, email_values={
+                        'attachment_ids': [(6, 0, [attachments.id])]})
 
 # vim:expandtab:smartcd indent:tabstop=4:softtabstop=4:shiftwidth=4:

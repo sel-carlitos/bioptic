@@ -6,5 +6,6 @@
 #################################################
 
 from . import leap_product_catalogue
+from . import ir_actions_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

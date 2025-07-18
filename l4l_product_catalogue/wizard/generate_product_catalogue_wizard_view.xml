@@ -15,7 +15,22 @@
                         </group>
                         <group>
                             <field name="company_id" options="{'no_create': True}"/>
-                            <field name="partner_ids" widget="many2many_tags" invisible="not send_catalogue" required="send_catalogue" options="{'no_create':True}"/>
+                            <field name="partner_ids" widget="many2many_tags" invisible="not send_catalogue"
+                                   required="send_catalogue" options="{'no_create':True}"/>
+                            <field name="template_id" invisible="not send_catalogue" required="send_catalogue"
+                                   options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group string="Report Header and Footer Pages">
+                        <group>
+                            <field name="catalogue_header_name" invisible="1"/>
+                            <field name="catalogue_header" filename="catalogue_header_name"
+                                   options="{'accepted_file_extensions': '.pdf'}"/>
+                        </group>
+                        <group>
+                            <field name="catalogue_footer_name" invisible="1"/>
+                            <field name="catalogue_footer" filename="catalogue_footer_name"
+                                   options="{'accepted_file_extensions': '.pdf'}"/>
                         </group>
                     </group>
                     <group string="Product Filter">
@@ -27,7 +42,8 @@
                     </group>
                     <group string="Catalogue Style">
                         <field name="catalogue_style" widget="radio" required="1" options="{'horizontal': true}"/>
-                        <field name="box_per_row" invisible="catalogue_style != 'style_4'" widget="radio" required="1" options="{'horizontal': true}"/>
+                        <field name="box_per_row" invisible="catalogue_style != 'style_4'" widget="radio" required="1"
+                               options="{'horizontal': true}"/>
                     </group>
                     <group string="Product Information">
                         <group>
@@ -43,15 +59,21 @@
                         <group>
                             <field name="show_category" widget="boolean_toggle"/>
                             <field name="show_description" widget="boolean_toggle"/>
+                            <field name="description_fields" widget="selection" required="show_description"
+                                   invisible="not show_description"/>
                             <field name="show_uom" widget="boolean_toggle"/>
-                            <field name="show_image" widget="boolean_toggle" invisible="catalogue_style in ('style_3', 'style_5')"/>
-                            <field name="image_size" widget="radio" required="1" options="{'horizontal': true}" invisible="not show_image or catalogue_style in ('style_2', 'style_5')"/>
+                            <field name="show_image" widget="boolean_toggle"
+                                   invisible="catalogue_style in ('style_3', 'style_5')"/>
+                            <field name="image_size" widget="radio" required="1" options="{'horizontal': true}"
+                                   invisible="not show_image or catalogue_style in ('style_2', 'style_5')"/>
                         </group>
                     </group>
                 </sheet>
                 <footer>
-                    <button string="Print" invisible="send_catalogue" type="object" name="button_print_product_catalogue" class="btn-primary"/>
-                    <button string="Send" invisible="not send_catalogue" type="object" name="button_send_product_catalogue_to_customers" class="btn-primary"/>
+                    <button string="Print" invisible="send_catalogue" type="object"
+                            name="button_print_product_catalogue" class="btn-primary"/>
+                    <button string="Send" invisible="not send_catalogue" type="object"
+                            name="button_send_product_catalogue_to_customers" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

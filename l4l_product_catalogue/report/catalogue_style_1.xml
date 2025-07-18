@@ -2,6 +2,13 @@
 
 <odoo>
     <template id="l4l_report_product_catalogue_style_1">
+        <t t-set="style_1_image_settings" t-value="{
+                        'small': 64,
+                        'medium': 128,
+                        'large': 150
+                    }"/>
+
+        <t t-set="style_1_image_size" t-value="style_1_image_settings[doc.image_size]"/>
         <style>
             .table1 th {
             border: 1px solid black;
@@ -37,8 +44,15 @@
                             <t t-if="product.get('sr_no')" t-esc="product['sr_no']"/>
                         </td>
                         <td t-if="doc.show_image">
-                            <t t-if="product.get('image')" t-esc="product['image']"
-                               t-options='{"widget": "image"}'/>
+                            <t t-if="product.get('image')">
+                                <img t-att-src="image_data_uri(product['image'])"
+                                     t-att-style="'width: ' + str(style_1_image_size) + 'px; height: ' + str(style_1_image_size) + 'px;'"
+                                     t-if="product.get('image')"/>
+                            </t>
+                            <t t-else="">
+                                <img t-att-src="'/l4l_product_catalogue/static/img/placeholder.png'"
+                                     t-att-style="'width: ' + str(style_1_image_size) + 'px; height: ' + str(style_1_image_size) + 'px;'"/>
+                            </t>
                         </td>
                         <td>
                             <t t-if="product.get('product_url') and product.get('name')">
