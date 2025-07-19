@@ -26,7 +26,6 @@
                 <br />
                 To view the cancelled document
                 <br />
-<!--                <a href="http://hola.ocm">Da click aca.</a>-->
                 <a t-att-href="object.l10n_sv_electronic_stamp">Da click aca.</a>
             </div>
         </field>

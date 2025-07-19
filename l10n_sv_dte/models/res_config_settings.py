@@ -10,10 +10,10 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     l10n_sv_economic_activity_ids = fields.Many2many("l10n_sv.economic.activity")
-    l10n_sv_signer_route = fields.Char(related="company_id.l10n_sv_signer_route", readonly=False)
     l10n_sv_mh_auth_user = fields.Char(related="company_id.l10n_sv_mh_auth_user", readonly=False)
     l10n_sv_mh_auth_pass = fields.Char(related="company_id.l10n_sv_mh_auth_pass", readonly=False)
-    l10n_sv_mh_private_pass = fields.Char(related="company_id.l10n_sv_mh_private_pass", readonly=False)
+    l10n_sv_signer_route = fields.Char(related="company_id.l10n_sv_signer_route", readonly=False)
+    l10n_sv_signer_private_pass = fields.Char(related="company_id.l10n_sv_mh_private_pass", readonly=False)
     l10n_sv_dte_mh_test_env = fields.Boolean(related='company_id.l10n_sv_dte_mh_test_env', readonly=False)
 
     def l10n_sv_dte_action_verify(self):

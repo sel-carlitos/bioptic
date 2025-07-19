@@ -4,7 +4,7 @@
         <record id="sucursal_1" model="l10n_sv.location">
             <field name="name">Casa Matriz</field>
             <field name="description">Casa Matriz</field>
-            <field name="code">0001</field>
+            <field name="code">M001</field>
         </record>
     </data>
 </odoo>

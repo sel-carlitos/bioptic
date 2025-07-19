@@ -3,7 +3,7 @@
     <template id="l10n_sv_report_invoice_document" inherit_id="account.report_invoice_document">
         <xpath expr="//t[@t-set='o']" position="after">
             <t t-set="is_l10n_sv_invoice"
-               t-value="o.l10n_sv_fiscal_journal and o.company_id.country_id and o.company_id.l10n_sv_country_code in ['SV']"/>
+               t-value="o.l10n_sv_fiscal_journal and o.company_id.country_id and o.company_id.country_code in ['SV']"/>
         </xpath>
 
         <!-- Hide when l10n_sv_invoice -->
@@ -57,15 +57,15 @@
                 <div class="col-5">
                     <!--            Identification info-->
                     <div name="l10n_sv_billing_model" t-if="is_l10n_sv_invoice">
-                        <strong>Modelo de facturación:</strong>
+                        <strong>Billing model:</strong>
                         <span class="m-0" t-out="'Previo'"/>
                     </div>
                     <div name="l10n_sv_transmission_type" t-if="is_l10n_sv_invoice">
-                        <strong>Tipo de transmisión:</strong>
+                        <strong>Transmission type:</strong>
                         <span class="m-0" t-field="o.l10n_sv_dte_situation"/>
                     </div>
                     <div name="l10n_date_generation" t-if="is_l10n_sv_invoice and o.l10_sv_dte_id">
-                        <strong>Fecha y Hora de Generación:</strong>
+                        <strong>Generation Date and Time:</strong>
                         <p class="m-0" t-field="o.l10_sv_dte_id.date_issue"/>
                     </div>
 

@@ -41,20 +41,17 @@ CurrentSubclassModule_ = None
 #
 
 
-class FacturaElectronica(GeneratedsSuper):
-    """Elemento Raiz de la Factura Electrónica"""
+class ComprobanteretencionElectronico(GeneratedsSuper):
+    """Elemento Raiz de Comprobante de Retencion Electronico"""
     subclass = None
     superclass = None
 
-    def __init__(self, identificacion=None, documentoRelacionado=None, emisor=None, receptor=None, otrosDocumentos=None,
-                 ventaTercero=None, cuerpoDocumento=None, resumen=None, extension=None, apendice=None):
+    def __init__(self, identificacion=None, emisor=None, receptor=None,
+                 cuerpoDocumento=None, resumen=None, extension=None, apendice=None):
         self.original_tagname_ = None
         self.identificacion = identificacion
-        self.documentoRelacionado = documentoRelacionado
         self.emisor = emisor
         self.receptor = receptor
-        self.otrosDocumentos = otrosDocumentos
-        self.ventaTercero = ventaTercero
         self.cuerpoDocumento = cuerpoDocumento
         self.resumen = resumen
         self.extension = extension
@@ -65,12 +62,6 @@ class FacturaElectronica(GeneratedsSuper):
 
     def set_identificacion(self, identificacion):
         self.identificacion = identificacion
-
-    def get_documentoRelacionado(self):
-        return self.documentoRelacionado
-
-    def set_documentoRelacionado(self, documentoRelacionado):
-        self.documentoRelacionado = documentoRelacionado
 
     def get_emisor(self):
         return self.emisor
@@ -99,7 +90,6 @@ class FacturaElectronica(GeneratedsSuper):
     def hasContent_(self):
         if (
                 self.identificacion is not None or
-                self.documentoRelacionado is not None or
                 self.emisor is not None or
                 self.receptor is not None or
                 self.cuerpoDocumento is not None or
@@ -141,25 +131,10 @@ class FacturaElectronica(GeneratedsSuper):
 
         if self.identificacion is not None:
             self.identificacion.export(outfile, level, namespace_, name_='identificacion', pretty_print=pretty_print)
-        if self.documentoRelacionado is not None:
-            self.documentoRelacionado.export(outfile, level, namespace_, name_='documentoRelacionado', pretty_print=pretty_print)
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"documentoRelacionado":null,%s' % eol_).encode()))
         if self.emisor is not None:
             self.emisor.export(outfile, level, namespace_, name_='emisor', pretty_print=pretty_print)
         if self.receptor is not None:
             self.receptor.export(outfile, level, namespace_, name_='receptor', pretty_print=pretty_print)
-        if self.otrosDocumentos is not None:
-            self.otrosDocumentos.export(outfile, level, namespace_, name_='otrosDocumentos', pretty_print=pretty_print)
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"otrosDocumentos":null,%s' % eol_).encode()))
-        if self.ventaTercero is not None:
-            self.ventaTercero.export(outfile, level, namespace_, name_='ventaTercero', pretty_print=pretty_print)
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ventaTercero":null,%s' % eol_).encode()))
         if self.cuerpoDocumento is not None:
             self.cuerpoDocumento.export(outfile, level, namespace_, name_='cuerpoDocumento', pretty_print=pretty_print)
         if self.resumen is not None:
@@ -348,8 +323,8 @@ class Emisor(GeneratedsSuper):
     superclass = None
 
     def __init__(self, nit=None, nrc=None, nombre=None, codActividad=None, descActividad=None, telefono=None,
-                 correo=None, nombreComercial=None, tipoEstablecimiento=None, direccion=None, codEstableMH=None,
-                 codEstable=None, codPuntoVentaMH=None, codPuntoVenta=None):
+                 correo=None, nombreComercial=None, tipoEstablecimiento=None, direccion=None, puntoVentaMH=None,
+                 puntoVenta=None, codigo=None, codigoMH=None):
         self.original_tagname_ = None
         self.nit = nit
         self.nrc = nrc
@@ -361,10 +336,10 @@ class Emisor(GeneratedsSuper):
         self.nombreComercial = nombreComercial
         self.tipoEstablecimiento = tipoEstablecimiento
         self.direccion = direccion
-        self.codEstableMH = codEstableMH
-        self.codEstable = codEstable
-        self.codPuntoVentaMH = codPuntoVentaMH
-        self.codPuntoVenta = codPuntoVenta
+        self.puntoVentaMH = puntoVentaMH
+        self.puntoVenta = puntoVenta
+        self.codigo = codigo
+        self.codigoMH = codigoMH
 
     def get_nit(self):
         return self.nit
@@ -396,34 +371,17 @@ class Emisor(GeneratedsSuper):
     def set_tipoEstablecimiento(self, tipoEstablecimiento):
         self.tipoEstablecimiento = tipoEstablecimiento
 
-    def get_codEstable(self):
-        return self.codEstable
-
-    def set_codEstable(self, codEstable):
-        self.codEstable = codEstable
-
-    def get_codPuntoVenta(self):
-        return self.codPuntoVenta
-
-    def set_codPuntoVenta(self, codPuntoVenta):
-        self.codPuntoVenta = codPuntoVenta
-
     def hasContent_(self):
         if (
                 self.nit is not None or
-                self.nrc is not None or
                 self.nombre is not None or
                 self.codActividad is not None or
-                self.descActividad is not None or
                 self.telefono is not None or
                 self.correo is not None or
-                self.nombreComercial is not None or
-                self.tipoEstablecimiento is not None or
-                self.direccion is not None or
-                self.codEstableMH is not None or
-                self.codEstable is not None or
-                self.codPuntoVentaMH is not None or
-                self.codPuntoVenta is not None
+                self.puntoVentaMH is not None or
+                self.puntoVenta is not None or
+                self.codigoMH is not None or
+                self.codigo is not None
         ):
             return True
         else:
@@ -482,18 +440,6 @@ class Emisor(GeneratedsSuper):
             outfile.write(bytes(('"descActividad":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.descActividad), input_name='Actividad Económica (Emisor)')),
                 eol_)).encode()))
-        if self.nombreComercial is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"nombreComercial":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.nombreComercial), input_name='Nombre Comercial (Emisor)')),
-                eol_)).encode()))
-        if self.tipoEstablecimiento is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"tipoEstablecimiento":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.tipoEstablecimiento), input_name='Tipo de establecimiento (Emisor)')),
-                eol_)).encode()))
-        if self.direccion is not None:
-            self.direccion.export(outfile, level, namespace_, name_='direccion', pretty_print=pretty_print)
         if self.telefono is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"telefono":"%s",%s' % (
@@ -504,38 +450,61 @@ class Emisor(GeneratedsSuper):
             outfile.write(bytes(('"correo":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo')),
                 eol_)).encode()))
-        if self.codEstableMH is not None:
+        if self.nombreComercial is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codEstableMH":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codEstableMH), input_name='Código del establecimiento asignado por el MH')),
+            outfile.write(bytes(('"nombreComercial":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombreComercial), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
+        if self.tipoEstablecimiento is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"tipoEstablecimiento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoEstablecimiento), input_name='Tipo de establecimiento (Emisor)')),
+                eol_)).encode()))
+        if self.codigoMH is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"codigoMH":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigoMH), input_name='Nombre Comercial (Emisor)')),
                 eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codEstableMH":null,%s' % eol_).encode()))
-        if self.codEstable is not None:
+            outfile.write(bytes(('"codigoMH":null,%s' % eol_).encode()))
+        if self.codigo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codEstable":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codEstable), input_name='Código del establecimiento asignado por el contribuyente')),
+            outfile.write(bytes(('"codigo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Nombre Comercial (Emisor)')),
                 eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codEstable":null,%s' % eol_).encode()))
-        if self.codPuntoVentaMH is not None:
+            outfile.write(bytes(('"codigo":null,%s' % eol_).encode()))
+        if self.puntoVentaMH is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVentaMH":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVentaMH), input_name='Código del Punto de Venta (Emisor) asignado por el MH')),
+            outfile.write(bytes(('"puntoVentaMH":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.puntoVentaMH), input_name='Nombre Comercial (Emisor)')),
                 eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVentaMH":null,%s' % eol_).encode()))
-        if self.codPuntoVenta is not None:
+            outfile.write(bytes(('"puntoVentaMH":null,%s' % eol_).encode()))
+        if self.puntoVenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVenta":"%s"%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVenta), input_name='Código del Punto de Venta (Emisor) asignado por el contribuyente')),
+            outfile.write(bytes(('"puntoVenta":"%s",%s' % (
+                self.gds_encode(
+                    self.gds_format_string(quote_xml(self.puntoVenta), input_name='Nombre Comercial (Emisor)')),
                 eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVenta":null%s' % eol_).encode()))
+            outfile.write(bytes(('"puntoVenta":null,%s' % eol_).encode()))
+        if self.direccion is not None:
+            self.direccion.export(outfile, level, namespace_, name_='direccion', pretty_print=pretty_print)
+        if self.telefono is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"telefono":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.telefono), input_name='Telefono')),
+                eol_)).encode()))
+        if self.correo is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"correo":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo')),
+                eol_)).encode()))
 
 
 class Direccion(GeneratedsSuper):
@@ -625,18 +594,27 @@ class Receptor(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, nombre=None, tipoDocumento=None, numDocumento=None, nrc=None, codActividad=None,
+    def __init__(self, tipoDocumento=None, numDocumento=None, rnc=None, nit=None, nombre=None, nrc=None, codActividad=None, nombreComercial=None,
                  descActividad=None, direccion=None, telefono=None, correo=None):
         self.original_tagname_ = None
-        self.nombre = nombre
         self.tipoDocumento = tipoDocumento
         self.numDocumento = numDocumento
+        self.rnc = rnc
+        self.nit = nit
+        self.nombre = nombre
         self.nrc = nrc
         self.codActividad = codActividad
         self.descActividad = descActividad
         self.direccion = direccion
         self.telefono = telefono
         self.correo = correo
+        self.nombreComercial = nombreComercial
+
+    def get_nit(self):
+        return self.nit
+
+    def set_nit(self, nit):
+        self.nit = nit
 
     def get_nombre(self):
         return self.nombre
@@ -646,15 +624,18 @@ class Receptor(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-                self.nombre is not None or
                 self.tipoDocumento is not None or
                 self.numDocumento is not None or
+                self.nit is not None or
+                self.rnc is not None or
+                self.nombre is not None or
                 self.nrc is not None or
                 self.codActividad is not None or
                 self.descActividad is not None or
                 self.direccion is not None or
                 self.telefono is not None or
-                self.correo is not None
+                self.correo is not None or
+                self.nombreComercial is not None
         ):
             return True
         else:
@@ -688,30 +669,31 @@ class Receptor(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.tipoDocumento is not None and self.tipoDocumento is not False:
+        if self.tipoDocumento is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tipoDocumento":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.tipoDocumento), input_name='Tipo de documento de identificación (Receptor)')),
                 eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"tipoDocumento":null,%s' % eol_).encode()))
-        if self.numDocumento is not None and self.numDocumento is not False:
+        if self.numDocumento is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"numDocumento":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.numDocumento), input_name='Número de documento de Identificación (Receptor)')),
                 eol_)).encode()))
-        else:
+        if self.rnc is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"numDocumento":null,%s' % eol_).encode()))
+            outfile.write(bytes(('"rnc":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.rnc), input_name='RNC')),
+                eol_)).encode()))
+        if self.nit is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"nit":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nit), input_name='NIT')),
+                eol_)).encode()))
         if self.nrc is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"nrc":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.nrc), input_name='NRC (Receptor)')),
                 eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"nrc":null,%s' % eol_).encode()))
         if self.nombre is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"nombre":"%s",%s' % (
@@ -722,17 +704,19 @@ class Receptor(GeneratedsSuper):
             outfile.write(bytes(('"codActividad":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.codActividad), input_name='Código de Actividad Económica (Receptor)')),
                 eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codActividad":null,%s' % eol_).encode()))
         if self.descActividad is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"descActividad":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.descActividad), input_name='Actividad Económica (Receptor)')),
                 eol_)).encode()))
+        if self.nombreComercial is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"nombreComercial":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombreComercial), input_name='Nombre Comercial (Receptor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"descActividad":null,%s' % eol_).encode()))
+            outfile.write(bytes(('"nombreComercial":null,%s' % eol_).encode()))
         if self.direccion is not None:
             self.direccion.export(outfile, level, namespace_, name_='direccion', pretty_print=pretty_print)
         else:
@@ -743,17 +727,11 @@ class Receptor(GeneratedsSuper):
             outfile.write(bytes(('"telefono":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.telefono), input_name='Actividad Económica (Receptor)')),
                 eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"telefono":null,%s' % eol_).encode()))
         if self.correo is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"correo":"%s"%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo electrónico (Receptor)')),
                 eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"correo":null%s' % eol_).encode()))
 
 
 class CuerpoDocumento(GeneratedsSuper):
@@ -790,7 +768,7 @@ class CuerpoDocumento(GeneratedsSuper):
         else:
             return False
 
-    def export(self, outfile, level, namespace_='', name_='CuerpoDocumento', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='', name_='identificacion', namespacedef_='', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -826,27 +804,18 @@ class Item(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, numItem, tipoItem=None, descripcion=None, cantidad=None, uniMedida=None, precioUni=None,
-                 numeroDocumento=None, codigo=None, codTributo=None, montoDescu=0.00, ventaNoSuj=0.00, ventaExenta=0.00,
-                 ventaGravada=0.00, psv=0.00, noGravado=0.00, ivaItem=0.00, tributos=None):
+    def __init__(self, numItem, descripcion=None, tipoDte=None, tipoDoc=None, numDocumento=None, fechaEmision=None,
+                 ivaRetenido=0.00, montoSujetoGrav=0.00, codigoRetencionMH=None):
         self.original_tagname_ = None
         self.numItem = numItem
-        self.tipoItem = tipoItem
         self.descripcion = descripcion
-        self.cantidad = cantidad
-        self.uniMedida = uniMedida
-        self.precioUni = precioUni
-        self.numeroDocumento = numeroDocumento
-        self.codigo = codigo
-        self.codTributo = codTributo
-        self.montoDescu = montoDescu
-        self.ventaNoSuj = ventaNoSuj
-        self.ventaExenta = ventaExenta
-        self.ventaGravada = ventaGravada
-        self.tributos = tributos
-        self.psv = psv
-        self.noGravado = noGravado
-        self.ivaItem = ivaItem
+        self.tipoDte = tipoDte
+        self.tipoDoc = tipoDoc
+        self.numDocumento = numDocumento
+        self.fechaEmision = fechaEmision
+        self.ivaRetenido = ivaRetenido
+        self.montoSujetoGrav = montoSujetoGrav
+        self.codigoRetencionMH = codigoRetencionMH
 
     def get_numItem(self):
         return self.numItem
@@ -854,100 +823,65 @@ class Item(GeneratedsSuper):
     def set_numItem(self, numItem):
         self.numItem = numItem
 
-    def get_tipoItem(self):
-        return self.tipoItem
-
-    def set_tipoItem(self, tipoItem):
-        self.tipoItem = tipoItem
-
     def get_descripcion(self):
         return self.descripcion
 
     def set_descripcion(self, descripcion):
         self.descripcion = descripcion
 
-    def get_cantidad(self):
-        return self.cantidad
+    def get_tipoDte(self):
+        return self.tipoDte
 
-    def set_cantidad(self, cantidad):
-        self.cantidad = cantidad
+    def set_tipoDte(self, tipoDte):
+        self.tipoDte = tipoDte
 
-    def get_uniMedida(self):
-        return self.uniMedida
+    def get_tipoDoce(self):
+        return self.tipoDoc
 
-    def set_uniMedida(self, uniMedida):
-        self.uniMedida = uniMedida
+    def set_tipoDoc(self, tipoDoc):
+        self.tipoDoc = tipoDoc
 
-    def get_precioUni(self):
-        return self.precioUni
+    def get_numDocumento(self):
+        return self.numDocumento
 
-    def set_precioUni(self, precioUni):
-        self.precioUni = precioUni
+    def set_numDocumento(self, numDocumento):
+        self.numDocumento = numDocumento
 
-    def get_codigo(self):
-        return self.codigo
+    def get_fechaEmision(self):
+        return self.fechaEmision
 
-    def set_codigo(self, codigo):
-        self.codigo = codigo
+    def set_fechaEmision(self, fechaEmision):
+        self.fechaEmision = fechaEmision
 
-    def get_ventaGravada(self):
-        return self.ventaGravada
+    def get_ivaRetenido(self):
+        return self.ivaRetenido
 
-    def set_ventaGravada(self, ventaGravada):
-        self.ventaGravada = ventaGravada
+    def set_ivaRetenido(self, ivaRetenido):
+        self.ivaRetenido = ivaRetenido
 
-    def get_ivaItem(self):
-        return self.ivaItem
+    def get_montoSujetoGrav(self):
+        return self.montoSujetoGrav
 
-    def set_ivaItem(self, ivaItem):
-        self.ivaItem = ivaItem
+    def set_montoSujetoGrav(self, montoSujetoGrav):
+        self.montoSujetoGrav = montoSujetoGrav
 
-    def get_montoDescu(self):
-        return self.montoDescu
+    def get_codigoRetencionMH(self):
+        return self.codigoRetencionMH
 
-    def set_montoDescu(self, montoDescu):
-        self.montoDescu = montoDescu
-
-    def get_ventaExenta(self):
-        return self.ventaExenta
-
-    def set_ventaExenta(self, ventaExenta):
-        self.ventaExenta = ventaExenta
-
-    def get_tributos(self):
-        return self.tributos
-
-    def set_tributos(self, tributos):
-        self.tributos = tributos
-
-    def add_tributos(self, value):
-        self.tributos.append(value)
-
-    def insert_tributos_at(self, index, value):
-        self.tributos.insert(index, value)
-
-    def replace_tributos_at(self, index, value):
-        self.tributos[index] = value
+    def set_codigoRetencionMH(self, codigoRetencionMH):
+        self.codigoRetencionMH = codigoRetencionMH
 
     def hasContent_(self):
         if (
                 self.numItem is not None or
-                self.tipoItem is not None or
                 self.descripcion is not None or
-                self.cantidad is not None or
-                self.uniMedida is not None or
-                self.precioUni is not None or
-                self.numeroDocumento is not None or
-                self.codigo is not None or
-                self.codTributo is not None or
-                self.montoDescu is not None or
-                self.ventaNoSuj is not None or
-                self.ventaExenta is not None or
-                self.ventaGravada is not None or
-                self.tributos is not None or
-                self.psv is not None or
-                self.noGravado is not None or
-                self.ivaItem is not None
+                self.tipoDte is not None or
+                self.tipoDoc is not None or
+                self.numDocumento is not None or
+                self.fechaEmision is not None or
+                self.ivaRetenido is not None or
+                self.montoSujetoGrav is not None or
+                self.codigoRetencionMH is not None
         ):
             return True
         else:
@@ -993,251 +927,86 @@ class Item(GeneratedsSuper):
             outfile.write(bytes(('"numItem":%s,%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.numItem), input_name='NumItem')),
                 eol_)).encode()))
-        if self.tipoItem is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"tipoItem":%s,%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.tipoItem), input_name='TipoItem')),
-                eol_)).encode()))
-        if self.numeroDocumento is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"numeroDocumento":%s,%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.numeroDocumento), input_name='Número de documento relacionado')),
-                eol_)).encode()))
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"numeroDocumento":null,%s' % eol_).encode()))
         if self.descripcion is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"descripcion":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.descripcion), input_name='Descripcion')),
                 eol_)).encode()))
-        if self.cantidad is not None:
+        if self.tipoDte is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"cantidad":%s,%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.cantidad), input_name='Cantidad')),
+            outfile.write(bytes(('"tipoDte":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoDte), input_name='Descripcion')),
                 eol_)).encode()))
-        if self.codigo is not None:
+        if self.tipoDoc is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codigo":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Código')),
+            outfile.write(bytes(('"tipoDoc":%s,%s' % (
+                self.gds_encode(self.gds_format_integer(self.tipoDoc, input_name='Version')),
                 eol_)).encode()))
-        else:
+        if self.numDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codigo":null,%s' % eol_).encode()))
-        if self.codTributo is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codTributo":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.codTributo), input_name='Tributo sujeto a cálculo de IVA')),
+            outfile.write(bytes(('"numDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numDocumento), input_name='Descripcion')),
                 eol_)).encode()))
-        else:
+        if self.fechaEmision is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codTributo":null,%s' % eol_).encode()))
-        if self.uniMedida is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"uniMedida":%s,%s' % (
-                self.gds_encode(self.gds_format_integer(self.uniMedida, input_name='UniMedida')),
+            outfile.write(bytes(('"fechaEmision":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.fechaEmision), input_name='Fecha de Generación')),
                 eol_)).encode()))
-        if self.precioUni is not None:
+        if self.montoSujetoGrav is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"precioUni":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')),
+            outfile.write(bytes(('"montoSujetoGrav":%s,%s' % (
+                self.gds_encode(self.gds_format_float(self.montoSujetoGrav, input_name='PrecioUni')),
                 eol_)).encode()))
-        if self.montoDescu is not None:
+        if self.codigoRetencionMH is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"montoDescu":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem')),
+            outfile.write(bytes(('"codigoRetencionMH":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigoRetencionMH), input_name='Descripcion')),
                 eol_)).encode()))
-        if self.ventaNoSuj is not None:
+        if self.ivaRetenido is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ventaNoSuj":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas')),
+            outfile.write(bytes(('"ivaRetenido":%s%s' % (
+                self.gds_encode(self.gds_format_float(self.ivaRetenido, input_name='PrecioUni')),
                 eol_)).encode()))
-        if self.ventaExenta is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ventaExenta":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas')),
-                eol_)).encode()))
-        if self.ventaGravada is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ventaGravada":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas')),
-                eol_)).encode()))
-        if self.psv is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"psv":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.psv, input_name='Precio sugerido de venta')),
-                eol_)).encode()))
-        if self.noGravado is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"noGravado":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.noGravado, input_name='Cargos/Abonos que no afectan la base imponible')),
-                eol_)).encode()))
-        if self.ivaItem is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ivaItem":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.ivaItem, input_name='IVA 13%')),
-                eol_)).encode()))
-        if self.tributos is not None:
-            for tributo_ in self.tributos:
-                tributo_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
-        else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"tributos":null%s' % eol_).encode()))
 
 
 class Resumen(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, totalNoSuj=0.00, ivaPerci1=0.00, totalLetras=None, ivaRete1=0.00,
-                 subTotalVentas=0.00, subTotal=0.00, reteRenta=0.00, descuExenta=0.00,
-                 totalDescu=0.00, tributos=None, descuGravada=0.00, totalGravada=0.00, porcentajeDescuento=0.00,
-                 montoTotalOperacion=0.00, totalNoGravado=0.00, totalPagar=0.00, totalIva=0.00, saldoFavor=0.00,
-                 totalExenta=0.00, descuNoSuj=0.00, condicionOperacion=None, numPagoElectronico=None, pagos=None):
+    def __init__(self, totalSujetoRetencion=0.00, totalIVAretenido=0.00, totalIVAretenidoLetras=None,
+                 ):
         self.original_tagname_ = None
-        self.totalNoSuj = totalNoSuj
-        self.ivaPerci1 = ivaPerci1
-        self.totalLetras = totalLetras
-        self.ivaRete1 = ivaRete1
-        self.subTotalVentas = subTotalVentas
-        self.subTotal = subTotal
-        self.reteRenta = reteRenta
-        self.tributos = tributos
-        self.descuExenta = descuExenta
-        self.totalDescu = totalDescu
-        self.descuGravada = descuGravada
-        self.porcentajeDescuento = porcentajeDescuento
-        self.totalGravada = totalGravada
-        self.montoTotalOperacion = montoTotalOperacion
-        self.totalNoGravado = totalNoGravado
-        self.totalPagar = totalPagar
-        self.totalIva = totalIva
-        self.saldoFavor = saldoFavor
-        self.totalExenta = totalExenta
-        self.descuNoSuj = descuNoSuj
-        self.condicionOperacion = condicionOperacion
-        self.numPagoElectronico = numPagoElectronico
+        self.totalSujetoRetencion = totalSujetoRetencion
+        self.totalIVAretenido = totalIVAretenido
+        self.totalIVAretenidoLetras = totalIVAretenidoLetras
         # if pagos is None:
         #     self.pagos = []
         # else:
         #     self.pagos = pagos
-        self.pagos = pagos
 
-    def set_totalLetras(self, totalLetras):
-        self.totalLetras = totalLetras
+    def set_totalIVAretenidoLetras(self, totalIVAretenidoLetras):
+        self.totalIVAretenidoLetras = totalIVAretenidoLetras
 
-    def get_totalLetras(self):
-        return self.totalLetras
+    def get_totalIVAretenidoLetrasn(self):
+        return self.totalIVAretenidoLetras
 
-    def get_totalGravada(self):
-        return self.totalGravada
+    def set_totalSujetoRetencion(self, totalSujetoRetencion):
+        self.totalSujetoRetencion = totalSujetoRetencion
 
-    def set_totalGravada(self, totalGravada):
-        self.totalGravada = totalGravada
+    def get_totalSujetoRetencion(self):
+        return self.totalSujetoRetencion
 
-    def get_subTotalVentas(self):
-        return self.subTotalVentas
+    def set_totalIVAretenido(self, totalIVAretenido):
+        self.totalIVAretenido = totalIVAretenido
 
-    def set_subTotalVentas(self, subTotalVentas):
-        self.subTotalVentas = subTotalVentas
-
-    def get_subTotal(self):
-        return self.subTotal
-
-    def set_subTotal(self, subTotal):
-        self.subTotal = subTotal
-
-    def get_totalPagar(self):
-        return self.totalPagar
-
-    def set_totalPagar(self, totalPagar):
-        self.totalPagar = totalPagar
-
-    def get_totalIva(self):
-        return self.totalIva
-
-    def set_totalIva(self, totalIva):
-        self.totalIva = totalIva
-
-    def get_totalDescu(self):
-        return self.totalDescu
-
-    def set_totalDescu(self, totalDescu):
-        self.totalDescu = totalDescu
-
-    def get_montoTotalOperacion(self):
-        return self.montoTotalOperacion
-
-    def set_montoTotalOperacion(self, montoTotalOperacion):
-        self.montoTotalOperacion = montoTotalOperacion
-
-    def set_totalExenta(self, totalExenta):
-        self.totalExenta = totalExenta
-
-    def get_totalExenta(self):
-        return self.totalExenta
-
-    def set_ivaRete1(self, ivaRete1):
-        self.ivaRete1 = ivaRete1
-
-    def get_ivaRete1(self):
-        return self.ivaRete1
-
-    def set_totalDescu(self, totalDescu):
-        self.totalDescu = totalDescu
-
-    def get_totalDescu(self):
-        return self.totalDescu
-
-    def set_descuNoSuj(self, descuNoSuj):
-        self.descuNoSuj = descuNoSuj
-
-    def get_descuNoSuj(self):
-        return self.descuNoSuj
-
-    def set_descuExenta(self, descuExenta):
-        self.descuExenta = descuExenta
-
-    def get_descuExenta(self):
-        return self.descuExenta
-
-    def set_condicionOperacion(self, condicionOperacion):
-        self.condicionOperacion = condicionOperacion
-
-    def get_condicionOperacion(self):
-        return self.condicionOperacion
+    def get_totalIVAretenido(self):
+        return self.totalIVAretenido
 
     def hasContent_(self):
         if (
-                self.totalNoSuj is not None or
-                self.ivaPerci1 is not None or
-                self.totalLetras is not None or
-                self.ivaRete1 is not None or
-                self.subTotalVentas is not None or
-                self.subTotal is not None or
-                self.reteRenta is not None or
-                self.tributos is not None or
-                self.descuExenta is not None or
-                self.descuGravada is not None or
-                self.porcentajeDescuento is not None or
-                self.totalDescu is not None or
-                self.totalGravada is not None or
-                self.montoTotalOperacion is not None or
-                self.totalNoGravado is not None or
-                self.totalPagar is not None or
-                self.totalIva is not None or
-                self.saldoFavor is not None or
-                self.totalExenta is not None or
-                self.descuNoSuj is not None or
-                self.condicionOperacion is not None or
-                self.numPagoElectronico is not None or
-                self.pagos is not None
+                self.totalIVAretenidoLetras is not None or
+                self.totalSujetoRetencion is not None or
+                self.totalIVAretenido is not None
         ):
             return True
         else:
@@ -1271,135 +1040,174 @@ class Resumen(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.totalNoSuj is not None:
+        if self.totalIVAretenidoLetras is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalNoSuj":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.totalNoSuj, input_name='Total de Operaciones no sujetas')),
+            outfile.write(bytes(('"totalIVAretenidoLetras":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.totalIVAretenidoLetras), input_name='Version')),
                 eol_)).encode()))
-        if self.totalExenta is not None:
+        if self.totalSujetoRetencion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalExenta":%s,%s' % (
+            outfile.write(bytes(('"totalSujetoRetencion":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.totalExenta, input_name='Total de Operaciones exentas')),
+                    self.gds_format_float(self.totalSujetoRetencion, input_name='Retención Renta')),
                 eol_)).encode()))
-        if self.totalGravada is not None:
+        if self.totalIVAretenido is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalGravada":%s,%s' % (
+            outfile.write(bytes(('"totalIVAretenido":%s%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.totalGravada, input_name='Total de Operaciones Gravadas')),
+                    self.gds_format_float(self.totalIVAretenido, input_name='Retención Renta')),
                 eol_)).encode()))
-        if self.subTotalVentas is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"subTotalVentas":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.subTotalVentas, input_name='Suma de operaciones sin impuestos')),
-                eol_)).encode()))
-        if self.descuNoSuj is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"descuNoSuj":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.descuNoSuj, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas no sujetas')),
-                eol_)).encode()))
-        if self.descuExenta is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"descuExenta":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.descuExenta, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas exentas')),
-                eol_)).encode()))
-        if self.descuGravada is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"descuGravada":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.descuGravada, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas gravadas')),
-                eol_)).encode()))
-        if self.porcentajeDescuento is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"porcentajeDescuento":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.porcentajeDescuento, input_name='Porcentaje del monto global de Descuento, Bonificación, Rebajas y otros')),
-                eol_)).encode()))
-        if self.totalDescu is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalDescu":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.totalDescu, input_name='Total del monto de Descuento, Bonificación, Rebajas')),
-                eol_)).encode()))
-        if self.tributos is not None:
-            for tributo_ in self.tributos:
-                tributo_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
+
+
+class Tributos(GeneratedsSuper):
+    subclass = None
+    superclass = None
+
+    def __init__(self, Item=None):
+        self.original_tagname_ = None
+        if Item is None:
+            self.Item = []
         else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"tributos":null,%s' % eol_).encode()))
-        if self.subTotal is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"subTotal":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.subTotal, input_name='Sub-Total')),
-                eol_)).encode()))
-        if self.ivaRete1 is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"ivaRete1":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.ivaRete1, input_name='IVA Retenido')),
-                eol_)).encode()))
-        if self.reteRenta is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"reteRenta":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.reteRenta, input_name='Retención Renta')),
-                eol_)).encode()))
-        if self.montoTotalOperacion is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"montoTotalOperacion":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.montoTotalOperacion, input_name='Monto Total de la Operación')),
-                eol_)).encode()))
-        if self.totalNoGravado is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalNoGravado":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.totalNoGravado, input_name='Total Cargos/Abonos que no afectan la base imponible')),
-                eol_)).encode()))
-        if self.totalPagar is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalPagar":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.totalPagar, input_name='Total a Pagar')),
-                eol_)).encode()))
-        if self.totalLetras is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalLetras":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.totalLetras), input_name='Version')),
-                eol_)).encode()))
-        if self.saldoFavor is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"saldoFavor":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.saldoFavor, input_name='Saldo a Favor')),
-                eol_)).encode()))
-        if self.condicionOperacion is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"condicionOperacion":%s,%s' % (
-                self.gds_encode(self.gds_format_integer(self.condicionOperacion, input_name='Condición de la Operación')),
-                eol_)).encode()))
-        if self.pagos is not None:
-            for pago_ in self.pagos:
-                pago_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
+            self.Item = Item
+
+    def get_Item(self):
+        return self.Item
+
+    def set_Item(self, Item):
+        self.Item = Item
+
+    def add_Item(self, value):
+        self.Item.append(value)
+
+    def insertItem_at(self, index, value):
+        self.Item.insert(index, value)
+
+    def replace_Item_at(self, index, value):
+        self.Item[index] = value
+
+    def hasContent_(self):
+        if (
+                self.Item
+        ):
+            return True
         else:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"pagos":null,%s' % eol_).encode()))
-        if self.totalIva is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"totalIva":%s,%s' % (
-                self.gds_encode(
-                    self.gds_format_float(self.totalIva, input_name='IVA 13%')),
-                eol_)).encode()))
-        if self.numPagoElectronico is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"numPagoElectronico":"%s",%s' % (
-                self.gds_encode(self.gds_format_string(quote_xml(self.numPagoElectronico), input_name='Número de pago Electrónico')),
-                eol_)).encode()))
+            return False
+
+    def export(self, outfile, level, namespace_='', name_='identificacion', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
         else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write(
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+        if self.hasContent_():
+            outfile.write(bytes(('[%s' % (eol_,)).encode()))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"numPagoElectronico":null%s' % eol_).encode()))
+            # outfile.write(bytes(('</%s%s>%s' % (namespace_, name_, eol_)).encode()))
+            outfile.write(bytes(('%s],%s' % (namespace_, eol_)).encode()))
+        else:
+            # outfile.write(bytes(('/>%s' % (eol_,)).encode()))
+            outfile.write(bytes(('null,%s' % eol_).encode()))
+
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for i, LineaItem_ in enumerate(self.Item, 1):
+            LineaItem_.export(outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item))
+
+
+class Tributo(GeneratedsSuper):
+    subclass = None
+    superclass = None
+
+    def __init__(self, codigo=None, descripcion=None, valor=None):
+        self.original_tagname_ = None
+        self.codigo = codigo
+        self.descripcion = descripcion
+        self.valor = valor
+
+    def get_codigo(self):
+        return self.codigo
+
+    def set_codigo(self, codigo):
+        self.codigo = codigo
+
+    def get_descripcion(self):
+        return self.descripcion
+
+    def set_descripcion(self, descripcion):
+        self.descripcion = descripcion
+
+    def get_valor(self):
+        return self.valor
+
+    def set_valor(self, valor):
+        self.valor = valor
+
+    def hasContent_(self):
+        if (
+                self.codigo is not None or
+                self.descripcion is not None or
+                self.valor is not None
+        ):
+            return True
+        else:
+            return False
+
+    def export(self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write(
+            # bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+            bytes(('%s%s' % (namespace_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+        if self.hasContent_():
+            outfile.write(bytes(('{%s' % (eol_,)).encode()))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            # outfile.write(bytes(('</%s%s>%s' % (namespace_, name_, eol_)).encode()))
+            if enu == 1 and tam == 1:
+                outfile.write(bytes(('%s}%s' % (namespace_, eol_)).encode()))
+            elif enu != tam:
+                outfile.write(bytes(('%s},%s' % (namespace_, eol_)).encode()))
+            else:
+                outfile.write(bytes(('%s}%s' % (namespace_, eol_)).encode()))
+
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.codigo is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"codigo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Resumen Código de Tributo')),
+                eol_)).encode()))
+        if self.descripcion is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"descripcion":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.descripcion), input_name='Nombre del Tributo')),
+                eol_)).encode()))
+        if self.valor is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"valor":%s%s' % (
+                self.gds_encode(self.gds_format_float(self.valor, input_name='Valor del Tributo')),
+                eol_)).encode()))

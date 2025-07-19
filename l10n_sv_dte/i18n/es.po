@@ -69,8 +69,8 @@ msgstr ""
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
-msgid "<strong>Fecha y Hora de Generación:</strong>"
-msgstr ""
+msgid "<strong>Generation Date and Time:</strong>"
+msgstr "<strong>Fecha y Hora de Generación:</strong>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
@@ -79,8 +79,8 @@ msgstr "<strong>Código de generación:</strong>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
-msgid "<strong>Modelo de facturación:</strong>"
-msgstr ""
+msgid "<strong>Billing model:</strong>"
+msgstr "<strong>Modelo de facturación:</strong>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
@@ -89,8 +89,8 @@ msgstr "<strong>Sello de Recepción:</strong>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
-msgid "<strong>Tipo de transmisión:</strong>"
-msgstr ""
+msgid "<strong>Transmission type:</strong>"
+msgstr "<strong>Tipo de transmisión:</strong>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_terminal_validate_wizard_form
@@ -380,12 +380,12 @@ msgstr ""
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.res_config_settings_view_form11
 msgid "Configure your credentials to auth Hacienda."
-msgstr ""
+msgstr "Configure las credenciales para autenticar en Hacienda."
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.res_config_settings_view_form11
 msgid "Configure your credentials to sign your DTE documents."
-msgstr ""
+msgstr "Configure las credenciales para firmar sus documentos DTE."
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_terminal_form
@@ -445,8 +445,8 @@ msgstr ""
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.res_config_settings_view_form11
-msgid "Credenciales de firma"
-msgstr ""
+msgid "Signer"
+msgstr "Firmador"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_voucher_type__internal_type__credit_note
@@ -1194,7 +1194,7 @@ msgstr "Régimen"
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_form_view
 msgid "Request State"
-msgstr ""
+msgstr "Consultar estado"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_form_view

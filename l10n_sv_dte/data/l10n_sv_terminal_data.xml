@@ -3,7 +3,7 @@
     <data noupdate="1">
         <record id="terminal_1" model="l10n_sv.terminal">
             <field name="name">Terminal 1</field>
-            <field name="code">0001</field>
+            <field name="code">P001</field>
             <field name="location_id" ref="l10n_sv_dte.sucursal_1"/>
         </record>
     </data>

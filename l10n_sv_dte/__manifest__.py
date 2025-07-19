@@ -5,7 +5,7 @@
     'category': 'Localization',
     'summary': """
         Documentos Tributarios Electrónicos para El Salvador.
-     """,
+    """,
     'author': 'SEGU',
     'depends': ['l10n_sv', 'contacts', 'uom', 'account_debit_note'],
     'data': [

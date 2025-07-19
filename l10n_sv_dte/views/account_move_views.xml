@@ -18,6 +18,12 @@
                     <button class="btn btn-link p-0" type="object" name="action_send_to_hacienda"
                             style="padding: 0; vertical-align: baseline;">Enviar a Hacienda ahora</button>.
                 </div>
+                <div class="alert alert-info mb-0" role="alert"
+                     invisible="l10n_sv_dte_send_state not in ['contingency'] or state != 'posted'">
+                    Resolver contingencia
+                    <button class="btn btn-link p-0" type="object" name="action_send_to_hacienda"
+                            style="padding: 0; vertical-align: baseline;">Enviar a Hacienda ahora</button>.
+                </div>
             </xpath>
             <button name="action_post" position="after">
                 <button name="l10n_sv_action_annul_dte_wizard" type="object" string="Annul DTE" class="btn-danger" data-hotkey="q"
@@ -122,6 +128,19 @@
         <field name="code">
 if records:
     action = records.l10n_sv_action_delivery_note()
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_l10n_sv_send_contingency_wizard">
+        <field name="name">Send Contingency</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="groups_id" eval="[Command.link(ref('account.group_account_invoice'))]"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="binding_view_types">form</field>
+        <field name="code">
+if record:
+    record.l10n_sv_action_send_contingency()
         </field>
     </record>
 </odoo>

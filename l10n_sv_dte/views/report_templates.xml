@@ -11,7 +11,7 @@
 
     <template id="external_layout_standard_inherited" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@name='company_address']" position="attributes">
-            <attribute name="t-if">doc_model != "account.move" or (doc_model == "account.move" and o.company_id.l10n_sv_country_code != "SV")</attribute>
+            <attribute name="t-if">doc_model != "account.move" or (doc_model == "account.move" and o.company_id.country_code != "SV")</attribute>
         </xpath>
     </template>
 <!--    <template id="external_layout_boxed_inherited" inherit_id="web.external_layout_boxed">-->

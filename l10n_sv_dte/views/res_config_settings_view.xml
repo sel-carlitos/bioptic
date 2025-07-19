@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@id='invoicing_settings']" position="after">
                 <block title="Facturación Electrónica (SV)" name="fe_setting_container" invisible="country_code not in ['SV']">
-                    <setting string="Credenciales de acceso"
-                             help="Configure your credentials to auth Hacienda.">
+                    <setting string="Credenciales de acceso API Hacienda"
+                            help="Configure your credentials to auth Hacienda.">
 
                         <div class="row">
                             <label string="Username" for="l10n_sv_mh_auth_user" class="col-lg-3 o_light_label"/>
@@ -24,15 +24,15 @@
                         </div>
                         <button name="l10n_sv_dte_action_verify" type="object" string="PROBAR CONEXION" class="oe_highlight"/>
                     </setting>
-                    <setting string="Credenciales de firma"
-                             help="Configure your credentials to sign your DTE documents.">
+                    <setting string="Signer"
+                            help="Configure your credentials to sign your DTE documents.">
                         <div class="row">
                             <label string="Signer Route" for="l10n_sv_signer_route" class="col-lg-3 o_light_label"/>
                             <field name="l10n_sv_signer_route"/>
                         </div>
                         <div class="row">
-                            <label string="Private Password" for="l10n_sv_mh_private_pass" class="col-lg-3 o_light_label"/>
-                            <field name="l10n_sv_mh_private_pass" password="True"/>
+                            <label string="Private Password" for="l10n_sv_signer_private_pass" class="col-lg-3 o_light_label"/>
+                            <field name="l10n_sv_signer_private_pass" password="True"/>
                         </div>
                     </setting>
                     <setting id="activity_setting" documentation="/applications/productivity/mail_plugins.html" help="Integrate with mail client plugins">

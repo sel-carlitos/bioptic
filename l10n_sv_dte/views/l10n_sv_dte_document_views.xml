@@ -30,9 +30,6 @@
                             invisible="json_file != False"/>
                     <button name="action_send_to_hacienda" type="object" string="Send Hacienda" class="oe_highlight"
                             invisible="l10n_sv_dte_send_state in ['delivered_accepted', 'delivered_refused']"/>
-<!--                    <button name="action_request_state_to_hacienda" type="object" string="Request State Hacienda"-->
-<!--                            invisible="l10n_sv_dte_send_state in ['delivered_accepted', 'delivered_refused', 'signed_pending']"-->
-<!--                            class="oe_highlight"/>-->
                     <field name="l10n_sv_dte_send_state" widget="statusbar" statusbar_visible="signed_pending,delivered_accepted,delivered_refused,invalidated"/>
                 </header>
                 <sheet string="Electronic Documents">
@@ -56,17 +53,30 @@
                             <field name="l10n_sv_receipt_stamp" readonly="1" invisible="not l10n_sv_receipt_stamp"/>
                         </group>
                     </group>
-                    <group string="Annulation DTE" invisible="not jon_andte_file">
-                        <group invisible="not jon_andte_file">
+                    <group string="Annulation DTE" invisible="not json_andte_file">
+                        <group invisible="not json_andte_file">
                             <field name="l10n_sv_cancellation_type"/>
                             <field name="l10n_sv_cancellation_reason"/>
                         </group>
-                        <group invisible="not jon_andte_file">
+                        <group invisible="not json_andte_file">
                             <field name="l10n_sv_annulation_generation_code"/>
-                            <field name="jon_andte_file" readonly="1"
-                                   invisible="not jon_andte_file"
+                            <field name="json_andte_file" readonly="1"
+                                   invisible="not json_andte_file"
                                    filename="json_andte_file_name"/>
                             <field name="json_andte_file_name" readonly="1" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Contingency DTE" invisible="not json_codte_file">
+<!--                        <group invisible="not json_codte_file">-->
+<!--&lt;!&ndash;                            <field name="l10n_sv_cancellation_type"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="l10n_sv_cancellation_reason"/>&ndash;&gt;-->
+<!--                        </group>-->
+                        <group invisible="not json_codte_file">
+<!--                            <field name="l10n_sv_annulation_generation_code"/>-->
+                            <field name="json_codte_file" readonly="1"
+                                   invisible="not json_codte_file"
+                                   filename="json_codte_file_name"/>
+                            <field name="json_codte_file_name" readonly="1" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -82,8 +92,8 @@
                                 <field name="message_detail" readonly="1"/>
                                 <field name="response_status_code" groups="base.group_no_one"/>
                             </group>
-                            <separator string="Annulation Message Details" invisible="not jon_andte_file"/>
-                            <field name="andte_dgii_message_ids" invisible="not jon_andte_file" readonly="1" nolabel="1">
+                            <separator string="Annulation Message Details" invisible="not json_andte_file"/>
+                            <field name="andte_dgii_message_ids" invisible="not json_andte_file" readonly="1" nolabel="1">
                                 <list>
                                     <field name="version"/>
                                     <field name="ambiente"/>
@@ -91,6 +101,16 @@
                                     <field name="estado"/>
                                     <field name="fhProcesamiento"/>
                                     <field name="descripcionMsg"/>
+                                    <field name="observaciones"/>
+                                </list>
+                            </field>
+                            <separator string="Contingency Message Details" invisible="not json_codte_file"/>
+                            <field name="codte_dgii_message_ids" invisible="not json_codte_file" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="estado"/>
+                                    <field name="fechaHora"/>
+                                    <field name="selloRecibido"/>
+                                    <field name="mensaje"/>
                                     <field name="observaciones"/>
                                 </list>
                             </field>

@@ -1,14 +1,21 @@
-import re as re_
+# -*- coding: utf-8 -*-
 
-from .MixedClass import GeneratedsSuper, quote_xml, showIndent
+from .MixedClass import GeneratedsSuper
+from .MixedClass import showIndent
+from .MixedClass import quote_xml
+import re as re_
+import sys
 
 try:
     from lxml import etree as etree_
 except ImportError:
-    pass
+    from xml.etree import ElementTree as etree_
 
 Validate_simpletypes_ = True
-BaseStrType_ = str
+if sys.version_info.major == 2:
+    BaseStrType_ = basestring
+else:
+    BaseStrType_ = str
 
 try:
     from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
@@ -21,9 +28,9 @@ except ImportError:
 
 ExternalEncoding = 'utf-8'
 Tag_pattern_ = re_.compile(r'({.*})?(.*)')
-String_cleanup_pat_ = re_.compile(r'[\n\r\s]+')
+String_cleanup_pat_ = re_.compile(r"[\n\r\s]+")
 Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
-CDATA_pattern_ = re_.compile(r'<!\[CDATA\[.*?\]\]>', re_.DOTALL)
+CDATA_pattern_ = re_.compile(r"<!\[CDATA\[.*?\]\]>", re_.DOTALL)
 
 # Change this to redirect the generated superclass module to use a
 # specific subclass module.
@@ -36,22 +43,11 @@ CurrentSubclassModule_ = None
 
 class NotaRemisionElectronica(GeneratedsSuper):
     """Elemento Raiz de la Nota de Remisión Electrónica"""
-
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        identificacion=None,
-        documentoRelacionado=None,
-        emisor=None,
-        receptor=None,
-        ventaTercero=None,
-        cuerpoDocumento=None,
-        resumen=None,
-        extension=None,
-        apendice=None,
-    ):
+    def __init__(self, identificacion=None, documentoRelacionado=None, emisor=None, receptor=None,
+                 ventaTercero=None, cuerpoDocumento=None, resumen=None, extension=None, apendice=None):
         self.original_tagname_ = None
         self.identificacion = identificacion
         self.documentoRelacionado = documentoRelacionado
@@ -101,14 +97,14 @@ class NotaRemisionElectronica(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.identificacion is not None
-            or self.documentoRelacionado is not None
-            or self.emisor is not None
-            or self.receptor is not None
-            or self.cuerpoDocumento is not None
-            or self.resumen is not None
-            or self.extension is not None
-            or self.apendice is not None
+                self.identificacion is not None or
+                self.documentoRelacionado is not None or
+                self.emisor is not None or
+                self.receptor is not None or
+                self.cuerpoDocumento is not None or
+                self.resumen is not None or
+                self.extension is not None or
+                self.apendice is not None
         ):
             return True
         else:
@@ -135,7 +131,8 @@ class NotaRemisionElectronica(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='ECF', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='ECF', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -144,9 +141,7 @@ class NotaRemisionElectronica(GeneratedsSuper):
         if self.identificacion is not None:
             self.identificacion.export(outfile, level, namespace_, name_='identificacion', pretty_print=pretty_print)
         if self.documentoRelacionado is not None:
-            self.documentoRelacionado.export(
-                outfile, level, namespace_, name_='documentoRelacionado', pretty_print=pretty_print
-            )
+            self.documentoRelacionado.export(outfile, level, namespace_, name_='documentoRelacionado', pretty_print=pretty_print)
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"documentoRelacionado":null,%s' % eol_).encode()))
@@ -204,7 +199,9 @@ class DocumentosRelacionado(GeneratedsSuper):
         self.documentoRelacionado[index] = value
 
     def hasContent_(self):
-        if self.documentoRelacionado:
+        if (
+                self.documentoRelacionado
+        ):
             return True
         else:
             return False
@@ -221,17 +218,7 @@ class DocumentosRelacionado(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -241,9 +228,8 @@ class DocumentosRelacionado(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(
-        self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False, pretty_print=True
-    ):
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -289,10 +275,10 @@ class DocumentoRelacionado(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.tipoDocumento is not None
-            or self.tipoGeneracion is not None
-            or self.numeroDocumento is not None
-            or self.fechaEmision is not None
+                self.tipoDocumento is not None or
+                self.tipoGeneracion is not None or
+                self.numeroDocumento is not None or
+                self.fechaEmision is not None
         ):
             return True
         else:
@@ -311,16 +297,7 @@ class DocumentoRelacionado(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write(
             # bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
-            bytes(
-                (
-                    '%s%s'
-                    % (
-                        namespace_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s%s' % (namespace_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -330,100 +307,40 @@ class DocumentoRelacionado(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.tipoDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoDocumento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.tipoDocumento), input_name='Tipo de Documento Tributario Relacionado'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoDocumento), input_name='Tipo de Documento Tributario Relacionado')),
+                eol_)).encode()))
         if self.tipoGeneracion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoGeneracion":%s,%s'
-                        % (
-                            self.gds_format_integer(
-                                self.tipoGeneracion,
-                                input_name='Tipo de Generación del Documento Tributario relacionado',
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoGeneracion":%s,%s' % (
+                self.gds_format_integer(self.tipoGeneracion, input_name='Tipo de Generación del Documento Tributario relacionado'),
+                eol_)).encode()))
         if self.numeroDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"numeroDocumento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.numeroDocumento), input_name='Número de documento relacionado'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"numeroDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numeroDocumento), input_name='Número de documento relacionado')),
+                eol_)).encode()))
         if self.fechaEmision is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"fechaEmision":"%s"%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.fechaEmision),
-                                    input_name='Fecha de Generación del Documento Relacionado',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"fechaEmision":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.fechaEmision), input_name='Fecha de Generación del Documento Relacionado')),
+                eol_)).encode()))
 
 
 class Identificacion(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        version,
-        ambiente=None,
-        tipoDTE=None,
-        numeroControl=None,
-        codigoGeneracion=None,
-        tipoModelo=None,
-        tipoOperacion=None,
-        fecEmi=None,
-        horEmi=None,
-        tipoMoneda=None,
-        tipoContingencia=None,
-        motivoContin=None,
-    ):
+    def __init__(self, version, ambiente=None, tipoDTE=None, numeroControl=None, codigoGeneracion=None, tipoModelo=None,
+                 tipoOperacion=None, fecEmi=None, horEmi=None, tipoMoneda=None, tipoContingencia=None, motivoContin=None):
         self.original_tagname_ = None
         self.version = version
         self.ambiente = ambiente
@@ -470,18 +387,18 @@ class Identificacion(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.version is not None
-            or self.ambiente is not None
-            or self.tipoDTE is not None
-            or self.numeroControl is not None
-            or self.codigoGeneracion is not None
-            or self.tipoModelo is not None
-            or self.tipoOperacion is not None
-            or self.fecEmi is not None
-            or self.horEmi is not None
-            or self.tipoMoneda is not None
-            or self.tipoContingencia is not None
-            or self.motivoContin is not None
+                self.version is not None or
+                self.ambiente is not None or
+                self.tipoDTE is not None or
+                self.numeroControl is not None or
+                self.codigoGeneracion is not None or
+                self.tipoModelo is not None or
+                self.tipoOperacion is not None or
+                self.fecEmi is not None or
+                self.horEmi is not None or
+                self.tipoMoneda is not None or
+                self.tipoContingencia is not None or
+                self.motivoContin is not None
         ):
             return True
         else:
@@ -499,17 +416,7 @@ class Identificacion(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -519,190 +426,88 @@ class Identificacion(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.version is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"version":%s,%s'
-                        % (self.gds_encode(self.gds_format_integer(self.version, input_name='Version')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"version":%s,%s' % (
+                self.gds_encode(self.gds_format_integer(self.version, input_name='Version')),
+                eol_)).encode()))
         if self.ambiente is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"ambiente":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.ambiente), input_name='Ambiente')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"ambiente":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.ambiente), input_name='Ambiente')),
+                eol_)).encode()))
         if self.tipoDTE is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoDte":"%s",%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.tipoDTE), input_name='TipoDTE')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoDte":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoDTE), input_name='TipoDTE')),
+                eol_)).encode()))
         if self.numeroControl is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"numeroControl":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.numeroControl), input_name='NumeroControl')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"numeroControl":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numeroControl), input_name='NumeroControl')),
+                eol_)).encode()))
         if self.tipoModelo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoModelo":%s,%s'
-                        % (self.gds_format_integer(self.tipoModelo, input_name='Modelo de Facturación'), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoModelo":%s,%s' % (
+                self.gds_format_integer(self.tipoModelo, input_name='Modelo de Facturación'),
+                eol_)).encode()))
         if self.tipoOperacion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoOperacion":%s,%s'
-                        % (self.gds_format_integer(self.tipoOperacion, input_name='Tipo de Transmisión'), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoOperacion":%s,%s' % (
+                self.gds_format_integer(self.tipoOperacion, input_name='Tipo de Transmisión'),
+                eol_)).encode()))
         if self.tipoContingencia is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoContingencia":%s,%s'
-                        % (self.gds_format_integer(self.tipoContingencia, input_name='Tipo de Contingencia'), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoContingencia":%s,%s' % (
+                self.gds_format_integer(self.tipoContingencia, input_name='Tipo de Contingencia'),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tipoContingencia":null,%s' % eol_).encode()))
         if self.motivoContin is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"motivoContin":%s,%s'
-                        % (self.gds_format_integer(self.motivoContin, input_name='Motivo de Contingencia'), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"motivoContin":"%s",%s' % (
+                self.gds_encode(
+                    self.gds_format_string(quote_xml(self.motivoContin), input_name='Código de Generación')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"motivoContin":null,%s' % eol_).encode()))
         if self.codigoGeneracion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codigoGeneracion":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codigoGeneracion), input_name='Código de Generación'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codigoGeneracion":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigoGeneracion), input_name='Código de Generación')),
+                eol_)).encode()))
         if self.fecEmi is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"fecEmi":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.fecEmi), input_name='Fecha de Generación')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"fecEmi":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.fecEmi), input_name='Fecha de Generación')),
+                eol_)).encode()))
         if self.horEmi is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"horEmi":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.horEmi), input_name='Hora de Generación')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"horEmi":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.horEmi), input_name='Hora de Generación')),
+                eol_)).encode()))
         if self.tipoMoneda is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoMoneda":"%s"%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.tipoMoneda), input_name='Tipo de Moneda')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoMoneda":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoMoneda), input_name='Tipo de Moneda')),
+                eol_)).encode()))
 
 
 class Emisor(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        nit=None,
-        nrc=None,
-        nombre=None,
-        codActividad=None,
-        descActividad=None,
-        telefono=None,
-        correo=None,
-        nombreComercial=None,
-        tipoEstablecimiento=None,
-        direccion=None,
-        codEstableMH=None,
-        codEstable=None,
-        codPuntoVentaMH=None,
-        codPuntoVenta=None,
-    ):
+    def __init__(self, nit=None, nrc=None, nombre=None, codActividad=None, descActividad=None, telefono=None,
+                 correo=None, nombreComercial=None, tipoEstablecimiento=None, direccion=None, codEstableMH=None,
+                 codEstable=None, codPuntoVentaMH=None, codPuntoVenta=None):
         self.original_tagname_ = None
         self.nit = nit
         self.nrc = nrc
@@ -749,17 +554,34 @@ class Emisor(GeneratedsSuper):
     def set_tipoEstablecimiento(self, tipoEstablecimiento):
         self.tipoEstablecimiento = tipoEstablecimiento
 
+    def get_codEstable(self):
+        return self.codEstable
+
+    def set_codEstable(self, codEstable):
+        self.codEstable = codEstable
+
+    def get_codPuntoVenta(self):
+        return self.codPuntoVenta
+
+    def set_codPuntoVenta(self, codPuntoVenta):
+        self.codPuntoVenta = codPuntoVenta
+
     def hasContent_(self):
         if (
-            self.nit is not None
-            or self.nombre is not None
-            or self.codActividad is not None
-            or self.telefono is not None
-            or self.correo is not None
-            or self.codEstableMH is not None
-            or self.codEstable is not None
-            or self.codPuntoVentaMH is not None
-            or self.codPuntoVenta is not None
+                self.nit is not None or
+                self.nrc is not None or
+                self.nombre is not None or
+                self.codActividad is not None or
+                self.descActividad is not None or
+                self.telefono is not None or
+                self.correo is not None or
+                self.nombreComercial is not None or
+                self.tipoEstablecimiento is not None or
+                self.direccion is not None or
+                self.codEstableMH is not None or
+                self.codEstable is not None or
+                self.codPuntoVentaMH is not None or
+                self.codPuntoVenta is not None
         ):
             return True
         else:
@@ -777,17 +599,7 @@ class Emisor(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -797,191 +609,78 @@ class Emisor(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.nit is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nit":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.nit), input_name='NIT (Emisor)')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nit":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nit), input_name='NIT (Emisor)')),
+                eol_)).encode()))
         if self.nrc is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nrc":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.nrc), input_name='NRC (Emisor)')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nrc":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nrc), input_name='NRC (Emisor)')),
+                eol_)).encode()))
         if self.nombre is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nombre":"%s",%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.nombre), input_name='Nombre')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nombre":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombre), input_name='Nombre')),
+                eol_)).encode()))
         if self.codActividad is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codActividad":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.codActividad), input_name='CodActividad')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codActividad":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codActividad), input_name='CodActividad')),
+                eol_)).encode()))
         if self.descActividad is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descActividad":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.descActividad), input_name='Actividad Económica (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descActividad":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.descActividad), input_name='Actividad Económica (Emisor)')),
+                eol_)).encode()))
         if self.nombreComercial is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nombreComercial":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.nombreComercial), input_name='Nombre Comercial (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nombreComercial":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombreComercial), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
         if self.tipoEstablecimiento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoEstablecimiento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.tipoEstablecimiento), input_name='Tipo de establecimiento (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoEstablecimiento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoEstablecimiento), input_name='Tipo de establecimiento (Emisor)')),
+                eol_)).encode()))
 
         if self.codEstableMH is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codEstableMH":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codEstableMH), input_name='Nombre Comercial (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codEstableMH":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codEstableMH), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codEstableMH":null,%s' % eol_).encode()))
         if self.codEstable is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codEstable":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codEstable), input_name='Nombre Comercial (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codEstable":"%s",%s' % (
+                self.gds_encode(
+                    self.gds_format_string(quote_xml(self.codEstable), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codEstable":null,%s' % eol_).encode()))
         if self.codPuntoVentaMH is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codPuntoVentaMH":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codPuntoVentaMH), input_name='Nombre Comercial (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codPuntoVentaMH":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVentaMH), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codPuntoVentaMH":null,%s' % eol_).encode()))
         if self.codPuntoVenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codPuntoVenta":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codPuntoVenta), input_name='Nombre Comercial (Emisor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codPuntoVenta":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVenta), input_name='Nombre Comercial (Emisor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codPuntoVenta":null,%s' % eol_).encode()))
@@ -990,39 +689,21 @@ class Emisor(GeneratedsSuper):
             self.direccion.export(outfile, level, namespace_, name_='direccion', pretty_print=pretty_print)
         if self.telefono is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"telefono":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.telefono), input_name='Telefono')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"telefono":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.telefono), input_name='Telefono')),
+                eol_)).encode()))
         if self.correo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"correo":"%s"%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"correo":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo')),
+                eol_)).encode()))
 
 
 class Direccion(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        departamento=None,
-        municipio=None,
-        complemento=None,
-    ):
+    def __init__(self, departamento=None, municipio=None, complemento=None,):
         self.original_tagname_ = None
         self.departamento = departamento
         self.municipio = municipio
@@ -1047,7 +728,11 @@ class Direccion(GeneratedsSuper):
         self.complemento = complemento
 
     def hasContent_(self):
-        if self.departamento is not None or self.municipio is not None or self.complemento is not None:
+        if (
+                self.departamento is not None or
+                self.municipio is not None or
+                self.complemento is not None
+        ):
             return True
         else:
             return False
@@ -1064,17 +749,7 @@ class Direccion(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -1084,78 +759,35 @@ class Direccion(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.departamento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"departamento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.departamento), input_name='Dirección: Departamento'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"departamento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.departamento), input_name='Dirección: Departamento')),
+                eol_)).encode()))
         if self.municipio is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"municipio":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.municipio), input_name='Dirección: Municipio')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"municipio":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.municipio), input_name='Dirección: Municipio')),
+                eol_)).encode()))
         if self.complemento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"complemento":"%s"%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.complemento), input_name='Dirección: complemento')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"complemento":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.complemento), input_name='Dirección: complemento')),
+                eol_)).encode()))
 
 
 class Receptor(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        nombre=None,
-        tipoDocumento=None,
-        numDocumento=None,
-        nrc=None,
-        codActividad=None,
-        descActividad=None,
-        direccion=None,
-        telefono=None,
-        correo=None,
-        nombreComercial=None,
-        bienTitulo=None,
-    ):
+    def __init__(self, nombre=None, tipoDocumento=None, numDocumento=None, nrc=None, codActividad=None,
+                 descActividad=None, direccion=None, telefono=None, correo=None, nombreComercial=None, bienTitulo=None):
         self.original_tagname_ = None
         self.nombre = nombre
         self.tipoDocumento = tipoDocumento
@@ -1177,17 +809,17 @@ class Receptor(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.nombre is not None
-            or self.tipoDocumento is not None
-            or self.numDocumento is not None
-            or self.nrc is not None
-            or self.codActividad is not None
-            or self.descActividad is not None
-            or self.direccion is not None
-            or self.telefono is not None
-            or self.correo is not None
-            or self.nombreComercial is not None
-            or self.bienTitulo is not None
+                self.nombre is not None or
+                self.tipoDocumento is not None or
+                self.numDocumento is not None or
+                self.nrc is not None or
+                self.codActividad is not None or
+                self.descActividad is not None or
+                self.direccion is not None or
+                self.telefono is not None or
+                self.correo is not None or
+                self.nombreComercial is not None or
+                self.bienTitulo is not None
         ):
             return True
         else:
@@ -1205,17 +837,7 @@ class Receptor(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -1225,121 +847,47 @@ class Receptor(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.tipoDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoDocumento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.tipoDocumento),
-                                    input_name='Tipo de documento de identificación (Receptor)',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoDocumento), input_name='Tipo de documento de identificación (Receptor)')),
+                eol_)).encode()))
         if self.numDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"numDocumento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.numDocumento),
-                                    input_name='Número de documento de Identificación (Receptor)',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"numDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numDocumento), input_name='Número de documento de Identificación (Receptor)')),
+                eol_)).encode()))
         if self.nrc is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nrc":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.nrc), input_name='NRC (Receptor)')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nrc":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nrc), input_name='NRC (Receptor)')),
+                eol_)).encode()))
         if self.nombre is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nombre":"%s",%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.nombre), input_name='Nombre')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nombre":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombre), input_name='Nombre')),
+                eol_)).encode()))
         if self.codActividad is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codActividad":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codActividad), input_name='Código de Actividad Económica (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codActividad":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codActividad), input_name='Código de Actividad Económica (Receptor)')),
+                eol_)).encode()))
         if self.descActividad is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descActividad":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.descActividad), input_name='Actividad Económica (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descActividad":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.descActividad), input_name='Actividad Económica (Receptor)')),
+                eol_)).encode()))
         if self.nombreComercial is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"nombreComercial":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.nombreComercial), input_name='Nombre Comercial (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"nombreComercial":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.nombreComercial), input_name='Nombre Comercial (Receptor)')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"nombreComercial":null,%s' % eol_).encode()))
@@ -1350,55 +898,19 @@ class Receptor(GeneratedsSuper):
             outfile.write(bytes(('"direccion":null,%s' % eol_).encode()))
         if self.telefono is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"telefono":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.telefono), input_name='Actividad Económica (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"telefono":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.telefono), input_name='Actividad Económica (Receptor)')),
+                eol_)).encode()))
         if self.correo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"correo":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.correo), input_name='Correo electrónico (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"correo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.correo), input_name='Correo electrónico (Receptor)')),
+                eol_)).encode()))
         if self.bienTitulo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"bienTitulo":"%s"%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.bienTitulo), input_name='Correo electrónico (Receptor)'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"bienTitulo":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.bienTitulo), input_name='Correo electrónico (Receptor)')),
+                eol_)).encode()))
 
 
 class CuerpoDocumento(GeneratedsSuper):
@@ -1428,7 +940,9 @@ class CuerpoDocumento(GeneratedsSuper):
         self.Item[index] = value
 
     def hasContent_(self):
-        if self.Item:
+        if (
+                self.Item
+        ):
             return True
         else:
             return False
@@ -1445,17 +959,7 @@ class CuerpoDocumento(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -1465,40 +969,23 @@ class CuerpoDocumento(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(
-        self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False, pretty_print=True
-    ):
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for i, LineaItem_ in enumerate(self.Item, 1):
-            LineaItem_.export(
-                outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item)
-            )
+            LineaItem_.export(outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item))
 
 
 class Item(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        numItem,
-        tipoItem=None,
-        descripcion=None,
-        cantidad=None,
-        uniMedida=None,
-        precioUni=None,
-        numeroDocumento=None,
-        codigo=None,
-        codTributo=None,
-        montoDescu=0.00,
-        ventaNoSuj=0.00,
-        ventaExenta=0.00,
-        ventaGravada=0.00,
-        tributos=None,
-    ):
+    def __init__(self, numItem, tipoItem=None, descripcion=None, cantidad=None, uniMedida=None, precioUni=None,
+                 numeroDocumento=None, codigo=None, codTributo=None, montoDescu=0.00, ventaNoSuj=0.00, ventaExenta=0.00,
+                 ventaGravada=0.00, tributos=None):
         self.original_tagname_ = None
         self.numItem = numItem
         self.tipoItem = tipoItem
@@ -1601,28 +1088,26 @@ class Item(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.numItem is not None
-            or self.tipoItem is not None
-            or self.descripcion is not None
-            or self.cantidad is not None
-            or self.uniMedida is not None
-            or self.precioUni is not None
-            or self.numeroDocumento is not None
-            or self.codigo is not None
-            or self.codTributo is not None
-            or self.montoDescu is not None
-            or self.ventaNoSuj is not None
-            or self.ventaExenta is not None
-            or self.ventaGravada is not None
-            or self.tributos is not None
+                self.numItem is not None or
+                self.tipoItem is not None or
+                self.descripcion is not None or
+                self.cantidad is not None or
+                self.uniMedida is not None or
+                self.precioUni is not None or
+                self.numeroDocumento is not None or
+                self.codigo is not None or
+                self.codTributo is not None or
+                self.montoDescu is not None or
+                self.ventaNoSuj is not None or
+                self.ventaExenta is not None or
+                self.ventaGravada is not None or
+                self.tributos is not None
         ):
             return True
         else:
             return False
 
-    def export(
-        self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None
-    ):
+    def export(self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1635,16 +1120,7 @@ class Item(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write(
             # bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
-            bytes(
-                (
-                    '%s%s'
-                    % (
-                        namespace_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s%s' % (namespace_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -1660,225 +1136,102 @@ class Item(GeneratedsSuper):
         # else:
         #     outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.numItem is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"numItem":%s,%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.numItem), input_name='NumItem')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"numItem":%s,%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numItem), input_name='NumItem')),
+                eol_)).encode()))
         if self.tipoItem is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"tipoItem":%s,%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.tipoItem), input_name='TipoItem')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"tipoItem":%s,%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.tipoItem), input_name='TipoItem')),
+                eol_)).encode()))
         if self.numeroDocumento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"numeroDocumento":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.numeroDocumento), input_name='Número de documento relacionado'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"numeroDocumento":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.numeroDocumento), input_name='Número de documento relacionado')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"numeroDocumento":null,%s' % eol_).encode()))
         if self.descripcion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descripcion":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.descripcion), input_name='Descripcion')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descripcion":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.descripcion), input_name='Descripcion')),
+                eol_)).encode()))
         if self.cantidad is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"cantidad":%s,%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.cantidad), input_name='Cantidad')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"cantidad":%s,%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.cantidad), input_name='Cantidad')),
+                eol_)).encode()))
         if self.codigo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codigo":"%s",%s'
-                        % (self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Código')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codigo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Código')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codigo":null,%s' % eol_).encode()))
         if self.codTributo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codTributo":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(
-                                    quote_xml(self.codTributo), input_name='Tributo sujeto a cálculo de IVA'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codTributo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codTributo), input_name='Tributo sujeto a cálculo de IVA')),
+                eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"codTributo":null,%s' % eol_).encode()))
         if self.uniMedida is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"uniMedida":%s,%s'
-                        % (self.gds_encode(self.gds_format_integer(self.uniMedida, input_name='UniMedida')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"uniMedida":%s,%s' % (
+                self.gds_encode(self.gds_format_integer(self.uniMedida, input_name='UniMedida')),
+                eol_)).encode()))
         if self.precioUni is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"precioUni":%s,%s'
-                        % (self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"precioUni":%s,%s' % (
+                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')),
+                eol_)).encode()))
         if self.montoDescu is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"montoDescu":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"montoDescu":%s,%s' % (
+                self.gds_encode(self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem')),
+                eol_)).encode()))
         if self.ventaNoSuj is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"ventaNoSuj":%s,%s'
-                        % (
-                            self.gds_encode(self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"ventaNoSuj":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas')),
+                eol_)).encode()))
         if self.ventaExenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"ventaExenta":%s,%s'
-                        % (
-                            self.gds_encode(self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"ventaExenta":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas')),
+                eol_)).encode()))
         if self.ventaGravada is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"ventaGravada":%s,%s'
-                        % (
-                            self.gds_encode(self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"ventaGravada":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas')),
+                eol_)).encode()))
         if len(self.tributos):
             showIndent(outfile, level, pretty_print)
             outfile.write(
-                bytes(
-                    (
-                        '%s"%s":%s'
-                        % (
-                            namespace_,
-                            'tributos',
-                            ' ' + '',
-                        )
-                    ).encode()
-                )
-            )
+                bytes(('%s"%s":%s' % (namespace_, 'tributos', ' ' + '',)).encode()))
 
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             showIndent(outfile, level, pretty_print)
             for tributo_ in self.tributos:
                 showIndent(outfile, level, pretty_print)
-                outfile.write(
-                    bytes(
-                        (
-                            '"%s"%s'
-                            % (
-                                self.gds_encode(
-                                    self.gds_format_string(
-                                        quote_xml(tributo_), input_name='Número de documento relacionado'
-                                    )
-                                ),
-                                eol_,
-                            )
-                        ).encode()
-                    )
-                )
+                outfile.write(bytes(('"%s"%s' % (
+                    self.gds_encode(self.gds_format_string(quote_xml(tributo_),
+                                                           input_name='Número de documento relacionado')),
+                    eol_)).encode()))
                 showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
         else:
@@ -1890,23 +1243,10 @@ class Resumen(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(
-        self,
-        totalNoSuj=0.00,
-        totalLetras=None,
-        subTotalVentas=0.00,
-        subTotal=0.00,
-        descuExenta=0.00,
-        totalDescu=0.00,
-        tributos=None,
-        descuGravada=0.00,
-        porcentajeDescuento=0.00,
-        totalGravada=0.00,
-        montoTotalOperacion=0.00,
-        totalExenta=0.00,
-        descuNoSuj=0.00,
-        condicionOperacion=None,
-    ):
+    def __init__(self, totalNoSuj=0.00, totalLetras=None,
+                 subTotalVentas=0.00, subTotal=0.00, descuExenta=0.00,
+                 totalDescu=0.00, tributos=None, descuGravada=0.00, porcentajeDescuento=0.00, totalGravada=0.00,
+                 montoTotalOperacion=0.00, totalExenta=0.00, descuNoSuj=0.00, condicionOperacion=None):
         self.original_tagname_ = None
         self.totalNoSuj = totalNoSuj
         self.totalLetras = totalLetras
@@ -1985,20 +1325,20 @@ class Resumen(GeneratedsSuper):
 
     def hasContent_(self):
         if (
-            self.totalNoSuj is not None
-            or self.totalLetras is not None
-            or self.subTotalVentas is not None
-            or self.subTotal is not None
-            or self.tributos is not None
-            or self.descuExenta is not None
-            or self.descuGravada is not None
-            or self.porcentajeDescuento is not None
-            or self.totalDescu is not None
-            or self.totalGravada is not None
-            or self.montoTotalOperacion is not None
-            or self.totalExenta is not None
-            or self.descuNoSuj is not None
-            or self.condicionOperacion is not None
+                self.totalNoSuj is not None or
+                self.totalLetras is not None or
+                self.subTotalVentas is not None or
+                self.subTotal is not None or
+                self.tributos is not None or
+                self.descuExenta is not None or
+                self.descuGravada is not None or
+                self.porcentajeDescuento is not None or
+                self.totalDescu is not None or
+                self.totalGravada is not None or
+                self.montoTotalOperacion is not None or
+                self.totalExenta is not None or
+                self.descuNoSuj is not None or
+                self.condicionOperacion is not None
         ):
             return True
         else:
@@ -2016,17 +1356,7 @@ class Resumen(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -2036,130 +1366,54 @@ class Resumen(GeneratedsSuper):
         else:
             outfile.write(bytes(('/>%s' % (eol_,)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.totalNoSuj is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"totalNoSuj":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(self.totalNoSuj, input_name='Total de Operaciones no sujetas')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"totalNoSuj":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.totalNoSuj, input_name='Total de Operaciones no sujetas')),
+                eol_)).encode()))
         if self.totalExenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"totalExenta":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(self.totalExenta, input_name='Total de Operaciones exentas')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"totalExenta":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.totalExenta, input_name='Total de Operaciones exentas')),
+                eol_)).encode()))
         if self.descuNoSuj is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descuNoSuj":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.descuNoSuj,
-                                    input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas no sujetas',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descuNoSuj":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.descuNoSuj, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas no sujetas')),
+                eol_)).encode()))
         if self.descuExenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descuExenta":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.descuExenta,
-                                    input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas exentas',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descuExenta":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.descuExenta, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas exentas')),
+                eol_)).encode()))
         if self.descuGravada is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descuGravada":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.descuExenta,
-                                    input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas gravadas',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descuGravada":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.descuExenta, input_name='Monto global de Descuento, Bonificación, Rebajas y otros a ventas gravadas')),
+                eol_)).encode()))
         if self.porcentajeDescuento is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"porcentajeDescuento":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.porcentajeDescuento,
-                                    input_name='Porcentaje del monto global de Descuento, Bonificación, Rebajas y otros',
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"porcentajeDescuento":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.porcentajeDescuento, input_name='Porcentaje del monto global de Descuento, Bonificación, Rebajas y otros')),
+                eol_)).encode()))
         if self.totalDescu is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"totalDescu":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.totalDescu, input_name='Total del monto de Descuento, Bonificación, Rebajas'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"totalDescu":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.totalDescu, input_name='Total del monto de Descuento, Bonificación, Rebajas')),
+                eol_)).encode()))
         if self.tributos is not None:
             self.tributos.export(outfile, level, namespace_, name_='tributos', pretty_print=pretty_print)
         else:
@@ -2167,76 +1421,33 @@ class Resumen(GeneratedsSuper):
             outfile.write(bytes(('"tributos":null%s' % eol_).encode()))
         if self.totalLetras is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"totalLetras":"%s",%s'
-                        % (
-                            self.gds_encode(self.gds_format_string(quote_xml(self.totalLetras), input_name='Version')),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"totalLetras":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.totalLetras), input_name='Version')),
+                eol_)).encode()))
         if self.subTotalVentas is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"subTotalVentas":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.subTotalVentas, input_name='Suma de operaciones sin impuestos'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"subTotalVentas":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.subTotalVentas, input_name='Suma de operaciones sin impuestos')),
+                eol_)).encode()))
         if self.subTotal is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"subTotal":%s,%s'
-                        % (self.gds_encode(self.gds_format_float(self.subTotal, input_name='Sub-Total')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"subTotal":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.subTotal, input_name='Sub-Total')),
+                eol_)).encode()))
         if self.montoTotalOperacion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"montoTotalOperacion":%s,%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(
-                                    self.montoTotalOperacion, input_name='Monto Total de la Operación'
-                                )
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"montoTotalOperacion":%s,%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.montoTotalOperacion, input_name='Monto Total de la Operación')),
+                eol_)).encode()))
         if self.totalGravada is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"totalGravada":%s%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_float(self.totalGravada, input_name='Total de Operaciones Gravadas')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"totalGravada":%s%s' % (
+                self.gds_encode(
+                    self.gds_format_float(self.totalGravada, input_name='Total de Operaciones Gravadas')),
+                eol_)).encode()))
         # if self.condicionOperacion is not None:
         #     showIndent(outfile, level, pretty_print)
         #     outfile.write(bytes(('"condicionOperacion":%s%s' % (
@@ -2271,7 +1482,9 @@ class Tributos(GeneratedsSuper):
         self.Item[index] = value
 
     def hasContent_(self):
-        if self.Item:
+        if (
+                self.Item
+        ):
             return True
         else:
             return False
@@ -2288,17 +1501,7 @@ class Tributos(GeneratedsSuper):
             name_ = self.original_tagname_
         showIndent(outfile, level, pretty_print)
         outfile.write(
-            bytes(
-                (
-                    '%s"%s":%s'
-                    % (
-                        namespace_,
-                        name_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -2309,17 +1512,14 @@ class Tributos(GeneratedsSuper):
             # outfile.write(bytes(('/>%s' % (eol_,)).encode()))
             outfile.write(bytes(('null,%s' % eol_).encode()))
 
-    def exportChildren(
-        self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False, pretty_print=True
-    ):
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for i, LineaItem_ in enumerate(self.Item, 1):
-            LineaItem_.export(
-                outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item)
-            )
+            LineaItem_.export(outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item))
 
 
 class Tributo(GeneratedsSuper):
@@ -2351,14 +1551,16 @@ class Tributo(GeneratedsSuper):
         self.valor = valor
 
     def hasContent_(self):
-        if self.codigo is not None or self.descripcion is not None or self.valor is not None:
+        if (
+                self.codigo is not None or
+                self.descripcion is not None or
+                self.valor is not None
+        ):
             return True
         else:
             return False
 
-    def export(
-        self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None
-    ):
+    def export(self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -2371,16 +1573,7 @@ class Tributo(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write(
             # bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
-            bytes(
-                (
-                    '%s%s'
-                    % (
-                        namespace_,
-                        namespacedef_ and ' ' + namespacedef_ or '',
-                    )
-                ).encode()
-            )
-        )
+            bytes(('%s%s' % (namespace_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
         if self.hasContent_():
             outfile.write(bytes(('{%s' % (eol_,)).encode()))
             self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
@@ -2393,48 +1586,24 @@ class Tributo(GeneratedsSuper):
             else:
                 outfile.write(bytes(('%s}%s' % (namespace_, eol_)).encode()))
 
-    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.codigo is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"codigo":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.codigo), input_name='Resumen Código de Tributo')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"codigo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Resumen Código de Tributo')),
+                eol_)).encode()))
         if self.descripcion is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"descripcion":"%s",%s'
-                        % (
-                            self.gds_encode(
-                                self.gds_format_string(quote_xml(self.descripcion), input_name='Nombre del Tributo')
-                            ),
-                            eol_,
-                        )
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"descripcion":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.descripcion), input_name='Nombre del Tributo')),
+                eol_)).encode()))
         if self.valor is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(
-                bytes(
-                    (
-                        '"valor":%s%s'
-                        % (self.gds_encode(self.gds_format_float(self.valor, input_name='Valor del Tributo')), eol_)
-                    ).encode()
-                )
-            )
+            outfile.write(bytes(('"valor":%s%s' % (
+                self.gds_encode(self.gds_format_float(self.valor, input_name='Valor del Tributo')),
+                eol_)).encode()))
