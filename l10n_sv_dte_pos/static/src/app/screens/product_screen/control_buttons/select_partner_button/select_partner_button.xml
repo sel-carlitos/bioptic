@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template">
+    <t t-name="l10n_do_pos.SelectPartnerButton" t-inherit="point_of_sale.SelectPartnerButton" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('set-partner')]" position="replace">
+            <button class="set-partner btn btn-light btn-lg lh-lg text-truncate w-auto" t-on-click="() => this.pos.selectPartner()">
+                <span style="font-size:10px;" t-if="props.partner and props.partner.l10n_sv_identification_id">
+                    <t t-esc="props.partner.l10n_sv_identification_id.name"/>
+                </span>
+
+                <div t-if="props.partner" t-esc="props.partner.name" class="text-truncate text-action" />
+                <t t-else="">Customer</t>
+            </button>
+        </xpath>
+    </t>
+</templates>

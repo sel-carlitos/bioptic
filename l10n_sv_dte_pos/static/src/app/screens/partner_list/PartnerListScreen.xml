@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template">
+    <t t-name="PartnerListScreen" t-inherit="point_of_sale.PartnerList" t-inherit-mode="extension">
+        <xpath expr="//table[@class='table table-hover']/thead/tr/th[4]" position="after">
+            <th>Identification Type</th>
+        </xpath>
+    </t>
+    <t t-name="PartnerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension">
+        <xpath expr="//td[4]" position="after">
+            <td>
+                <t t-if="props.partner.l10n_sv_identification_id">
+                    <t t-esc="props.partner.l10n_sv_identification_id.name"/>
+                </t>
+            </td>
+        </xpath>
+    </t>
+</templates>

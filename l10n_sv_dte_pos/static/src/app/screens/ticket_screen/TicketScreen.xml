@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template">
+    <t t-name="TicketScreen" t-inherit="point_of_sale.TicketScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('orders')]/t/div[hasclass('header-row')]/div[3]" position="after">
+            <div t-if="pos.is_sv_country()" class="col wide p-2">Document Number</div>
+        </xpath>
+        <xpath expr="//div[hasclass('orders')]/t/t[@t-if='!ui.isSmall']/div[hasclass('order-row')]/div[3]" position="after">
+            <div t-if="pos.is_sv_country()" class="col wide p-2">
+                <div t-if="order.l10n_sv_document_number" t-esc="order.l10n_sv_document_number"/>
+            </div>
+        </xpath>
+    </t>
+</templates>

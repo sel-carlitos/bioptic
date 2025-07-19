@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_sv_dte_move_cancel_view_pos_inherit" model="ir.ui.view">
+        <field name="name">l10n_sv_dte_move_cancel_view_pos_inherit</field>
+        <field name="model">l10n_sv_dte.move.cancel</field>
+        <field name="inherit_id" ref="l10n_sv_dte.l10n_sv_dte_move_cancel_view"/>
+        <field name="arch" type="xml">
+            <field name="move_ids" position="after">
+                <field name="pos_order_ids" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>

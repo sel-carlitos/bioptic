@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="l10n_sv_dte_pos.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <xpath expr="//div[@class='cashier']" position="after">
+            <div class="do_info">
+                <t t-if="props.data.company.country_id?.code === 'SV'">
+                    <h4 size="double-height" style="margin:5px; padding:0px;">
+                        <span t-if="props.data.l10n_sv_voucher_type_name">
+                            <strong>
+                                <t t-out="props.data.l10n_sv_voucher_type_name"/>
+                            </strong>
+                        </span>
+                    </h4>
+                    <span t-if="props.data.l10n_sv_generation_code">
+                        <div>
+                        Generation Code:
+                        </div>
+                        <t t-out="props.data.l10n_sv_generation_code"/>
+                        <br/>
+                    </span>
+                    <span t-if="props.data.l10n_sv_document_number">
+                        <div>
+                        Control Number:
+                        </div>
+                        <t t-out="props.data.l10n_sv_document_number"/>
+                        <br/>
+                    </span>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="after">
+            <div t-if="props.data.partner" class="pos-receipt-partner text-center" style="font-size: 75%;">
+                <div>--------------------------------</div>
+                <!-- partner informations -->
+                <div>CLIENTE: <t t-esc="props.data.partner.name"/></div>
+                <t t-if="props.data.partner.vat">
+                    IDENTIFICACION:
+                    <t t-esc="props.data.partner.vat"/>
+                    <br/>
+                </t>
+                <t t-if="props.data.partner.email">
+                    EMAIL:
+                    <t t-esc="props.data.partner.email"/>
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

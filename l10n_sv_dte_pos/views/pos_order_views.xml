@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_pos_pos_form_inherit" model="ir.ui.view">
+        <field name="name">view.pos.pos.form.inherit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='order_fields']" position="inside">
+                <field name="l10n_sv_generation_code" invisible="not l10n_sv_generation_code"/>
+                <field name="l10n_sv_document_number" invisible="not l10n_sv_document_number"/>
+                <field name="l10n_sv_dte_send_state" invisible="not l10n_sv_document_number"/>
+                <field name="l10n_sv_voucher_type_id" invisible="not l10n_sv_voucher_type_id"/>
+            </xpath>
+            <button name="refund" position="after">
+                <button name="l10n_sv_action_annul_dte_wizard" type="object" string="Annul DTE" class="btn-danger"
+                        data-hotkey="q" invisible="l10n_sv_dte_send_state != 'delivered_accepted'"/>
+          </button>
+        </field>
+    </record>
+    <record id="view_pos_order_tree_inherit" model="ir.ui.view">
+        <field name="name">pos.order.tree.inherit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="l10n_sv_document_number"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
