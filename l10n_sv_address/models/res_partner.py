@@ -15,7 +15,7 @@ class Partner(models.Model):
         """
         res = super().default_get(fields_list)
 
-        company = self.env.company 
+        company = self.env.company
 
         if company and company.account_fiscal_country_id:
             res['country_id'] = company.account_fiscal_country_id.id
