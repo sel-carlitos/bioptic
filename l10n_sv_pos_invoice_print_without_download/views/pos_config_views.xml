@@ -1,0 +1,17 @@
+<odoo>
+    <record id="pos_config_view_form_inherit1" model="ir.ui.view">
+        <field name="name">pos.config.view.form.inherit1</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='other_devices']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="content-group mt16">
+                        <label string="Print PDF" for="print_pdf" class="col-md-3 o_light_label"/>
+                        <field name="print_pdf" widget="boolean_toggle"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
