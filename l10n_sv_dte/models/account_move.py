@@ -1,82 +1,178 @@
-# -*- coding: utf-8 -*-
-from odoo import api, fields, models, _, Command
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-from odoo.addons.l10n_sv_dte.models.l10n_sv_dte_document import (
-    GENERATION_TYPE_SELECTION
-)
-from odoo.addons.l10n_sv_dte.wizard.l10n_sv_dte_move_cancel import (
-    CANCELLATION_TYPE
-)
 import uuid
 
-L10N_SV_INCOTERMS = [("01", "EXW-En fabrica"),
-                     ("02", "FCA-Libre transportista"),
-                     ("03", "CPT-Transporte pagado hasta"),
-                     ("04", "CIP-Transporte y seguro pagado hasta"),
-                     ("05", "DAP-Entrega en el lugar"),
-                     ]
+from odoo import Command, _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
+
+from odoo.addons.l10n_sv_dte.models.l10n_sv_dte_document import GENERATION_TYPE_SELECTION
+from odoo.addons.l10n_sv_dte.wizard.l10n_sv_dte_move_cancel import CANCELLATION_TYPE
+
+L10N_SV_INCOTERMS = [
+    ('01', 'EXW-En fabrica'),
+    ('02', 'FCA-Libre transportista'),
+    ('03', 'CPT-Transporte pagado hasta'),
+    ('04', 'CIP-Transporte y seguro pagado hasta'),
+    ('05', 'DAP-Entrega en el lugar'),
+]
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _inherit = 'account.move'
 
-    l10_sv_dte_id = fields.Many2one('l10n_sv.dte.document', string='DTE Document', readonly=True, copy=False)
-    l10n_sv_terminal_id = fields.Many2one('l10n_sv.terminal', string="Terminal", copy=False)
-    l10n_sv_economic_activity_id = fields.Many2one('l10n_sv.economic.activity', string="Economic Activity")
-    l10n_sv_voucher_type_id = fields.Many2one("l10n_sv.voucher.type", compute='_compute_l10n_sv_l10n_sv_voucher_type',
-                                              store=True, string="Voucher Type", readonly=False, auto_join=True,
-                                              index=True)
-    l10n_sv_available_voucher_type_ids = fields.Many2many('l10n_sv.voucher.type',
-                                                          compute='_compute_l10n_sv_available_document_types')
+    l10_sv_dte_id = fields.Many2one(
+        'l10n_sv.dte.document',
+        string='DTE Document',
+        readonly=True,
+        copy=False,
+    )
+    l10n_sv_terminal_id = fields.Many2one(
+        'l10n_sv.terminal',
+        string='Terminal',
+        copy=False,
+    )
+    l10n_sv_economic_activity_id = fields.Many2one(
+        'l10n_sv.economic.activity',
+        string='Economic Activity',
+    )
+    l10n_sv_voucher_type_id = fields.Many2one(
+        'l10n_sv.voucher.type',
+        compute='_compute_l10n_sv_l10n_sv_voucher_type',
+        store=True,
+        string='Voucher Type',
+        readonly=False,
+        auto_join=True,
+        index=True,
+    )
+    l10n_sv_available_voucher_type_ids = fields.Many2many(
+        'l10n_sv.voucher.type',
+        compute='_compute_l10n_sv_available_document_types',
+    )
     l10n_sv_dte_situation = fields.Selection(
-        [('1', 'Transmisión normal'),
-         ('2', 'Transmisión por contingencia'),
-         ],
-        string="Status Voucher", required=True, default='1', help="CAT- 004: Tipo de Transmisión")
+        [
+            ('1', 'Transmisión normal'),
+            ('2', 'Transmisión por contingencia'),
+        ],
+        string='Status Voucher',
+        required=True,
+        default='1',
+        help='CAT- 004: Tipo de Transmisión',
+    )
     l10n_sv_dte_contingency_type = fields.Selection(
-        [('1', 'No disponibilidad de sistema del MH'),
-         ],
-        string="Contingency Type", required=True, default='1', help="CAT- 005: Tipo de Contingencia")
-    l10n_sv_is_exportation = fields.Boolean(string="Exportation Invoice", default=False)
-    l10n_sv_document_number = fields.Char(string="Document Number", copy=False)
-    l10n_sv_generation_code = fields.Char(string="Generation Code", related="l10_sv_dte_id.l10n_sv_generation_code")
-    l10n_sv_dte_send_state = fields.Selection(related='l10_sv_dte_id.l10n_sv_dte_send_state', string='DTE Send State',
-                                              tracking=True, store=True, copy=False, readonly=True)
-    l10n_sv_fiscal_journal = fields.Boolean(related='journal_id.l10n_sv_fiscal_journal')
-    l10n_sv_qr_code = fields.Binary(string="Code QR", readonly=True, related="l10_sv_dte_id.l10n_sv_qr_code")
-    l10n_sv_electronic_stamp = fields.Text(string="Electronic Stamp", readonly=True, copy=False,
-                                           related="l10_sv_dte_id.l10n_sv_electronic_stamp")
-    l10n_sv_incoterm = fields.Selection(L10N_SV_INCOTERMS, string="Incoterms", default="05", help="CAT- 031: INCOTERMS")
-    l10n_sv_type_item_to_import = fields.Selection([("1", "Bienes"),
-                                                    ("2", "Servicios"),
-                                                    ("3", "Ambos (Bienes y Servicios, incluye los dos inherente a los Productos o servicios)"),
-                                                    ("4", "Otros tributos por ítem"),
-                                                    ], string="Type Item to Import", default="1",
-                                                   help="CAT- 011: Tipo de ítem")
-    l10n_sv_tax_precinct = fields.Selection([("02", "Marítima de Acajutla"),
-                                             ("03", "Aérea Monseñor Óscar Arnulfo Romero"),
-                                             ], string="Tax Precinct", default="02", help="CAT- 027: Recinto fiscal")
-    l10n_sv_regime = fields.Selection([("EX-1.1000.000", "Exportación Definitiva, Exportación Definitiva, Régimen Común"),
-                                       ("EX-1.1040.000", "Exportación Definitiva, Exportación Definitiva Sustitución de Mercancías, Régimen Común"),
-                                       ], string="Regime", default="EX-1.1000.000", help="CAT- 028: Régimen")
+        [
+            ('1', 'No disponibilidad de sistema del MH'),
+        ],
+        string='Contingency Type',
+        required=True,
+        default='1',
+        help='CAT- 005: Tipo de Contingencia',
+    )
+    l10n_sv_is_exportation = fields.Boolean(
+        string='Exportation Invoice',
+        default=False,
+    )
+    l10n_sv_document_number = fields.Char(
+        string='Document Number',
+        copy=False,
+    )
+    l10n_sv_generation_code = fields.Char(
+        string='Generation Code',
+        related='l10_sv_dte_id.l10n_sv_generation_code',
+    )
+    l10n_sv_dte_send_state = fields.Selection(
+        related='l10_sv_dte_id.l10n_sv_dte_send_state',
+        string='DTE Send State',
+        tracking=True,
+        store=True,
+        copy=False,
+        readonly=True,
+    )
+    l10n_sv_fiscal_journal = fields.Boolean(
+        related='journal_id.l10n_sv_fiscal_journal',
+    )
+    l10n_sv_qr_code = fields.Binary(
+        string='Code QR',
+        readonly=True,
+        related='l10_sv_dte_id.l10n_sv_qr_code',
+    )
+    l10n_sv_electronic_stamp = fields.Text(
+        string='Electronic Stamp',
+        readonly=True,
+        copy=False,
+        related='l10_sv_dte_id.l10n_sv_electronic_stamp',
+    )
+    l10n_sv_incoterm = fields.Selection(
+        L10N_SV_INCOTERMS,
+        string='Incoterms',
+        default='05',
+        help='CAT- 031: INCOTERMS',
+    )
+    l10n_sv_type_item_to_import = fields.Selection(
+        [
+            ('1', 'Bienes'),
+            ('2', 'Servicios'),
+            ('3', 'Ambos (Bienes y Servicios, incluye los dos inherente a los Productos o servicios)'),
+            ('4', 'Otros tributos por ítem'),
+        ],
+        string='Type Item to Import',
+        default='1',
+        help='CAT- 011: Tipo de ítem',
+    )
+    l10n_sv_tax_precinct = fields.Selection(
+        [
+            ('02', 'Marítima de Acajutla'),
+            ('03', 'Aérea Monseñor Óscar Arnulfo Romero'),
+        ],
+        string='Tax Precinct',
+        default='02',
+        help='CAT- 027: Recinto fiscal',
+    )
+    l10n_sv_regime = fields.Selection(
+        [
+            ('EX-1.1000.000', 'Exportación Definitiva, Exportación Definitiva, Régimen Común'),
+            (
+                'EX-1.1040.000',
+                'Exportación Definitiva, Exportación Definitiva Sustitución de Mercancías, Régimen Común',
+            ),
+        ],
+        string='Regime',
+        default='EX-1.1000.000',
+        help='CAT- 028: Régimen',
+    )
 
     # Reference
-    l10n_sv_generation_type_ref = fields.Selection(GENERATION_TYPE_SELECTION, string="Generation Type Ref")
-    l10n_sv_date_issue_ref = fields.Datetime(string="Fecha y hora de emision del DTE de referencia", copy=False)
-    l10n_sv_generation_code_ref = fields.Char("Código de generación de referencia", copy=False,
-                                              help='Codigo de generacion del DTE de referencia')
+    l10n_sv_generation_type_ref = fields.Selection(
+        GENERATION_TYPE_SELECTION,
+        string='Generation Type Ref',
+    )
+    l10n_sv_date_issue_ref = fields.Datetime(
+        string='Fecha y hora de emision del DTE de referencia',
+        copy=False,
+    )
+    l10n_sv_generation_code_ref = fields.Char(
+        'Código de generación de referencia',
+        copy=False,
+        help='Codigo de generacion del DTE de referencia',
+    )
 
     # Annulation
-    l10n_sv_annulation_generation_code = fields.Char(size=36, string="Annulation Generation Code")
-    l10n_sv_cancellation_type = fields.Selection(CANCELLATION_TYPE, string="Cancellation Type")
-    l10n_sv_cancellation_reason = fields.Text(string="Cancellation Reason")
+    l10n_sv_annulation_generation_code = fields.Char(
+        size=36,
+        string='Annulation Generation Code',
+    )
+    l10n_sv_cancellation_type = fields.Selection(
+        CANCELLATION_TYPE,
+        string='Cancellation Type',
+    )
+    l10n_sv_cancellation_reason = fields.Text(
+        string='Cancellation Reason',
+    )
 
     # === COMPUTE METHODS ===#
 
     @api.depends('move_type', 'debit_origin_id', 'partner_id')
     def _compute_l10n_sv_l10n_sv_voucher_type(self):
-        for rec in self.filtered(lambda x: x.move_type != 'entry'
-                                           and x.company_id.country_id == self.env.ref("base.sv")):
+        for rec in self.filtered(
+            lambda x: x.move_type != 'entry' and x.company_id.country_id == self.env.ref('base.sv')
+        ):
             sequence = {
                 'out_invoice': '03',
                 'out_refund': '05',
@@ -87,9 +183,9 @@ class AccountMove(models.Model):
             if rec.l10n_sv_is_exportation:
                 code = '11'
             elif rec.debit_origin_id:
-                code = "02"
+                code = '02'
             elif rec.partner_id and not rec.partner_id.vat and rec.move_type in ['out_invoice', 'in_invoice']:
-                code = "01"
+                code = '01'
             else:
                 code = sequence[rec.move_type]
 
@@ -99,7 +195,7 @@ class AccountMove(models.Model):
     @api.depends('journal_id', 'company_id', 'move_type')
     def _compute_l10n_sv_available_document_types(self):
         self.l10n_sv_available_voucher_type_ids = False
-        for rec in self.filtered(lambda x: x.journal_id and x.company_id.country_id == self.env.ref("base.sv")):
+        for rec in self.filtered(lambda x: x.journal_id and x.company_id.country_id == self.env.ref('base.sv')):
             domain = []
 
             if rec.move_type in ['out_refund', 'in_refund']:
@@ -114,13 +210,13 @@ class AccountMove(models.Model):
                 elif rec.move_type == 'in_invoice':
                     domain.append(('move_type', '=?', 'in_invoice'))
 
-            voucher_types = self.env["l10n_sv.voucher.type"].search(domain)
+            voucher_types = self.env['l10n_sv.voucher.type'].search(domain)
             rec.l10n_sv_available_voucher_type_ids = voucher_types
 
     # === BUSINESS METHODS ===#
 
     def _get_invoice_report_filename(self, extension='pdf'):
-        """ Get the filename of the generated invoice report with extension file. """
+        """Get the filename of the generated invoice report with extension file."""
         self.ensure_one()
         if self.l10n_sv_fiscal_journal and self.country_code in ['SV'] and self.l10_sv_dte_id:
             return self.l10_sv_dte_id.name
@@ -137,9 +233,17 @@ class AccountMove(models.Model):
     def l10n_sv_create_document(self, terminal_id, recreate=False):
         if not self.l10_sv_dte_id or recreate:
             Document = self.env['l10n_sv.dte.document']
-            default_data = (Document.with_context(force_economic_activity=self.l10n_sv_economic_activity_id.id).
-                            default_get(['state', 'company_id', 'l10n_sv_dte_situation', 'ind_state',
-                                         'l10n_sv_economic_activity_id']))
+            default_data = Document.with_context(
+                force_economic_activity=self.l10n_sv_economic_activity_id.id
+            ).default_get(
+                [
+                    'state',
+                    'company_id',
+                    'l10n_sv_dte_situation',
+                    'ind_state',
+                    'l10n_sv_economic_activity_id',
+                ]
+            )
 
             default_data.update(
                 invoice_id=self.id,
@@ -151,7 +255,7 @@ class AccountMove(models.Model):
                 name=self.l10n_sv_document_number,
                 situation=self.l10n_sv_dte_situation,
                 l10n_sv_generation_code=self.l10n_sv_generate_uuid(),
-                l10n_sv_invoice_type=self.move_type
+                l10n_sv_invoice_type=self.move_type,
             )
             default_data.update(self._l10n_sv_prepare_document_additional_values())
             doc_id = Document.create(default_data)
@@ -161,13 +265,11 @@ class AccountMove(models.Model):
 
     def _l10n_sv_prepare_document_additional_values(self):
         """
-            Prepare the dict of values to create the additional values a documents. This method may be
-            overridden to implement custom document generation (making sure to call super() to establish
-            a clean extension chain).
-            """
-        return {
-
-        }
+        Prepare the dict of values to create the additional values a documents. This method may be
+        overridden to implement custom document generation (making sure to call super() to establish
+        a clean extension chain).
+        """
+        return {}
 
     def _post(self, soft=True):
         # Primero se llama al padre para q genere la fecha de vencimiento, consecutivos, etc.
@@ -175,20 +277,23 @@ class AccountMove(models.Model):
             if inv.country_code in ('SV',):
                 if not inv.l10n_sv_terminal_id:
                     # Si no hay terminal en la factura, se establece la primera terminal activa en el sistema.
-                    terminal_id = self.env["l10n_sv.terminal"].search([('company_id', '=', self.env.company.id),
-                                                                       ('state', '=', 'active')], limit=1)
+                    terminal_id = self.env['l10n_sv.terminal'].search(
+                        [('company_id', '=', self.env.company.id), ('state', '=', 'active')], limit=1
+                    )
 
                     if not terminal_id:
-                        raise ValidationError(_("There is not active Terminal"))
+                        raise ValidationError(_('There is not active Terminal'))
                     inv.l10n_sv_terminal_id = terminal_id
 
-        res = super(AccountMove, self)._post(soft)
+        res = super()._post(soft)
 
         for inv in res.filtered(lambda x: x.move_type not in ('entry',)):
             if inv.l10n_sv_fiscal_journal and inv.country_code in ('SV',):
                 if inv.move_type in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']:
                     if not inv.l10n_sv_document_number:
-                        inv.l10n_sv_document_number = inv.l10n_sv_terminal_id.gen_control_number(inv.l10n_sv_voucher_type_id)
+                        inv.l10n_sv_document_number = inv.l10n_sv_terminal_id.gen_control_number(
+                            inv.l10n_sv_voucher_type_id
+                        )
 
                     if not inv.l10_sv_dte_id:
                         inv.l10n_sv_create_document(terminal_id=inv.l10n_sv_terminal_id)
@@ -200,28 +305,27 @@ class AccountMove(models.Model):
         uid = uuid.uuid4()
 
         # Convertir a cadena en mayúsculas, con guiones y llaves
-        uid_formated = f"{str(uid).upper()}"
+        uid_formated = f'{str(uid).upper()}'
         return uid_formated
 
     def _l10n_sv_check_move_for_refund(self):
         failed_orders = self.filtered(lambda o: o.l10n_sv_voucher_type_id and o.l10n_sv_voucher_type_id.code == '01')
         if failed_orders:
-            invoices_str = ", ".join(failed_orders.mapped('name'))
-            raise UserError(_("Moves %s not eligible to Credit Note .", invoices_str))
+            invoices_str = ', '.join(failed_orders.mapped('name'))
+            raise UserError(_('Moves %s not eligible to Credit Note .', invoices_str))
 
         invoices = self
         return invoices
 
     def _l10n_sv_check_moves_for_send(self):
-        """ Ensure the current records are eligible for sent to Hacienda.
-
-                """
+        """Ensure the current records are eligible for sent to Hacienda."""
         failed_auth_moves = self.filtered(
             lambda o: (not o.company_id.l10n_sv_mh_auth_pass or not o.company_id.l10n_sv_mh_auth_user)
-                      and o.country_code == 'SV')
+            and o.country_code == 'SV'
+        )
         if failed_auth_moves:
-            invoices_str = ", ".join(failed_auth_moves.mapped('name'))
-            raise UserError(_("Invoices %s not eligible to sent (Not exist credentials to auth).", invoices_str))
+            invoices_str = ', '.join(failed_auth_moves.mapped('name'))
+            raise UserError(_('Invoices %s not eligible to sent (Not exist credentials to auth).', invoices_str))
 
         invoices = self
         return invoices
@@ -229,8 +333,10 @@ class AccountMove(models.Model):
     def _l10n_sv_check_move_for_annul(self):
         failed_orders = self.filtered(lambda o: o.state == 'cancel')
         if failed_orders:
-            invoices_str = ", ".join(failed_orders.mapped('name'))
-            raise UserError(_("Moves %s only cannot be cancelled as they are already in 'Cancelled' state.", invoices_str))
+            invoices_str = ', '.join(failed_orders.mapped('name'))
+            raise UserError(
+                _("Moves %s only cannot be cancelled as they are already in 'Cancelled' state.", invoices_str)
+            )
 
         invoices = self
         return invoices
@@ -239,7 +345,7 @@ class AccountMove(models.Model):
         records_sorted = self.sorted('id')
         moves = records_sorted._l10n_sv_check_move_for_annul()
         if len(moves.company_id) != 1:
-            raise UserError(_("You can only process orders sharing the same company."))
+            raise UserError(_('You can only process orders sharing the same company.'))
 
         for move in moves:
             move._l10n_sv_annul_dte()
@@ -251,35 +357,45 @@ class AccountMove(models.Model):
                 move.l10n_sv_annulation_generation_code = move.l10n_sv_generate_uuid()
 
             l10_sv_dte_id = move.l10_sv_dte_id
-            annulated = l10_sv_dte_id.action_annul_dte(l10n_sv_cancellation_type=self.l10n_sv_cancellation_type,
-                                                       l10n_sv_cancellation_reason=self.l10n_sv_cancellation_reason,
-                                                       l10n_sv_annulation_generation_code=self.l10n_sv_annulation_generation_code,
-                                                       )
+            annulated = l10_sv_dte_id.action_annul_dte(
+                l10n_sv_cancellation_type=self.l10n_sv_cancellation_type,
+                l10n_sv_cancellation_reason=self.l10n_sv_cancellation_reason,
+                l10n_sv_annulation_generation_code=self.l10n_sv_annulation_generation_code,
+            )
 
             if annulated:
                 move.write(
                     {
-                        "state": "cancel",
+                        'state': 'cancel',
                     }
                 )
-                email_template = move.env.ref("l10n_sv_dte.email_template_dte_invalidated")
+                email_template = move.env.ref('l10n_sv_dte.email_template_dte_invalidated')
                 if email_template:
                     email_template.send_mail(l10_sv_dte_id.id, force_send=True)
-                    move._message_log(body=_("Email to invalidated DTE sent"))
+                    move._message_log(body=_('Email to invalidated DTE sent'))
 
     # ===== BUTTONS =====
 
     def button_draft(self):
         if self.country_code in ('SV',):
             if self.l10_sv_dte_id and self.l10n_sv_dte_send_state in ['delivered_accepted', 'invalidated']:
-                raise UserError("No puede establecer a borrador una factura enviada a Hacienda.")
+                raise UserError(_('An invoice sent to the government cannot be set to draft.'))
             elif self.l10_sv_dte_id and self.l10n_sv_dte_send_state in ['not_sent']:
                 self.l10_sv_dte_id.unlink()
 
             self.l10_sv_dte_id.unlink()
 
-        res = super(AccountMove, self).button_draft()
+        res = super().button_draft()
         return res
+
+    def unlink(self):
+        for move in self:
+            if move.journal_id.l10n_sv_fiscal_journal:
+                if move.l10n_sv_dte_send_state and move.l10n_sv_dte_send_state != 'to_send':
+                    raise UserError(_('Cannot delete a document sent to the tax authorities.'))
+            elif move.state != 'draft':
+                raise UserError(_('Cannot delete an entry NOT in draft state.'))
+        return super().unlink()
 
     def action_send_to_hacienda(self):
         invoices = self._l10n_sv_check_moves_for_send()
@@ -289,7 +405,7 @@ class AccountMove(models.Model):
     def l10n_sv_action_annul_dte_wizard(self):
         self.ensure_one()
         return {
-            'name': _("Annul DTE"),
+            'name': _('Annul DTE'),
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'l10n_sv_dte.move.cancel',
