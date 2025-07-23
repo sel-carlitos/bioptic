@@ -560,7 +560,7 @@ class Direccion(GeneratedsSuper):
     def get_departamento(self):
         return self.departamento
 
-    def set_nit(self, departamento):
+    def set_departamento(self, departamento):
         self.departamento = departamento
 
     def get_municipio(self):
@@ -1034,37 +1034,37 @@ class Item(GeneratedsSuper):
         if self.precioUni is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"precioUni":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')),
+                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni', digits=5)),
                 eol_)).encode()))
         if self.montoDescu is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"montoDescu":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem')),
+                    self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem', digits=5)),
                 eol_)).encode()))
         if self.ventaNoSuj is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaNoSuj":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas')),
+                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas', digits=5)),
                 eol_)).encode()))
         if self.ventaExenta is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaExenta":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas')),
+                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas', digits=5)),
                 eol_)).encode()))
         if self.ventaGravada is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaGravada":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas')),
+                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas', digits=5)),
                 eol_)).encode()))
         if self.psv is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"psv":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.psv, input_name='Precio sugerido de venta')),
+                    self.gds_format_float(self.psv, input_name='Precio sugerido de venta', digits=5)),
                 eol_)).encode()))
         if self.noGravado is not None:
             showIndent(outfile, level, pretty_print)

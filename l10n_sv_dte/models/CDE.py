@@ -531,7 +531,7 @@ class Direccion(GeneratedsSuper):
     def get_departamento(self):
         return self.departamento
 
-    def set_nit(self, departamento):
+    def set_departamento(self, departamento):
         self.departamento = departamento
 
     def get_municipio(self):

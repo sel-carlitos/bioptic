@@ -106,8 +106,10 @@ class DTEDocument(models.Model):
                                  default=lambda self: self.env.user.company_id)
     currency_id = fields.Many2one("res.currency", readonly=True)
     partner_id = fields.Many2one('res.partner', string='Partner')
-    json_file = fields.Binary("JSON File", attachment=True,
+    json_file = fields.Binary("JSON File Simple", attachment=True,
                               help="This field holds the JSON file generated and signed by system")
+    json_file1 = fields.Binary("JSON File Complete", attachment=True,
+                               help="This field holds the JSON file generated and signed by system")
     json_file_name = fields.Char("Name of JSON file")
     currency_id = fields.Many2one('res.currency', string='Currency')
     json_amount_tax = fields.Float('Amount Total Tax')
@@ -142,8 +144,8 @@ class DTEDocument(models.Model):
     andte_dgii_message_ids = fields.Many2many('l10n_sv.dte.andte.message.detail', string='Annulation Documents')
 
     # Contingency
-    json_codte_file = fields.Binary(attachment=True, string="Annulation File",
-                                   help="This field holds the XML file generated and signed by system")
+    json_codte_file = fields.Binary(attachment=True, string="Contingency File",
+                                    help="This field holds the XML file generated and signed by system")
     json_codte_file_name = fields.Char("Name of XML Commercial Approval File")
     json_codte_signed = fields.Text(copy=False)
     codte_dgii_message_ids = fields.Many2many('l10n_sv.dte.codte.message.detail', string='Contingency Documents')
@@ -163,8 +165,8 @@ class DTEDocument(models.Model):
             return False
 
         company_id = self.company_id
-        if not company_id.l10n_sv_mh_auth_user or not company_id.l10n_sv_mh_auth_pass:
-            raise UserError(_("Must be selected an Environment in a Company."))
+        if not company_id.l10n_sv_signer_route or not company_id.l10n_sv_mh_private_pass:
+            raise UserError(_("Must be selected credentials to signer in a Company."))
 
         if not company_id.l10n_sv_economic_activity_ids:
             raise UserError(_("Not exist Economic Activity for this company."))
@@ -198,15 +200,19 @@ class DTEDocument(models.Model):
         hacienda_api = HaciendaApi(company_id=self.company_id)
         subprocess.call(['rm', '-f', signed_filename])
         json_encoded = bytes(json_file)
-
         json_dict = json.loads(json_file1)
         response_json = hacienda_api.generate_signature(json_dict)
         if response_json.get('status') == 'OK':
             signed_file = response_json.get('body')
+            json_dict.update({'firmaElectronica': signed_file})
             if signed_file:
                 json_signed = signed_file
                 _logger.info("##### DTE FIRMADO: " + signed_filename)
+                json_new = json.dumps(json_dict, indent=4)
+                json_file1 = json_new.encode("utf-8")
+
                 self.write({"json_file": base64.b64encode(json_encoded),
+                            "json_file1": base64.b64encode(json_file1),
                             "json_file_name": "{}.json".format(dte_name),
                             "json_signed": json_signed,
                             "l10n_sv_dte_send_state": 'signed_pending',
@@ -273,12 +279,19 @@ class DTEDocument(models.Model):
         self.response_status_code = response.status_code
         if response.status_code == 200:
             response_json = response.json()
+            bytes_resultado = base64.b64decode(self.json_file1)
+            json_dict = json.loads(bytes_resultado)
+            json_dict.update({'selloRecibido': response_json['selloRecibido'],})
+            loco = json.dumps(json_dict, indent=4)
+            bytes_resultado1 = loco.encode("utf-8")
+
             document_vals = {
                 'l10n_sv_dte_send_state': DTE_STATE_MAP[response_json['estado']],
                 'l10n_sv_receipt_stamp': response_json['selloRecibido'],
                 'json_mr_file_name': 'MH_%s.json' % self.name,
                 'json_mr_file': base64.b64encode((json.dumps(response_json)).encode('utf-8')),
                 'message_detail': self._prepare_msg_DTE_vals(response_json),
+                "json_file1": base64.b64encode(bytes_resultado1),
             }
             self.write(document_vals)
             self.invoice_id._message_log(body=_("Receipt Stamp: %s", response_json['selloRecibido']))
@@ -298,7 +311,6 @@ class DTEDocument(models.Model):
             :returns: obj del tipo de documento electronico.
             """
         l10n_sv_voucher_type = self.l10n_sv_voucher_type_id.code
-
         if l10n_sv_voucher_type == '01':
             """Factura Electrónica"""
             classdoc = FE
@@ -343,7 +355,7 @@ class DTEDocument(models.Model):
             if self.invoice_id:
                 self._gen_body_document_and_summary(cedoc, classdoc)
 
-            self._add_documento_relacionado(cedoc, classdoc)
+            self._add_related_document(cedoc, classdoc)
             return cedoc
         elif l10n_sv_voucher_type == '05':
             """Nota de Crédito Electrónica"""
@@ -359,7 +371,7 @@ class DTEDocument(models.Model):
             if self.invoice_id:
                 self._gen_body_document_and_summary(cedoc, classdoc)
 
-            self._add_documento_relacionado(cedoc, classdoc)
+            self._add_related_document(cedoc, classdoc)
             return cedoc
         elif l10n_sv_voucher_type == '06':
             """Nota de Débito Electrónica"""
@@ -375,7 +387,7 @@ class DTEDocument(models.Model):
             if self.invoice_id:
                 self._gen_body_document_and_summary(cedoc, classdoc)
 
-            self._add_documento_relacionado(cedoc, classdoc)
+            self._add_related_document(cedoc, classdoc)
             return cedoc
         elif l10n_sv_voucher_type == '07':
             """Comprobante de Retencion Electronico"""
@@ -471,7 +483,6 @@ class DTEDocument(models.Model):
             """
 
         l10n_sv_voucher_type = self.l10n_sv_voucher_type_id.code
-
         if not self.company_id.vat:
             raise ValidationError(_('Your company has not defined an RNC.'))
         if not self.company_id.name:
@@ -482,7 +493,6 @@ class DTEDocument(models.Model):
             raise RedirectWarning(msg, action.id, _("Go to Companies"))
 
         partner_id = self.company_id.partner_id
-
         if not partner_id.nit:
             raise ValidationError(_('Your company has not defined an NIT.'))
 
@@ -501,7 +511,6 @@ class DTEDocument(models.Model):
 
         if not partner_id.l10n_sv_identification_id:
             raise ValidationError(_('Your company has not defined an Identification Type.'))
-
         if l10n_sv_voucher_type != '14' and not partner_id.l10n_sv_commercial_name:
             raise ValidationError(_('Your company has not defined Commercial Name.'))
 
@@ -509,7 +518,6 @@ class DTEDocument(models.Model):
                                      municipio=partner_id.res_municipality_id.dte_code,
                                      complemento=partner_id.street,
                                      )
-
         sender = classdoc.Emisor(nrc=company_id.vat.replace("-", ""),
                                  nombre=self.limit(self.company_id.name, 150),
                                  codActividad=self.company_id.l10n_sv_economic_activity_ids[0].code,
@@ -521,27 +529,21 @@ class DTEDocument(models.Model):
         if l10n_sv_voucher_type not in ['05', '06', '07']:
             sender.set_codEstable(self.l10n_sv_terminal_id.location_id.code)
             sender.set_codPuntoVenta(self.l10n_sv_terminal_id.code)
-
         if l10n_sv_voucher_type != '15':
             sender.set_nit(partner_id.nit.replace("-", ""))
-
         if l10n_sv_voucher_type != '14':
             sender.set_nombreComercial(self.limit(partner_id.l10n_sv_commercial_name or '', 150))
             sender.set_tipoEstablecimiento(self.company_id.l10n_sv_establishment_type)
-
         if l10n_sv_voucher_type == '11':
             sender.set_tipoItemExpor(self.invoice_id.l10n_sv_type_item_to_import)
             sender.set_recintoFiscal(self.invoice_id.l10n_sv_tax_precinct)
             sender.set_regimen(self.invoice_id.l10n_sv_regime)
-
         if l10n_sv_voucher_type == '15':
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             sender.set_tipoDocumento(partner_id.l10n_sv_identification_id.code)
             sender.set_numDocumento(document_number)
-
         if not self.company_id.email:
             raise ValidationError(_('Your company has not defined an email which is mandatory'))
-
         if len(self.company_id.email) > 100:
             raise ValidationError("El correo de la empresa excede del Largo maximo %s" % 80)
 
@@ -578,27 +580,37 @@ class DTEDocument(models.Model):
             if not self.partner_id.name:
                 raise ValidationError(_('The partner has not defined a name'))
 
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             receptor = classdoc.Receptor(nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
                                          numDocumento=document_number,
                                          )
+
+            address = classdoc.Direccion(departamento=partner_id.state_id.dte_code,
+                                         municipio=partner_id.res_municipality_id.dte_code,
+                                         complemento=partner_id.street,
+                                         )
+            if address.get_departamento() and address.get_municipio() and address.get_complemento():
+                receptor.set_direccion(address)
+
+            if partner_id.phone or partner_id.mobile:
+                receptor.set_telefono(partner_id.phone or partner_id.mobile)
+
+            if partner_id.email:
+                receptor.set_correo(partner_id.email)
+
             return receptor
         elif l10n_sv_voucher_type == "03":
             """Comprobante de Crédito Fiscal Electrónico"""
 
             if not partner_id.vat:
                 raise ValidationError(_('Debe especificar VAT.'))
-
             if not partner_id.street or not len(str(partner_id.street).strip()):
                 raise ValidationError(_('The contact has not defined a street.'))
-
             if not (partner_id.phone or partner_id.mobile):
                 raise ValidationError(_('The contact has not defined a phone.'))
-
             if not partner_id.l10n_sv_activity_id:
                 raise ValidationError('El contacto no tiene actividad económica definida.')
-
             if not partner_id.email:
                 raise ValidationError(_('The contact has not defined an email which is mandatory'))
 
@@ -607,7 +619,6 @@ class DTEDocument(models.Model):
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nit=self.partner_id.nit.replace("-", ""),
                                          nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
@@ -624,15 +635,14 @@ class DTEDocument(models.Model):
             if not partner_id.vat:
                 raise ValidationError(_('Debe especificar VAT.'))
 
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             if not document_number:
-                raise ValidationError(_('Debe especificar un tipo de identificación.'))
+                raise ValidationError(_('Debe especificar un numero de identificación.'))
 
             address = classdoc.Direccion(departamento=partner_id.state_id.dte_code,
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
                                          codActividad=partner_id.l10n_sv_activity_id.code,
@@ -652,7 +662,6 @@ class DTEDocument(models.Model):
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nit=self.partner_id.nit.replace("-", ""),
                                          nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
@@ -669,15 +678,14 @@ class DTEDocument(models.Model):
             if not partner_id.street or not len(str(partner_id.street).strip()):
                 raise ValidationError(_('The contact has not defined a street.'))
 
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             if not document_number:
-                raise ValidationError(_('Debe especificar un tipo de identificación.'))
+                raise ValidationError(_('Debe especificar un numero de identificación.'))
 
             address = classdoc.Direccion(departamento=partner_id.state_id.dte_code,
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
@@ -694,10 +702,8 @@ class DTEDocument(models.Model):
 
             if not partner_id.vat:
                 raise ValidationError(_('Debe especificar VAT.'))
-
             if not partner_id.country_id:
                 raise ValidationError(_('The country of partner must be required.'))
-
             if not partner_id.country_id.dte_code:
                 raise ValidationError('El pais del contacto no tiene codigo para Hacienda.')
 
@@ -716,10 +722,9 @@ class DTEDocument(models.Model):
         elif l10n_sv_voucher_type == "14":
             """Factura Sujeto Excluido Electrónico"""
 
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             if not document_number:
-                raise ValidationError(_('Debe especificar un tipo de identificación.'))
-
+                raise ValidationError(_('Debe especificar un numero de identificación.'))
             if not partner_id.street or not len(str(partner_id.street).strip()):
                 raise ValidationError(_('The contact has not defined a street.'))
 
@@ -727,7 +732,6 @@ class DTEDocument(models.Model):
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
                                          numDocumento=document_number.replace("-", ""),
@@ -741,15 +745,14 @@ class DTEDocument(models.Model):
         elif l10n_sv_voucher_type == "15":
             """Comprobante de Donación Electrónica"""
 
-            document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(partner_id)
             if not document_number:
-                raise ValidationError(_('Debe especificar un tipo de identificación.'))
+                raise ValidationError(_('Debe especificar un numero de identificación.'))
 
             address = classdoc.Direccion(departamento=partner_id.state_id.dte_code,
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-
             receiver = classdoc.Receptor(nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
                                          nrc=self.partner_id.vat,
@@ -777,6 +780,11 @@ class DTEDocument(models.Model):
         excluded = res['total_excluded']
         return excluded
 
+    def _construct_tax_included(self, price, line):
+        res = line.tax_ids.compute_all(price, product=line.product_id, partner=self.env['res.partner'])
+        excluded = res['total_included']
+        return excluded
+
     def _iterable_products_xml(self, lines):
         self.ensure_one()
         return lines
@@ -793,7 +801,7 @@ class DTEDocument(models.Model):
         invoice = self.invoice_id
         body_document = classdoc.CuerpoDocumento()
         if self.l10n_sv_voucher_type_id.code not in ['01', '15']:
-            tributos = classdoc.Tributos()
+            tributes = classdoc.Tributos()
 
         tax_data = self.get_taxed_amount_data()
         total_taxed = sum(
@@ -828,7 +836,9 @@ class DTEDocument(models.Model):
                     cantidad=quantity,
                 )
 
-                if self.l10n_sv_voucher_type_id.code not in ['15']:
+                if self.l10n_sv_voucher_type_id.code in ['01']:
+                    item.set_precioUni(line.price_unit)
+                elif self.l10n_sv_voucher_type_id.code not in ['15']:
                     item.set_precioUni(price_unit_untaxed)
                 elif self.l10n_sv_voucher_type_id.code in ['15']:
                     item.set_valorUni(price_unit_untaxed)
@@ -843,7 +853,6 @@ class DTEDocument(models.Model):
                              else 1)
                 if self.l10n_sv_voucher_type_id.code not in ['11', '15']:
                     item.set_tipoItem(item_type)
-
                 if product_id.default_code:
                     item.set_codigo(self.limit(product_id.default_code, 20))
 
@@ -866,7 +875,11 @@ class DTEDocument(models.Model):
 
                 if self.l10n_sv_voucher_type_id.code == '01':
                     for t in taxes:
-                        pp, ooo = self._construct_tax_excluded(line.price_subtotal, t.amount)
+                        # pp, ooo = self._construct_tax_excluded(line.price_subtotal, t.amount)
+                        # item.set_ivaItem(ooo)
+
+                        price_unit_included = self._construct_tax_included(line.price_unit, line)
+                        pp, ooo = self._construct_tax_excluded(price_unit_included, t.amount)
                         item.set_ivaItem(ooo)
                 elif self.l10n_sv_voucher_type_id.code not in ['14', '15']:
                     for t in taxes.filtered(lambda l: l.l10n_sv_code):
@@ -877,7 +890,11 @@ class DTEDocument(models.Model):
                     discount_amount = price_unit_untaxed * line.quantity * line.discount / 100
                     item.set_montoDescu(abs(discount_amount))
 
-                base_line = abs(round(price_unit_untaxed * quantity, 5))
+                if self.l10n_sv_voucher_type_id.code in ['01']:
+                    base_line = abs(round(line.price_unit * quantity, 5))
+                else:
+                    base_line = abs(round(price_unit_untaxed * quantity, 5))
+
                 subtotal_line = base_line - discount_amount
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
@@ -885,13 +902,11 @@ class DTEDocument(models.Model):
                         item.set_ventaExenta(subtotal_line)
                 elif self.l10n_sv_voucher_type_id.code not in ['14', '15'] and not item.get_tributos():
                     item.set_ventaExenta(subtotal_line)
-
                 if self.l10n_sv_voucher_type_id.code in ['01']:
                     if item.get_ivaItem():
                         item.set_ventaGravada(subtotal_line)
                 elif self.l10n_sv_voucher_type_id.code not in ['14', '15'] and item.get_tributos():
                     item.set_ventaGravada(abs(subtotal_line))
-
                 if self.l10n_sv_voucher_type_id.code == '15':
                     item.set_tipoDonacion(int(product_id.l10n_sv_donation_type or 1))
 
@@ -962,10 +977,8 @@ class DTEDocument(models.Model):
             if self.invoice_id.l10n_sv_voucher_type_id.code == '14':
                 summary.set_totalCompra(abs(self.invoice_id.amount_total_signed) + summary.get_reteRenta())
                 summary.set_subTotal(abs(self.invoice_id.amount_untaxed_signed))
-
             if self.invoice_id.l10n_sv_voucher_type_id.code not in ['04', '05', '06', '07', '15']:
                 summary.set_totalPagar(abs(self.invoice_id.amount_total_signed))
-
             if self.invoice_id.l10n_sv_voucher_type_id.code in ['15']:
                 summary.set_valorTotal(abs(self.invoice_id.amount_total_signed))
 
@@ -987,11 +1000,11 @@ class DTEDocument(models.Model):
                     tax_info[tt]['valor'] += value
 
             for tt in tax_info:
-                tributo = classdoc.Tributo(codigo=tt,
-                                           descripcion=tax_info[tt]['descripcion'],
-                                           valor=tax_info[tt]['valor'])
-                tributos.add_Item(tributo)
-            summary.set_tributos(tributos)
+                tribute = classdoc.Tributo(codigo=tt,
+                                          descripcion=tax_info[tt]['descripcion'],
+                                          valor=tax_info[tt]['valor'])
+                tributes.add_Item(tribute)
+            summary.set_tributos(tributes)
 
         cedoc.set_resumen(summary)
 
@@ -1014,7 +1027,7 @@ class DTEDocument(models.Model):
 
             item.set_tipoDte(l10n_sv_voucher_type)
             item.set_tipoDoc(self.partner_id.l10n_sv_identification_id.code)
-            document_number = self.partner_id.nit if self.partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(self.partner_id)
             item.set_numDocumento(document_number.replace("-", ""))
             item.set_fechaEmision(self.invoice_id.create_date.strftime('%Y-%m-%d'))
             withholding_vals = self._get_item_withholding_vals(line)
@@ -1088,7 +1101,7 @@ class DTEDocument(models.Model):
         """
         pass
 
-    def _add_documento_relacionado(self, cedoc, classdoc):
+    def _add_related_document(self, cedoc, classdoc):
         """Informacion Referencia
 
                 :param object cedoc: Instancia del Elemento raiz.
@@ -1256,7 +1269,6 @@ class DTEDocument(models.Model):
         xml_f = open(signed_filename, 'rb')
         json_file = xml_f.read()
         json_encoded = bytes(json_file)
-
         self.write({"json_andte_file": base64.b64encode(json_encoded),
                     "json_andte_file_name": json_name,
                     })
@@ -1303,7 +1315,7 @@ class DTEDocument(models.Model):
         def get_document(classdoc):
             """
                 """
-            document_number = self.partner_id.nit if self.partner_id.l10n_sv_identification_code == '36' else self.partner_id.dui
+            document_number = self.get_document_number(self.partner_id)
             l10n_sv_voucher_type = self.l10n_sv_voucher_type_id.code
             document = classdoc.Documento(tipoDte=l10n_sv_voucher_type,
                                           codigoGeneracion=self.l10n_sv_generation_code,
@@ -1320,6 +1332,15 @@ class DTEDocument(models.Model):
 
         company_id = self.company_id
         partner_id = self.company_id.partner_id
+        invoice_user_id = self.invoice_id.user_id
+        invoice_partner_id = invoice_user_id.partner_id
+        if not invoice_partner_id.l10n_sv_identification_id:
+            raise ValidationError(_('The Salesperson has not defined an identification type.'))
+
+        invoice_partner_document_number = self.get_document_number(invoice_partner_id)
+        if not invoice_partner_document_number:
+            raise ValidationError(_('The Salesperson has not defined an identification number.'))
+
         env = '00' if company_id.l10n_sv_dte_mh_test_env else '01'
         now = datetime.now(pytz.timezone('America/El_Salvador'))
         now = now.replace(microsecond=0)
@@ -1345,9 +1366,9 @@ class DTEDocument(models.Model):
         document = get_document(classdoc)
         reason = classdoc.Motivo(tipoAnulacion=int(self.l10n_sv_cancellation_type),
                                  motivoAnulacion=self.l10n_sv_cancellation_reason,
-                                 nombreResponsable="María López",
-                                 tipDocResponsable="13",
-                                 numDocResponsable="01234567-8",
+                                 nombreResponsable=invoice_user_id.name,
+                                 tipDocResponsable=invoice_partner_id.l10n_sv_identification_id.code,
+                                 numDocResponsable=invoice_partner_document_number,
                                  nombreSolicita="Carlos Méndez",
                                  tipDocSolicita="13",
                                  numDocSolicita="87654321-0",
@@ -1384,16 +1405,13 @@ class DTEDocument(models.Model):
         xml_f = open(signed_filename, 'rb')
         json_file = xml_f.read()
         json_encoded = bytes(json_file)
-
         self.write({"json_codte_file": base64.b64encode(json_encoded),
                     "json_codte_file_name": json_name,
                     })
-
         xml_f.close()
         hacienda_api = HaciendaApi(company_id=self.company_id)
         json_dict = json.loads(json_file1)
         response_json = hacienda_api.generate_signature(json_dict)
-
         if response_json.get('status') == 'OK':
             signed_file = response_json.get('body')
             if signed_file:
@@ -1447,6 +1465,14 @@ class DTEDocument(models.Model):
 
         company_id = self.company_id
         partner_id = self.company_id.partner_id
+        invoice_user_id = self.invoice_id.user_id
+        invoice_partner_id = invoice_user_id.partner_id
+        if not invoice_partner_id.l10n_sv_identification_id:
+            raise ValidationError(_('The Salesperson has not defined an identification type.'))
+
+        invoice_partner_document_number = self.get_document_number(invoice_partner_id)
+        if not invoice_partner_document_number:
+            raise ValidationError(_('The Salesperson has not defined an identification number.'))
         env = '00' if company_id.l10n_sv_dte_mh_test_env else '01'
         now = datetime.now(pytz.timezone('America/El_Salvador'))
         now = now.replace(microsecond=0)
@@ -1462,9 +1488,9 @@ class DTEDocument(models.Model):
                                  nombre=self.limit(self.company_id.name, 150),
                                  tipoEstablecimiento=self.company_id.l10n_sv_establishment_type,
                                  nomEstablecimiento=self.l10n_sv_terminal_id.location_id.name,
-                                 nombreResponsable="María López",
-                                 tipoDocResponsable="13",
-                                 numeroDocResponsable="01234567-8",
+                                 nombreResponsable=invoice_user_id.name,
+                                 tipoDocResponsable=invoice_partner_id.l10n_sv_identification_id.code,
+                                 numeroDocResponsable=invoice_partner_document_number,
                                  # codEstableMH=self.l10n_sv_terminal_id.location_id.code,
                                  codEstable=self.l10n_sv_terminal_id.location_id.code,
                                  # codPuntoVentaMH="0001",
@@ -1487,6 +1513,10 @@ class DTEDocument(models.Model):
                                              )
 
         return codte_doc
+
+    def get_document_number(self, partner_id):
+        document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else partner_id.dui
+        return document_number
 
     def is_l10n_sv_partner(self):
         return self.partner_id.country_id and self.partner_id.country_id == self.env.ref("base.sv")
@@ -1540,7 +1570,8 @@ class DTEDocument(models.Model):
             # Adjuntos
             ir_attachment = self.env['ir.attachment'].sudo()
             json_vals = {'name': str(doc.json_file_name),
-                         'datas': doc.json_file,
+                         # 'datas': doc.json_file,
+                         'datas': doc.json_file1,
                          'res_id': doc.id,
                          'res_model': self._name,
                          'type': 'binary',
@@ -1553,7 +1584,6 @@ class DTEDocument(models.Model):
             if attachment_ids:
                 email_template.attachment_ids = [Command.set(attachment_ids)]
                 email_template.subject = "{{ object.company_id.name }} Factura (Ref {{ object.name or 'n/a' }})"
-
                 email_template.with_context(type='binary', default_type='binary').send_mail(
                     doc.invoice_id.id, raise_exception=False, force_send=True)
 
@@ -1569,7 +1599,7 @@ class DTEDocument(models.Model):
             date_origin = datetime.now() - timedelta(days=max_dias)
             documents = self.search([
                 ('l10n_sv_dte_send_state', '=', 'delivered_accepted'),
-                ('l10n_sv_invoice_type', 'in', ['out_invoice', 'out_refund']),
+                # ('l10n_sv_invoice_type', 'in', ['out_invoice', 'out_refund']),
                 ('create_date', '>=', date_origin),
                 ('l10n_sv_state_mail', 'not in', ['sent', 'not_mail'])], order='id', limit=max_mails)
 

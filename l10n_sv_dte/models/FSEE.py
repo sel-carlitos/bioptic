@@ -474,7 +474,7 @@ class Emisor(GeneratedsSuper):
             outfile.write(bytes(('"codPuntoVentaMH":null,%s' % eol_).encode()))
         if self.codPuntoVenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVenta":"%s",%s' % (
+            outfile.write(bytes(('"codPuntoVenta":"%s"%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVenta), input_name='Código del Punto de Venta (Emisor) asignado por el contribuyente')),
                 eol_)).encode()))
         else:
@@ -495,7 +495,7 @@ class Direccion(GeneratedsSuper):
     def get_departamento(self):
         return self.departamento
 
-    def set_nit(self, departamento):
+    def set_departamento(self, departamento):
         self.departamento = departamento
 
     def get_municipio(self):
@@ -908,18 +908,18 @@ class Item(GeneratedsSuper):
         if self.precioUni is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"precioUni":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')),
+                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni', digits=5)),
                 eol_)).encode()))
         if self.compra is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"compra":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.compra, input_name='Ventas')),
+                self.gds_encode(self.gds_format_float(self.compra, input_name='Ventas', digits=5)),
                 eol_)).encode()))
         if self.montoDescu is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"montoDescu":%s%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem')),
+                    self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem', digits=5)),
                 eol_)).encode()))
 
 

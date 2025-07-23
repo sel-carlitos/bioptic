@@ -23,6 +23,51 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sv_dte
+#: model:mail.template,body_html:l10n_sv_dte.email_template_dte_invalidated
+msgid ""
+"<div>\n"
+"                Dear,\n"
+"                <br/>\n"
+"                <t t-if=\"object.partner_id\">\n"
+"                    <t t-out=\"object.partner_id.name or ''\">Brandon Freeman</t> (<t t-out=\"object.partner_id.name or ''\">Azure Interior</t>),\n"
+"                </t>\n"
+"                <br/>\n"
+"                I hereby inform you that your invoice\n"
+"                <br/>\n"
+"                Issue on: <t t-out=\"object.date_issue or ''\"/>\n"
+"                <br/>\n"
+"                Generation Code:\n"
+"                <br/>\n"
+"                <t t-out=\"object.l10n_sv_generation_code\"/>\n"
+"                <br/>\n"
+"                To view the cancelled document\n"
+"                <br/>\n"
+"                <a t-att-href=\"object.l10n_sv_electronic_stamp\">Da click aca.</a>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div>\n"
+"                Estimado(a) cliente,\n"
+"                <br/>\n"
+"                <t t-if=\"object.partner_id\">\n"
+"                    <t t-out=\"object.partner_id.name or ''\">Brandon Freeman</t> (<t t-out=\"object.partner_id.name or ''\">Azure Interior</t>),\n"
+"                </t>\n"
+"                <br/>\n"
+"                Por este medio comunico que su factura \n"
+"                <br/>\n"
+"                emitida e: <t t-out=\"object.date_issue or ''\"/> ha sido anulada\n"
+"                <br/>\n"
+"                Código de Generación: \n"
+"                <br/>\n"
+"                <t t-out=\"object.l10n_sv_generation_code\"/>\n"
+"                <br/>\n"
+"                Para visualizar el documento anulado \n"
+"                <br/>\n"
+"                <a t-att-href=\"object.l10n_sv_electronic_stamp\">Da click aca.</a>\n"
+"            </div>\n"
+"        "
+
+#. module: l10n_sv_dte
 #: model:ir.model.fields,help:l10n_sv_dte.field_l10n_sv_location__code
 msgid "001 para Sede Principal, 002 para Primera Tienda, etc."
 msgstr ""
@@ -283,6 +328,11 @@ msgid "Cancellation Type"
 msgstr "Tipo de cancelación"
 
 #. module: l10n_sv_dte
+#: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_dte_document__l10n_sv_annulation_generation_code
+msgid "Annulation Generation Code"
+msgstr "Código de generación de anulación"
+
+#. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_terminal__state__cancelled
 msgid "Cancelled"
 msgstr "Cancelado"
@@ -531,6 +581,12 @@ msgstr "Actividad económica"
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "Delivered and accepted"
 msgstr "Procesado"
+
+#. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
+msgid "Contingency"
+msgstr "Contingencia"
 
 #. module: l10n_sv_dte
 #. odoo-python
@@ -801,7 +857,7 @@ msgstr "Código de generación"
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_debit_note__l10n_sv_generation_type
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_move_reversal__l10n_sv_generation_type
 msgid "Generation Type"
-msgstr ""
+msgstr "Tipo de generación"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_bank_statement_line__l10n_sv_generation_type_ref
@@ -1065,7 +1121,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "Not exist Economic Activity for this company."
-msgstr ""
+msgstr "No existe Actividad Económica para esta empresa."
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_terminal__sequence_nce
@@ -1230,6 +1286,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_dte_andte_message_detail__selloRecibido
 msgid "Sellorecibido"
 msgstr ""
+
+#. module: l10n_sv_dte
+#: model:ir.actions.server,name:l10n_sv_dte.action_l10n_sv_send_contingency_wizard
+msgid "Send Contingency"
+msgstr "Enviar contingencia"
+
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_form_view

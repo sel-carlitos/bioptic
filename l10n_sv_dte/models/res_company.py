@@ -13,21 +13,15 @@ class ResCompany(models.Model):
                                                    ], string="Establishment Type",
                                                   help="CAT- 009: Tipo de establecimiento")
     l10n_sv_economic_activity_ids = fields.Many2many('l10n_sv.economic.activity', string="Economic Activities")
-    # l10n_sv_country_code = fields.Char(related="country_id.code", search='_search_country_code',
-    #                                    string="Country Code", readonly=True)
     l10n_sv_signer_route = fields.Char()
+    l10n_sv_mh_private_pass = fields.Char(string="Password Private")
     l10n_sv_mh_auth_user = fields.Char(string="Usuario de API")
     l10n_sv_mh_auth_pass = fields.Char(string="Password de API")
-    l10n_sv_mh_private_pass = fields.Char(string="Password Private")
     l10n_sv_mh_public_pass = fields.Char(string="Password Public")
     l10n_sv_dte_mh_test_env = fields.Boolean(
         string='PAC test environment',
         help='Enable the usage of test credentials',
         default=False)
-
-    # @api.model
-    # def _search_country_code(self, operator, operand):
-    #     return [('country_id.code', operator, operand)]
 
     def l10n_sv_action_view_economic_activity(self):
         self.ensure_one()

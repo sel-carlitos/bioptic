@@ -551,7 +551,7 @@ class Direccion(GeneratedsSuper):
     def get_departamento(self):
         return self.departamento
 
-    def set_nit(self, departamento):
+    def set_departamento(self, departamento):
         self.departamento = departamento
 
     def get_municipio(self):
@@ -643,6 +643,24 @@ class Receptor(GeneratedsSuper):
 
     def set_nombre(self, nombre):
         self.nombre = nombre
+
+    def get_telefono(self):
+        return self.telefono
+
+    def set_telefono(self, telefono):
+        self.telefono = telefono
+
+    def get_correo(self):
+        return self.correo
+
+    def set_correo(self, correo):
+        self.correo = correo
+
+    def get_direccion(self):
+        return self.direccion
+
+    def set_direccion(self, direccion):
+        self.direccion = direccion
 
     def hasContent_(self):
         if (
@@ -1040,48 +1058,48 @@ class Item(GeneratedsSuper):
         if self.precioUni is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"precioUni":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni')),
+                self.gds_encode(self.gds_format_float(self.precioUni, input_name='PrecioUni', digits=5)),
                 eol_)).encode()))
         if self.montoDescu is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"montoDescu":%s,%s' % (
-                self.gds_encode(self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem')),
+                self.gds_encode(self.gds_format_float(self.montoDescu, input_name='Descuento, Bonificación, Rebajas por ítem', digits=5)),
                 eol_)).encode()))
         if self.ventaNoSuj is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaNoSuj":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas')),
+                    self.gds_format_float(self.ventaNoSuj, input_name='Ventas no Sujetas', digits=5)),
                 eol_)).encode()))
         if self.ventaExenta is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaExenta":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas')),
+                    self.gds_format_float(self.ventaExenta, input_name='Ventas no Sujetas', digits=5)),
                 eol_)).encode()))
         if self.ventaGravada is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ventaGravada":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas')),
+                    self.gds_format_float(self.ventaGravada, input_name='Ventas Gravadas', digits=5)),
                 eol_)).encode()))
         if self.psv is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"psv":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.psv, input_name='Precio sugerido de venta')),
+                    self.gds_format_float(self.psv, input_name='Precio sugerido de venta', digits=5)),
                 eol_)).encode()))
         if self.noGravado is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"noGravado":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.noGravado, input_name='Cargos/Abonos que no afectan la base imponible')),
+                    self.gds_format_float(self.noGravado, input_name='Cargos/Abonos que no afectan la base imponible', digits=5)),
                 eol_)).encode()))
         if self.ivaItem is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"ivaItem":%s,%s' % (
                 self.gds_encode(
-                    self.gds_format_float(self.ivaItem, input_name='IVA 13%')),
+                    self.gds_format_float(self.ivaItem, input_name='IVA 13%', digits=5)),
                 eol_)).encode()))
         if self.tributos is not None:
             for tributo_ in self.tributos:

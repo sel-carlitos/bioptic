@@ -29,7 +29,7 @@
                 <attribute name="placeholder">RNC</attribute>
             </xpath>
             <xpath expr="//form/sheet/notebook" position="before">
-                <group invisible="'SV' not in fiscal_country_codes or company_type == 'person'">
+                <group invisible="'SV' not in fiscal_country_codes or not vat">
                     <group>
                         <separator colspan="7"/>
                         <field name="l10n_sv_activity_id"/>
