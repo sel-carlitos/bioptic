@@ -861,7 +861,10 @@ class Item(GeneratedsSuper):
         self.ventaNoSuj = ventaNoSuj
         self.ventaExenta = ventaExenta
         self.ventaGravada = ventaGravada
-        self.tributos = tributos
+        if tributos is None:
+            self.tributos = []
+        else:
+            self.tributos = tributos
         self.psv = psv
         self.noGravado = noGravado
         self.ivaItem = ivaItem
@@ -1101,9 +1104,21 @@ class Item(GeneratedsSuper):
                 self.gds_encode(
                     self.gds_format_float(self.ivaItem, input_name='IVA 13%', digits=5)),
                 eol_)).encode()))
-        if self.tributos is not None:
+        if len(self.tributos):
+            showIndent(outfile, level, pretty_print)
+            outfile.write(
+                bytes(('%s"%s":%s' % (namespace_, 'tributos', ' ' + '',)).encode()))
+
+            outfile.write(bytes(('[%s' % (eol_,)).encode()))
+            showIndent(outfile, level, pretty_print)
             for tributo_ in self.tributos:
-                tributo_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
+                showIndent(outfile, level, pretty_print)
+                outfile.write(bytes(('"%s"%s' % (
+                    self.gds_encode(self.gds_format_string(quote_xml(tributo_),
+                                                           input_name='Número de documento relacionado')),
+                    eol_)).encode()))
+                showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tributos":null%s' % eol_).encode()))

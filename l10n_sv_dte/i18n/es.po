@@ -863,7 +863,7 @@ msgstr "Tipo de generación"
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_bank_statement_line__l10n_sv_generation_type_ref
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_move__l10n_sv_generation_type_ref
 msgid "Generation Type Ref"
-msgstr ""
+msgstr "Tipo de generación de referencia"
 
 #. module: l10n_sv_dte
 #. odoo-python

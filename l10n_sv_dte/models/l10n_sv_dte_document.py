@@ -619,7 +619,8 @@ class DTEDocument(models.Model):
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-            receiver = classdoc.Receptor(nit=self.partner_id.nit.replace("-", ""),
+            document_number = self.get_document_number(partner_id)
+            receiver = classdoc.Receptor(nit=document_number,
                                          nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
                                          codActividad=partner_id.l10n_sv_activity_id.code,
@@ -651,7 +652,7 @@ class DTEDocument(models.Model):
                                          correo=partner_id.email,
                                          direccion=address,
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
-                                         numDocumento=document_number.replace("-", ""),
+                                         numDocumento=document_number,
                                          bienTitulo="12",
                                          )
             return receiver
@@ -662,7 +663,8 @@ class DTEDocument(models.Model):
                                          municipio=partner_id.res_municipality_id.dte_code,
                                          complemento=partner_id.street,
                                          )
-            receiver = classdoc.Receptor(nit=self.partner_id.nit.replace("-", ""),
+            document_number = self.get_document_number(partner_id)
+            receiver = classdoc.Receptor(nit=document_number,
                                          nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
                                          codActividad=partner_id.l10n_sv_activity_id.code,
@@ -689,7 +691,7 @@ class DTEDocument(models.Model):
             receiver = classdoc.Receptor(nrc=self.partner_id.vat.replace("-", ""),
                                          nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
-                                         numDocumento=document_number.replace("-", ""),
+                                         numDocumento=document_number,
                                          codActividad=partner_id.l10n_sv_activity_id.code,
                                          descActividad=partner_id.l10n_sv_activity_id.name,
                                          telefono=partner_id.phone or partner_id.mobile,
@@ -734,7 +736,7 @@ class DTEDocument(models.Model):
                                          )
             receiver = classdoc.Receptor(nombre=self.limit(self.partner_id.name, 150),
                                          tipoDocumento=partner_id.l10n_sv_identification_id.code,
-                                         numDocumento=document_number.replace("-", ""),
+                                         numDocumento=document_number,
                                          codActividad=partner_id.l10n_sv_activity_id.code,
                                          descActividad=partner_id.l10n_sv_activity_id.name,
                                          telefono=partner_id.phone or partner_id.mobile,
@@ -837,9 +839,9 @@ class DTEDocument(models.Model):
                 )
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
-                    item.set_precioUni(line.price_unit)
+                    item.set_precioUni(line.price_total / line.quantity)
                 elif self.l10n_sv_voucher_type_id.code not in ['15']:
-                    item.set_precioUni(price_unit_untaxed)
+                    item.set_precioUni(line.price_subtotal / line.quantity)
                 elif self.l10n_sv_voucher_type_id.code in ['15']:
                     item.set_valorUni(price_unit_untaxed)
                     item.set_valor(price_unit_untaxed * item.get_cantidad())
@@ -873,17 +875,11 @@ class DTEDocument(models.Model):
                 #         'Por favor configure los campos código para los impuesto.'
                 #     )
 
-                if self.l10n_sv_voucher_type_id.code == '01':
-                    for t in taxes:
-                        # pp, ooo = self._construct_tax_excluded(line.price_subtotal, t.amount)
-                        # item.set_ivaItem(ooo)
-
-                        price_unit_included = self._construct_tax_included(line.price_unit, line)
-                        pp, ooo = self._construct_tax_excluded(price_unit_included, t.amount)
-                        item.set_ivaItem(ooo)
-                elif self.l10n_sv_voucher_type_id.code not in ['14', '15']:
-                    for t in taxes.filtered(lambda l: l.l10n_sv_code):
+                for t in taxes:
+                    if self.l10n_sv_voucher_type_id.code not in ['01', '14', '15']:
                         item.add_tributos(t.l10n_sv_code)
+                    if self.l10n_sv_voucher_type_id.code == '01':
+                        item.set_ivaItem(line.price_total - line.price_subtotal)
 
                 discount_amount = 0.00
                 if line.discount > 0:
@@ -891,22 +887,21 @@ class DTEDocument(models.Model):
                     item.set_montoDescu(abs(discount_amount))
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
-                    base_line = abs(round(line.price_unit * quantity, 5))
+                    base_line = abs(line.price_total)
                 else:
-                    base_line = abs(round(price_unit_untaxed * quantity, 5))
+                    base_line = abs(line.price_subtotal)
 
                 subtotal_line = base_line - discount_amount
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
                     if not item.get_ivaItem():
                         item.set_ventaExenta(subtotal_line)
+                    else:
+                        item.set_ventaGravada(subtotal_line)
                 elif self.l10n_sv_voucher_type_id.code not in ['14', '15'] and not item.get_tributos():
                     item.set_ventaExenta(subtotal_line)
-                if self.l10n_sv_voucher_type_id.code in ['01']:
-                    if item.get_ivaItem():
-                        item.set_ventaGravada(subtotal_line)
                 elif self.l10n_sv_voucher_type_id.code not in ['14', '15'] and item.get_tributos():
-                    item.set_ventaGravada(abs(subtotal_line))
+                    item.set_ventaGravada(subtotal_line)
                 if self.l10n_sv_voucher_type_id.code == '15':
                     item.set_tipoDonacion(int(product_id.l10n_sv_donation_type or 1))
 
@@ -1028,7 +1023,7 @@ class DTEDocument(models.Model):
             item.set_tipoDte(l10n_sv_voucher_type)
             item.set_tipoDoc(self.partner_id.l10n_sv_identification_id.code)
             document_number = self.get_document_number(self.partner_id)
-            item.set_numDocumento(document_number.replace("-", ""))
+            item.set_numDocumento(document_number)
             item.set_fechaEmision(self.invoice_id.create_date.strftime('%Y-%m-%d'))
             withholding_vals = self._get_item_withholding_vals(line)
             if withholding_vals["1_taxed_base"] or withholding_vals["1_taxed_amount"]:
@@ -1516,8 +1511,7 @@ class DTEDocument(models.Model):
 
     def get_document_number(self, partner_id):
         document_number = partner_id.nit if partner_id.l10n_sv_identification_code == '36' else partner_id.dui
-        return document_number
-
+        return document_number.replace("-", "")
     def is_l10n_sv_partner(self):
         return self.partner_id.country_id and self.partner_id.country_id == self.env.ref("base.sv")
 
