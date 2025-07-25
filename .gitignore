@@ -211,3 +211,4 @@ __marimo__/
 .pre-commit-config.yaml
 .pylintrc
 pyproject.toml
+kits_all_in_one_custom_layout/static/description/index.html
