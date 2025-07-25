@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_layout_kits" model="report.layout">
+            <field name="name">Keypress Special</field>
+            <field name="sequence">8</field>
+            <field name="view_id" ref="kits_all_in_one_custom_layout.kits_layout"/>
+        </record>
+        <record id="report_layout_doc_name" model="report.layout">
+            <field name="name">Document Title</field>
+            <field name="sequence">9</field>
+            <field name="view_id" ref="kits_all_in_one_custom_layout.doc_name_layout"/>
+        </record>
+        <record id="report_layout_diagonal" model="report.layout">
+            <field name="name">Diagonal</field>
+            <field name="sequence">10</field>
+            <field name="view_id" ref="kits_all_in_one_custom_layout.diagonal_layout"/>
+        </record>
+        <record id="report_layout_curved" model="report.layout">
+            <field name="name">Curved</field>
+            <field name="sequence">11</field>
+            <field name="view_id" ref="kits_all_in_one_custom_layout.curved_layout"/>
+        </record>
+        <record id="report_layout_abstract" model="report.layout">
+            <field name="name">Abstract</field>
+            <field name="sequence">12</field>
+            <field name="view_id" ref="kits_all_in_one_custom_layout.abstract_layout"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,114 @@
+$kits_color_primary: #000000;
+$kits_color_secondary: #000000;
+
+.o_diagonal_footer, .o_report_layout_diagonal {
+    color: black;
+    font-size: 15px;
+}
+
+.o_diagonal_header {
+    color: white ;
+    padding-top: 0px !important;
+    img {
+        max-height: 90px;
+        max-width: 250px;
+    }
+    h4 {
+        margin-bottom: 0;
+        font-weight: 700;
+        color: white
+    }
+    ul, p {
+        margin-bottom: 0;
+    }
+}
+table#diagonal-header{
+    border: none !important;
+    tbody{
+        border: none !important;
+    }
+    tr{
+        border: none !important;
+        td{
+            border: none !important;
+        }
+    }
+}
+address.o_portal_address {
+    div span[itemprop="name"] {
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
+
+.o_diagonal_footer {
+    font-size: 0.95rem;
+    margin-top: 200px;
+    ul {
+        margin: 4px 0;
+    }
+    p{
+        margin-bottom: 0;
+    }
+}
+
+.diagonal-footer-content{
+    border-top: 1px solid $kits_color_secondary;
+    border-bottom: 1px solid $kits_color_secondary;
+}
+
+.o_report_layout_diagonal {
+    strong {
+        color: $o-default-report-secondary-color;
+    }
+    .table {
+        border: 1px solid black;
+    }
+
+    .table td, .table th {
+        border: 1px solid black;
+    }
+    h2 {
+        color: $o-default-report-primary-color;
+    }
+    thead tr th {
+        color: $o-default-report-secondary-color
+    }
+    tbody {
+        color: map-get($grays, '700');
+        tr {
+            &:nth-child(odd) {
+                background-color: rgba(220, 205, 216, 0.2);
+            }
+            &.o_line_section {
+                color: $o-brand-odoo;
+                background-color: rgba(73, 80, 87, 0.2) !important;
+            }
+        }
+    }
+    /*Total table*/
+    /* row div rule compat 12.0 */
+    div#total table, .totals_taxes_company_currency table  {
+        tr {
+            &:nth-child(odd) {
+                background-color: transparent !important;
+            }
+            /* first-child & last-child rule compat 12.0 */
+            &:first-child,
+            &:last-child,
+            &.o_subtotal,
+            &.o_total {
+                // border-top: none !important;
+                td {
+                    border: 1px solid black !important;
+                }
+                strong {
+                    color: $o-default-report-secondary-color;
+                }
+            }
+        }
+    }
+    div#total ,.totals_taxes_company_currency{
+        padding-top: 15px;
+    }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="kits_view_base_document_layout" model="ir.ui.view">
+        <field name="name">kits.view.base.document.layout</field>
+        <field name="model">base.document.layout</field>
+        <field name="priority">1</field>
+        <field name="inherit_id" ref="web.view_base_document_layout"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='report_layout_id']" position="attributes">
+            	<attribute name="widget">selection</attribute>
+            </xpath>
+            <xpath expr="//field[@name='report_layout_id']" position="after">
+            	<field name="is_img_header_layout" invisible="1" />
+                <field name="header_image_file_name" invisible="1"/>
+            	<field name="header_background_image" options="{'accepted_file_extensions': 'image/*'}" invisible="is_img_header_layout == False" filename="header_image_file_name"/>
+            </xpath>
+            <xpath expr="//field[@name='font']" position="after">
+                <field name="report_font_scale" widget="selection"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

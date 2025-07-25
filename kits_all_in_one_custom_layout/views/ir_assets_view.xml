@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="kits_ir_asset_inherit_form_view" model="ir.ui.view">
+        <field name="name">kits.ir.asset.inherit.form.view</field>
+        <field name="model">ir.asset</field>
+        <field name="inherit_id" ref="base.asset_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bundle']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='directive']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='sequence']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='active']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='target']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='path']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts'</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

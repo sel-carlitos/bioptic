@@ -1,0 +1,136 @@
+$kits_color_primary: #000000;
+$kits_color_secondary: #000000;
+
+.o_curved_footer, .o_report_layout_curved {
+    color: black;
+    font-size: 15px;
+}
+
+.curved-header-container{
+    background-size: 100% 100%;
+}
+.o_curved_header {
+    color: white;
+    padding-top: 0px !important;
+    img {
+        max-height: 90px;
+        max-width: 250px;
+    }
+    h4 {
+        margin-bottom: 0;
+        font-weight: 700;
+        color: white;
+    }
+    ul, p {
+        margin-bottom: 0;
+    }
+}
+table#curved-header{
+    border: none !important;
+    width: 100%;
+    border-collapse: collapse;
+    tbody{
+        border: none !important;
+    }
+    tr{
+        border: none !important;
+        td{
+            border: none !important;
+        }
+    }
+}
+.curved-img-side{
+    width: 30%;
+    vertical-align: middle;
+    text-align: center;
+}
+.curved-middle-side{
+    width: 35%;
+    text-align: center;
+    vertical-align: middle;
+}
+.curved-address-side{
+    width: 35%;
+}
+.company-address{
+    padding: 5px;
+}
+
+address.o_portal_address {
+    div span[itemprop="name"] {
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
+
+.o_curved_footer {
+    font-size: 0.95rem;
+    margin-top: 200px;
+    ul {
+        margin: 4px 0;
+    }
+    p{
+        margin-bottom: 0;
+    }
+}
+
+.curved-footer-content{
+    border-top: 1px solid $kits_color_secondary;
+    border-bottom: 1px solid $kits_color_secondary;
+}
+
+.o_report_layout_curved {
+    strong {
+        color: $o-default-report-secondary-color;
+    }
+    .table {
+        border-top: 1px solid map-get($grays, '300');
+    }
+
+    .table td, .table th {
+        border-top: none;
+    }
+    h2 {
+        color: $o-default-report-primary-color;
+    }
+    thead tr th {
+        color: $o-default-report-secondary-color;
+    }
+    tbody {
+        color: map-get($grays, '700');
+        tr {
+            &:nth-child(odd) {
+                background-color: rgba(220, 205, 216, 0.2);
+            }
+            &.o_line_section {
+                color: $o-brand-odoo;
+                background-color: rgba(73, 80, 87, 0.2) !important;
+            }
+        }
+    }
+    /*Total table*/
+    /* row div rule compat 12.0 */
+    div#total table, .totals_taxes_company_currency table  {
+        tr {
+            &:nth-child(odd) {
+                background-color: transparent !important;
+            }
+            /* first-child & last-child rule compat 12.0 */
+            &:first-child,
+            &:last-child,
+            &.o_subtotal,
+            &.o_total {
+                border-top: none !important;
+                td {
+                    border-top: 1px solid map-get($grays, '400') !important;
+                }
+                strong {
+                    color: $o-default-report-primary-color;
+                }
+            }
+        }
+    }
+    div#total ,.totals_taxes_company_currency{
+        padding-top: 15px;
+    }
+}

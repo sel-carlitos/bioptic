@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="kits_ir_config_parameter_inherit_form_view" model="ir.ui.view">
+        <field name="name">kits.ir.config_parameter.inherit.form.view</field>
+        <field name="model">ir.config_parameter</field>
+        <field name="inherit_id" ref="base.view_ir_config_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='key']" position="attributes">
+                <attribute name="readonly">key == 'kits_custom_report_font.kits_font_folder_path'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='value']" position="attributes">
+                <attribute name="readonly">key == 'kits_custom_report_font.kits_font_folder_path'</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

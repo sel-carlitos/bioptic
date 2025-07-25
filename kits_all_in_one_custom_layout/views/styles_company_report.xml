@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="kits_custom_font_style_report" inherit_id="web.styles_company_report">
+        <xpath expr="//t[@t-set]" position="before">
+            <t t-set="font_size" t-value="company.get_custom_font_size()" />
+            <t t-set="font_scale" t-value="int(company.report_font_scale)" />
+            <t t-set="kits_layout" t-value="company.external_report_layout_id.key or 'web.external_layout_standard'" />
+            <t t-set="h1size" t-value="40 + font_scale" />
+            <t t-set="h2size" t-value="32 + font_scale" />
+            <t t-set="h3size" t-value="28 + font_scale" />
+            <t t-set="h4size" t-value="24 + font_scale" />
+            <t t-set="h5size" t-value="20 + font_scale" />
+            <t t-set="h6size" t-value="16 + font_scale" />
+        </xpath>
+        <xpath expr="//t[@t-if]" position="before">
+            font-size: <t t-esc="font_size" />px !important;
+            &amp;.header{
+                font-size: <t t-esc="font_size" />px !important;
+            }
+            &amp;.footer{
+                font-size: <t t-esc="font_size" />px !important;
+            }
+            .o_boxed_header{
+                font-size: <t t-esc="font_size" />px !important;
+            }
+            h1,.h1{
+                font-size: <t t-esc="h1size" />px !important;
+            }
+            h2,.h2{
+                font-size: <t t-esc="h2size" />px !important;
+            }
+            h3,.h3{
+                font-size: <t t-esc="h3size" />px !important;
+            }
+            h4,.h4{
+                font-size: <t t-esc="h4size" />px !important;
+            }
+            h5,.h5{
+                font-size: <t t-esc="h5size" />px !important;
+            }
+            h6,.h6{
+                font-size: <t t-esc="h6size" />px !important;
+            }
+        </xpath>
+</template>
+</odoo>

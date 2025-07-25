@@ -1,0 +1,131 @@
+$kits_color_primary: #000000;
+$kits_color_secondary: #000000;
+
+.o_kits_footer, .o_kits_header, .o_report_layout_kits {
+    color: black;
+    font-size: 15px;
+}
+.o_kits_header {
+    padding-top: 0px !important;
+    border-bottom: 1px solid $kits_color_secondary;
+    img {
+        max-height: 90px;
+        max-width: 250px;
+    }
+    h4 {
+        margin-bottom: 0;
+        color: #999999;
+        font-weight: 700;
+    }
+    ul, p {
+        margin-bottom: 0;
+    }
+}
+table#kits-header{
+    border: none !important;
+    tbody{
+        border: none !important;
+    }
+    tr{
+        border: none !important;
+        td{
+            border: none !important;
+        }
+    }
+}
+address.o_portal_address {
+    div span[itemprop="name"] {
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
+.kits-footer-content{
+    border-top: 1px solid $kits_color_secondary;
+    border-bottom: 1px solid $kits_color_secondary;
+}
+
+.o_kits_footer {
+    font-size: 0.95rem;
+    margin-top: 200px;
+    ul {
+        margin: 4px 0;
+    }
+    p{
+        margin-bottom: 0;
+    }
+}
+.c-black{
+    color: black !important;
+}
+.o_report_layout_kits {
+    address {
+        div span[itemprop="name"] {
+            font-weight: bold;
+        }
+    }
+    #total strong {
+        color: $kits_color_primary;
+    }
+    #informations strong {
+        color: $kits_color_secondary;
+    }
+    h2 span {
+        color: $kits_color_primary;
+    }
+    table {
+        border: 1px solid map-get($grays, '700');
+        thead {
+            border-bottom: 2px solid map-get($grays, '700');
+            tr th {
+                text-transform: uppercase;
+                border: 1px solid map-get($grays, '700');
+                color: $kits_color_secondary;
+                background-color: rgba($kits_color_secondary, 0.1);
+            }
+        }
+        tbody {
+            color: black;
+            tr {
+                td {
+                    // remove border-top from standard layout
+                    border-top: 1px solid map-get($grays, '700');
+                    border-right: 1px solid map-get($grays, '700');
+                }
+                &.o_line_section td,
+                &.o_line_note td,
+                &.is-subtotal td {
+                    border-top: 1px solid map-get($grays, '700');
+                    border-bottom: 1px solid map-get($grays, '700');
+                }
+                &.o_line_section td {
+                    background-color: rgba($kits_color_primary, 0.7);
+                    color: #fff;
+                }
+            }
+        }
+    }
+    /* compat 12.0 */
+    .page > table:not(.o_main_table) tr td:last-child {
+        background-color: map-get($grays, '200');
+        color: $kits_color_primary;
+    }
+    /* compat 12.0 */
+    .row:not(#total) > div > table tbody tr:not(:last-child) td:last-child {
+        background-color: map-get($grays, '200');
+        color: $kits_color_primary;
+    }
+    /*Total table*/
+    /* row div rule compat 12.0 */
+    #total .o_total td {
+        background-color: rgba($kits_color_secondary, 0.1);
+        color: $kits_color_secondary;
+
+        strong {
+            color: $kits_color_secondary;
+        }
+    }
+    div#total ,.totals_taxes_company_currency{
+        padding-top: 15px;
+    }
+
+}

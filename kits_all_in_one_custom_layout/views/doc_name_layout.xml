@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="doc_name_layout">
+        <div t-attf-class="header o_company_#{company.id}_layout o_doc_name_header" t-att-style="report_header_style">
+            <div class="doc_name_header">
+                <table id="doc_name-header" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <!-- Left Column: Logo (Vertically Centered) -->
+                        <td style="width: 30%; vertical-align: middle; text-align: left;">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height: 100px;"/>
+                        </td>
+                        <td style="width: 35%;text-align: center;vertical-align: middle;">
+                        </td>
+                        <!-- Right Column: Company Details (Left-Aligned) -->
+                        <td style="width: 35%;">
+                            <div name="company_address" class="w-100 d-flex flex-column">
+                                <ul class="list-unstyled align-self-end" name="company_address_list">
+                                    <t t-if="company.report_header and company.report_header.strip() != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                        <div class="mt0 h4" t-field="company.report_header"/>
+                                    </t>
+                                    <li t-if="company.is_company_details_empty">
+                                        <t t-if="company._name != 'res.company' and company.partner_id">
+                                            <t t-set='company' t-value="company.company_id" />
+                                        </t>
+                                        <field t-if="company.name" t-field="company.name" style="font-weight: bold;font-size:18px;line-height: 1.4;"/>
+                                        <br />
+                                        <field t-if="company.street" t-field="company.street" style="line-height: 1.4;"/>
+                                        <br />
+                                        <t t-if="company.street2">
+                                            <field t-field="company.street2" style="line-height: 1.4;"/>
+                                            <br />
+                                        </t>
+                                        <field t-if="company.city" t-field="company.city" style="line-height: 1.4;"/>,
+                                        <field t-if="company.zip" t-field="company.zip" style="line-height: 1.4;"/>,
+                                        <field t-if="company.state_id" t-field="company.state_id.name" style="line-height: 1.4;"/>,
+                                        <field t-if="company.country_id" t-field="company.country_id.name" style="line-height: 1.4;"/>
+                                    </li>
+                                    <li t-else="">
+                                        <span t-field="company.company_details">
+                                            <div class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center">
+                                                <strong>Company details block</strong>
+                                                <div>Contains the company details.</div>
+                                            </div>
+                                        </span>
+                                    </li>
+                                    <li t-if="not forced_vat"/>
+                                    <li t-else="">
+                                        <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
+                                        <span t-esc="forced_vat">US12345671</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt-4 doc_name-doc-name" style="text-align: center;">
+                <t t-if="doc">
+                    <h3 t-esc="doc._description"></h3>
+                </t>
+                <t t-else="">
+                    <h3>Invoice</h3>
+                </t>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_doc_name o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
+                           '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''}});"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <h2 t-out="layout_document_title"/>
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_doc_name_footer o_company_#{company.id}_layout">
+            <div class="text-center">
+                <div class="mt-2 mb-2" t-field="company.report_footer">Company Report Footer</div>
+                <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">
+                    <span t-out="o.name">(document name)</span>
+                </div>
+                <div t-if="report_type == 'pdf'">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+     </template>
+
+     <template id="kits_doc_name_report" inherit_id="web.styles_company_report">
+        <xpath expr="//t[@t-elif]" position="before">
+            <t t-elif="layout == 'kits_all_in_one_custom_layout.doc_name_layout'">
+                &amp;.o_report_layout_doc_name {
+                    #total strong {
+                        color: <t t-esc="secondary"/>;
+                    }
+                    .totals_taxes_company_currency strong{
+                        color: <t t-esc="primary"/>;
+                    }
+                    #informations strong {
+                        color: <t t-esc="secondary"/>;
+                    }
+                    h2 span {
+                        color: <t t-esc="primary"/>;
+                    }
+                    table {
+                        thead {
+                            tr th {
+                                color: <t t-esc="secondary"/>;
+                                background-color: rgba(<t t-esc="secondary"/>, 0.1);
+                            }
+                        }
+                        tbody tr td {
+                            &amp;.o_line_section td {
+                                    background-color: rgba(<t t-esc="primary"/>, 0.7);
+                                }
+                        }
+                    }
+                    #total .o_total td {
+                        background-color: rgba(<t t-esc="secondary"/>, 0.1) !important;
+                        color: <t t-esc="secondary"/> !important;
+
+                        strong {
+                            color: <t t-esc="secondary"/> !important;
+                        }
+                    }
+                }
+
+                &amp;.o_doc_name_header {
+                    h4 {
+                        color: <t t-esc="primary"/> !important;
+                    }
+                    .h4 {
+                        color: <t t-esc="primary"/> !important;
+                    }
+                }
+                .doc_name-doc-name{
+                    h3 {
+                        color: <t t-esc="primary"/> !important;
+                    }
+                }
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="kits_ir_attachment_inherit_form_view" model="ir.ui.view">
+        <field name="name">kits.ir.attachment.inherit.form.view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='datas']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='res_model']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='res_field']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='res_id']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='res_name']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='public']" position="attributes">
+                <attribute name="readonly">name == 'kits_custom_fonts.scss'</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
