@@ -208,7 +208,10 @@ marimo/_lsp/
 __marimo__/
 
 # Ignore pre-commit and .pylintrc
+.editorconfig
 .pre-commit-config.yaml
 .pylintrc
+eslint.config.cjs
+prettier.config.cjs
 pyproject.toml
 kits_all_in_one_custom_layout/static/description/index.html
