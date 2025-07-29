@@ -15,9 +15,11 @@
         'l10n_sv_dte',
     ],
     'data': [
+        'data/groups_tax.xml',
         'views/account_move.xml',
         'views/account_tax_group.xml',
     ],
+    'post_init_hook': 'update_group_tax',
     'installable': True,
     'auto_install': False,
     'application': False,
