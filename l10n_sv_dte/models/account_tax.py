@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-SV_TAXES = {"20": "Impuesto al Valor Agregado 13%"}
+SV_TAXES = {"20": "Impuesto al Valor Agregado 13%",
+            "D1":"FOVIAL ($0.20 Ctvs. por galón)",
+            "C8": "COTRANS ($0.10 Ctvs. por galón)",
+        }
 
 
 class AccountTax(models.Model):

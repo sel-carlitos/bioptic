@@ -1111,14 +1111,21 @@ class Item(GeneratedsSuper):
 
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             showIndent(outfile, level, pretty_print)
-            for tributo_ in self.tributos:
+            # for tributo_ in self.tributos:
+            for i, tributo_ in enumerate(self.tributos, 1):
                 showIndent(outfile, level, pretty_print)
                 outfile.write(bytes(('"%s"%s' % (
                     self.gds_encode(self.gds_format_string(quote_xml(tributo_),
                                                            input_name='Número de documento relacionado')),
                     eol_)).encode()))
                 showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+                if i == 1 and len(self.tributos) == 1:
+                    outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+                elif i != len(self.tributos):
+                    outfile.write(bytes(('%s,%s' % (namespace_, eol_)).encode()))
+                else:
+                    outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+            # outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tributos":null%s' % eol_).encode()))
@@ -1246,6 +1253,15 @@ class Resumen(GeneratedsSuper):
     def get_condicionOperacion(self):
         return self.condicionOperacion
 
+    # This section was added to support taxes (tributes) on the invoice.
+    def get_tributos(self):
+        return self.tributos
+
+    def set_tributos(self, tributos):
+        self.tributos = tributos
+    # ------------------------------------------------------*
+
+
     def hasContent_(self):
         if (
                 self.totalNoSuj is not None or
@@ -1359,8 +1375,7 @@ class Resumen(GeneratedsSuper):
                     self.gds_format_float(self.totalDescu, input_name='Total del monto de Descuento, Bonificación, Rebajas')),
                 eol_)).encode()))
         if self.tributos is not None:
-            for tributo_ in self.tributos:
-                tributo_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
+            self.tributos.export(outfile, level, namespace_, name_='tributos', pretty_print=pretty_print)
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tributos":null,%s' % eol_).encode()))
@@ -1436,3 +1451,71 @@ class Resumen(GeneratedsSuper):
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"numPagoElectronico":null%s' % eol_).encode()))
+
+
+# This section was added to support taxes (tributes) on the invoice.
+class Tributos(GeneratedsSuper):
+    subclass = None
+    superclass = None
+
+    def __init__(self, Item=None):
+        self.original_tagname_ = None
+        if Item is None:
+            self.Item = []
+        else:
+            self.Item = Item
+
+    def get_Item(self):
+        return self.Item
+
+    def set_Item(self, Item):
+        self.Item = Item
+
+    def add_Item(self, value):
+        self.Item.append(value)
+
+    def insertItem_at(self, index, value):
+        self.Item.insert(index, value)
+
+    def replace_Item_at(self, index, value):
+        self.Item[index] = value
+
+    def hasContent_(self):
+        if (
+                self.Item
+        ):
+            return True
+        else:
+            return False
+
+    def export(self, outfile, level, namespace_='', name_='identificacion', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write(
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+        if self.hasContent_():
+            outfile.write(bytes(('[%s' % (eol_,)).encode()))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            # outfile.write(bytes(('</%s%s>%s' % (namespace_, name_, eol_)).encode()))
+            outfile.write(bytes(('%s],%s' % (namespace_, eol_)).encode()))
+        else:
+            # outfile.write(bytes(('/>%s' % (eol_,)).encode()))
+            outfile.write(bytes(('null,%s' % eol_).encode()))
+
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for i, LineaItem_ in enumerate(self.Item, 1):
+            LineaItem_.export(outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item))
