@@ -16,6 +16,7 @@
     ],
     'data': [
         'data/groups_tax.xml',
+        'report/report_invoice.xml',
         'views/account_move.xml',
         'views/account_tax_group.xml',
     ],

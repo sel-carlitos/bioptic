@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="l10n_sv_sel_report_invoice_document"
+    inherit_id="l10n_sv_dte.l10n_sv_report_invoice_document">
+
+    <!--
+    Moves the QR code section upward in the PDF layout.
+    -->
+    <xpath expr="//img[@t-if='o.l10n_sv_qr_code']/../.." position="attributes">
+      <attribute name="class" add="d-none" separator=" " />
+    </xpath>
+
+    <xpath expr="//span[@name='amount_total_words']/.." position="attributes">
+      <attribute name="class" add="d-none" separator=" " />
+    </xpath>
+
+    <xpath expr="//span[@name='payment_communication']/.." position="attributes">
+      <attribute name="class" add="d-none" separator=" " />
+    </xpath>
+
+    <xpath expr="//div[@id='informations']" position="attributes">
+      <attribute name="class" add="mb-0" remove="mb-4" separator=" " />
+      <attribute name="style" add="margin-bottom: 3px !important" separator=";" />
+    </xpath>
+
+    <xpath expr="//div[@id='total']/.." position="attributes">
+      <attribute name="style" add="margin-top: -17px !important;" separator=";" />
+    </xpath>
+
+    <xpath expr="//div[@id='total']"
+      position="attributes">
+      <attribute name="class" remove="mt-n3" separator=" " />
+    </xpath>
+
+    <xpath expr="//span[@id='payment_terms_note_id']/.." position="attributes">
+      <attribute name="style" add="margin-top: -35px;" separator=";" />
+    </xpath>
+
+    <!--
+      Adjusts padding for specific table cells in the invoice line section of the report.
+    -->
+    <xpath
+      expr="//t[@name='account_invoice_line_accountable']/td[1]" position="attributes">
+      <attribute name="style" separator=";" add="padding: 0 8px;"></attribute>
+    </xpath>
+    <xpath
+      expr="//t[@name='account_invoice_line_accountable']/td[2]" position="attributes">
+      <attribute name="style" separator=";" add="padding: 0 8px;"></attribute>
+    </xpath>
+    <xpath
+      expr="//t[@name='account_invoice_line_accountable']/td[3]" position="attributes">
+      <attribute name="style" separator=";" add="padding: 0 8px;"></attribute>
+    </xpath>
+    <xpath
+      expr="//t[@name='account_invoice_line_accountable']/td[5]" position="attributes">
+      <attribute name="style" separator=";" add="padding: 0 8px;"></attribute>
+    </xpath>
+    <xpath
+      expr="//t[@name='account_invoice_line_accountable']/td[6]" position="attributes">
+      <attribute name="style" separator=";" add="padding: 0 8px;"></attribute>
+    </xpath>
+    <!-- === Padding Adjustment === -->
+
+    <xpath expr="//div[@name='invoice_date']/div"
+      position="replace">
+      <span>: </span>
+      <span t-field="o.invoice_date">2023-09-12</span>
+    </xpath>
+
+    <xpath expr="//div[@name='due_date']/div"
+      position="replace">
+      <span>: </span>
+      <span t-field="o.invoice_date_due">2023-09-12</span>
+    </xpath>
+
+    <!--
+      Replaces the parent container of the #sv_informations block to improve layout and visual
+    presentation.
+    -->
+    <xpath expr="//div[@id='sv_informations']/.."
+      position="replace">
+      <div class="px-2 py-1 mb-2" style="border: 1px solid #a5a5a5; border-radius: 14px;">
+        <div class="row" t-if="is_l10n_sv_invoice">
+          <div id="sv_informations" class="col-5">
+
+            <!-- Fiscal info -->
+            <div class="col-12">
+              <span>
+                <t t-if="o.state == 'draft'"> Borrador <br />
+                </t>
+                <t t-if="o.state == 'cancel'"> Anulada <br />
+                </t>
+                <span t-if="o.name"
+                  style="font-size:15px; !important;margin:0px;padding:0px 0px;font-weight: bold;">Tipo
+                  de Documento: </span>
+                <span t-field="o.l10n_sv_voucher_type_id.name" />
+                <br />
+                <span t-if="o.name"
+                  style="font-size:15px; !important;margin:0px;padding:0px 0px;font-weight: bold;">Referencia
+                  Interna: </span>
+                <span t-if="o.name != '/'" t-field="o.name" />
+              </span>
+              <div t-if="o.l10_sv_dte_id.l10n_sv_generation_code" name="generation_code">
+                <strong>Generation Code:</strong>
+                <p class="m-0" t-field="o.l10_sv_dte_id.l10n_sv_generation_code" />
+              </div>
+              <div t-if="o.l10_sv_dte_id.name" name="control_numer">
+                <strong>Control Number:</strong>
+                <p class="m-0" t-field="o.l10_sv_dte_id.name" />
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <div t-if="o.l10_sv_dte_id.l10n_sv_receipt_stamp" name="receipt_stamp">
+              <strong>Receipt Stamp:</strong>
+              <p class="m-0" t-field="o.l10_sv_dte_id.l10n_sv_receipt_stamp" />
+            </div>
+            <!--            Identification info-->
+            <div name="l10n_sv_billing_model" t-if="is_l10n_sv_invoice">
+              <strong>Billing model:</strong>
+              <span class="m-0" t-out="'Previo'" />
+            </div>
+            <div name="l10n_sv_transmission_type" t-if="is_l10n_sv_invoice">
+              <strong>Transmission type:</strong>
+              <span class="m-0" t-field="o.l10n_sv_dte_situation" />
+            </div>
+            <div name="l10n_date_generation" t-if="is_l10n_sv_invoice and o.l10_sv_dte_id">
+              <strong>Generation Date and Time:</strong>
+              <span class="m-0" t-field="o.l10_sv_dte_id.date_issue" />
+              <!-- The following line is commented out as per the original request -->
+              <!-- <p class="m-0" t-field="o.l10_sv_dte_id.date_issue"/> -->
+            </div>
+            <div t-if="o.move_type in ('out_invoice', 'in_refund') and o.l10_sv_dte_id">
+              <span class="fw-bold" name="payment_communication"> Condición de la operación: </span>
+              <span
+                t-out="'Contado' if o.l10_sv_dte_id.get_payment_type() == 1 else 'Crédito'">
+                INV/2023/00001</span>
+            </div>
+
+            <t
+              t-if="is_l10n_sv_invoice and (o.move_type == 'out_refund' or o.move_type == 'in_refund' or o.debit_origin_id)">
+              <div name="l10n_sv_generation_code_origin" t-if="o.l10n_sv_generation_code_ref">
+                <strong>Código de generación de referencia:</strong>
+                <p class="m-0" t-field="o.l10n_sv_generation_code_ref" />
+              </div>
+              <div name="l10n_sv_generation_code_origin"
+                t-if="o.debit_origin_id.l10_sv_dte_id.l10n_sv_generation_code">
+                <strong>Código de generación de referencia:</strong>
+                <p class="m-0" t-field="o.debit_origin_id.l10_sv_dte_id.l10n_sv_generation_code" />
+              </div>
+              <div name="l10n_sv_generation_code_origin" t-if="o.l10n_sv_date_issue_ref">
+                <strong>Fecha de referencia:</strong>
+                <p class="m-0" t-field="o.l10n_sv_date_issue_ref" />
+              </div>
+            </t>
+          </div>
+          <div class="col-2">
+            <div t-if="is_l10n_sv_invoice">
+              <div>
+                <img t-if="o.l10n_sv_qr_code" t-att-src="image_data_uri(o.l10n_sv_qr_code)"
+                  alt="Logo"
+                  width="150" height="150" class="media-object" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </xpath>
+
+
+    <!--
+      Replaces the default customer address block to enhance visual formatting and structure for
+    Salvadoran invoices.
+    -->
+    <xpath expr="//div[@name='no_shipping']/../.."
+      position="replace">
+      <div class="px-2 py-1 mb-2" style="border: 1px solid #a5a5a5; border-radius: 14px;">
+        <div class="row" t-if="is_l10n_sv_invoice">
+          <div class="col-6">
+            <!-- Customer info -->
+            <div name="no_shipping">
+              <address class="mb-0">
+                <span style="color:#111 !important;" t-field="o.partner_id" />
+                <br />
+                <span t-if="o.partner_id.email" style="color:#111 !important;">
+                  <i class="fa fa-envelope" />
+                  <t t-esc="o.partner_id.email" />
+                  <br />
+                </span>
+                <span t-if="o.partner_id.street" style="color:#111 !important;"><t
+                    t-esc="o.partner_id.street" />, </span>
+                <span t-if="o.partner_id.street2" style="color:#111 !important;"><t
+                    t-esc="o.partner_id.street2" />. <br />
+                </span>
+                <span t-if="o.partner_id.city" style="color:#111 !important;">
+                  <t t-esc="o.partner_id.city" /> , </span>
+                <span t-if="o.partner_id.country_id.name" style="color:#111 !important;">
+                  <t t-esc="o.partner_id.country_id.name" />
+                </span>
+                <br />
+                <span t-if="o.partner_id.l10n_sv_commercial_name" style="color:#111 !important;">Nombre
+                  comercial: <t t-esc="o.partner_id.l10n_sv_commercial_name" />
+                                <br />
+                </span>
+              </address>
+            </div>
+          </div>
+          <div class="col-6">
+            <!-- Customer info -->
+            <div name="no_shipping">
+              <address class="mb-0">
+                <span t-if="o.partner_id.nit" style="color:#111 !important;">NIT: <t
+                    t-esc="o.partner_id.nit" />
+                                <br />
+                </span>
+                <span t-if="o.partner_id.vat" style="color:#111 !important;">RNC: <t
+                    t-esc="o.partner_id.vat" />
+                                <br />
+                </span>
+                <span t-if="o.partner_id.phone" style="color:#111 !important;">
+                  <i class="fa fa-phone" />
+                  <t t-esc="o.partner_id.phone" />
+                  <br />
+                </span>
+                <span t-if="o.partner_id.mobile" style="color:#111 !important;">
+                  <i class="fa fa-mobile" />
+                  <t t-esc="o.partner_id.mobile" />
+                  <br />
+                </span>
+                <span t-if="o.partner_id.l10n_sv_commercial_name" style="color:#111 !important;">Nombre
+                  comercial: <t t-esc="o.partner_id.l10n_sv_commercial_name" />
+                                <br />
+                </span>
+              </address>
+            </div>
+          </div>
+        </div>
+        <div class="row" t-if="is_l10n_sv_invoice">
+          <div name="shipping_address_block" groups="account.group_delivery_invoice_address"
+            class="col-12">
+            <strong>Dirección de entrega: </strong>
+            <span t-field="o.partner_shipping_id.name">Shipping Name</span>
+          </div>
+        </div>
+      </div>
+    </xpath>
+
+
+    <!--
+    Insert watermark text inside PDF report pages when the DTE state is different from
+        'delivered_accepted'.
+    -->
+    <xpath
+      expr="///div[hasclass('page')]"
+      position="inside">
+      <t t-set="state_dte_dict"
+        t-value="o.fields_get(['l10n_sv_dte_send_state'])['l10n_sv_dte_send_state']['selection']" />
+      <t t-set="state_dte" t-value="dict(state_dte_dict)[o.l10n_sv_dte_send_state]" />
+      <div t-if="o.l10n_sv_dte_send_state != 'delivered_accepted'"
+        style="position: absolute;top: 330px;left: 0;z-index: 10000;font-size: 60px;color: rgba(200, 200, 200, 0.4);transform: rotate(-45deg);-webkit-transform: rotate(-45deg);font-weight: bold;pointer-events: none;text-wrap: nowrap;width: 100%;">
+        <h1 class="text-center"
+          style="color: rgba(167, 42, 42, 0.4); text-transform: uppercase;font-weight: 900; font-size: 90px !important;">
+          <t t-out="state_dte" />
+        </h1>
+      </div>
+    </xpath>
+
+  </template>
+
+</odoo>
