@@ -26,7 +26,7 @@ class DTEDocument(models.Model):
         :returns: tuple (response, vals)
         """
         invoice = self.invoice_id
-        classdoc = FE if self.l10n_sv_voucher_type_id.code == '01' else FE
+        classdoc = FE if self.l10n_sv_voucher_type_id.code == '01' else classdoc
         body_document = classdoc.CuerpoDocumento()
         if self.l10n_sv_voucher_type_id.code not in ['15']:
             tributes = classdoc.Tributos()
