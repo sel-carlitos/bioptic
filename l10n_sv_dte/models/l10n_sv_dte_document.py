@@ -274,6 +274,7 @@ class DTEDocument(models.Model):
         if not self.json_file:
             self.action_gen_json()
 
+        self.invoice_id._message_log(body=_("Sello Electronico: %s", self.invoice_id.l10n_sv_electronic_stamp))
         hacienda_api = HaciendaApi(company_id=self.company_id)
         response = hacienda_api.recepcion_dte(self)
         self.response_status_code = response.status_code
