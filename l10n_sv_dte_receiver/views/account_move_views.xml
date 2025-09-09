@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit1" model="ir.ui.view">
+        <field name="name">account.move.form.inherit1</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_cr_invoice.view_move_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Factura Proveedor" invisible="move_type in ('entry', 'out_invoice') or country_code != 'CR' or l10n_cr_fiscal_journal">
+                    <button name="action_consultatrackids" type="object"
+                            string="Request Trackids"/>
+                    <group invisible="move_type not in ('in_invoice', 'in_refund')" id="mh"
+                           string="CONFIRMACIÓN DE ACEPTACIÓN O RECHAZO DE LOS DOCUMENTOS ELECTRÓNICOS POR PARTE DEL OBLIGADO TRIBUTARIO">
+                        <field name="supplier_economic_activity_id" readonly="state != 'draft'"/>
+                        <field name="state_inv_supplier" readonly="state != 'draft'"/>
+                        <field name="xml_amount_tax" readonly="state != 'draft'"/>
+                        <field name="xml_amount_total" readonly="state != 'draft'"/>
+                        <field name="xml_mh_file" readonly="1" filename="xml_mh_file_name"/>
+                        <field name="xml_mh_file_name" readonly="1" invisible="1"/>
+                        <field name="l10n_cr_mh_send_state" invisible="not xml_mh_file" readonly="1"/>
+                    </group>
+                    <button name="action_send_response_mr" type="object"
+                            string="Enviar respuesta" invisible="state != 'posted' or l10n_cr_mh_send_state"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
