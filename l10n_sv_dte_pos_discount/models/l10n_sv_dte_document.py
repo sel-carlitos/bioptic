@@ -10,9 +10,7 @@ class DTEDocument(models.Model):
 		# EXTENDS 'l10n_sv_dte'
 		res = super()._iterable_products_xml(lines)
 		config_id = self.order_id.config_id
-		# if self.order_id and self.order_id.config_id.module_pos_discount and self.order_id.config_id.discount_product_id:
 		if self.order_id and config_id.module_pos_discount and config_id.discount_product_id:
-			# pos_discount_product_id = self.order_id.config_id.discount_product_id
 			pos_discount_product_id = config_id.discount_product_id
 			return res.filtered(lambda l: l.product_id.id != pos_discount_product_id.id)
 
@@ -24,9 +22,7 @@ class DTEDocument(models.Model):
 		res = super().set_summary_additional_vals(summary, *args)
 		total_discount = 0.00
 		config_id = self.order_id.config_id
-		# if self.order_id and self.order_id.config_id.module_pos_discount and self.order_id.config_id.discount_product_id:
 		if self.order_id and config_id.module_pos_discount and config_id.discount_product_id:
-			# pos_discount_product_id = self.order_id.config_id.discount_product_id
 			pos_discount_product_id = config_id.discount_product_id
 			for line in self.order_id.lines:
 				if line.product_id.id == pos_discount_product_id.id:
