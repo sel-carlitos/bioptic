@@ -138,6 +138,22 @@ msgid "Generation Code:"
 msgstr "Código de generación:"
 
 #. module: l10n_sv_dte_pos
+#. odoo-javascript
+#: code:addons/l10n_sv_dte_pos/static/src/app/screens/partner_list/PartnerListScreen.xml:0
+msgid "Identification Type"
+msgstr "Tipo de identificación"
+
+#. module: l10n_sv_dte_pos
+#. odoo-javascript
+#: code:addons/l10n_sv_dte_pos/static/src/app/screens/payment_screen/payment_screen.js:0
+msgid ""
+"If the invoice amount is greater than $25,000.00 the customer should have a "
+"VAT and Identification Type to validate the invoice."
+msgstr ""
+"Si el importe de la factura es mayor a $25,000.00 el cliente deberá tener "
+"un VAT y un tipo de identificación para validar la factura"
+
+#. module: l10n_sv_dte_pos
 #: model:ir.model.fields,field_description:l10n_sv_dte_pos.field_pos_order__l10n_sv_dte_send_state
 msgid "DTE Send State"
 msgstr "Estado DTE"

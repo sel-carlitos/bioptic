@@ -109,11 +109,11 @@ class PosOrder(models.Model):
 
                 """
         failed_moves = self.filtered(
-            lambda o: (not o.company_id.l10n_sv_mh_auth_pass or not o.company_id.l10n_sv_mh_auth_user)
-                      and o.country_code == 'SV')
+            lambda o: (o.country_code == 'SV'
+                       and (not o.company_id.l10n_sv_mh_auth_pass or not o.company_id.partner_id.nit)))
         if failed_moves:
             invoices_str = ", ".join(failed_moves.mapped('name'))
-            raise UserError(_("Invoices %s not eligible to sent .", invoices_str))
+            raise UserError(_("Invoices %s not eligible to sent (Not exist credentials to auth).", invoices_str))
 
         invoices = self
         return invoices
@@ -131,11 +131,7 @@ class PosOrder(models.Model):
                                                        )
 
             if annulated:
-                order.write(
-                    {
-                        "state": "cancel",
-                    }
-                )
+                # TODO: Romper los pagos de este pedido y establecerlo a cancelado.
                 email_template = order.env.ref("l10n_sv_dte.email_template_dte_invalidated")
                 if email_template:
                     email_template.send_mail(l10_sv_dte_id.id, force_send=True)

@@ -13,6 +13,7 @@
         'data/data.xml',
         'views/pos_config_views.xml',
         'views/pos_order_views.xml',
+        'views/l10n_sv_dte_document_views.xml',
         'wizard/l10n_sv_dte_move_cancel_views.xml',
     ],
     'assets': {

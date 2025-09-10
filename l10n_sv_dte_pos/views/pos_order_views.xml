@@ -22,7 +22,7 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
-                <field name="l10n_sv_document_number"/>
+                <field name="l10n_sv_document_number" optional="show"/>
             </xpath>
         </field>
     </record>

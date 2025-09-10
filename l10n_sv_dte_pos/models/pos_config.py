@@ -25,16 +25,8 @@ class PosConfig(models.Model):
         else:
             self.default_partner_id = False
 
-    def open_ui(self):
-        """Open the pos interface with config_id as an extra argument.
-
-        In vanilla PoS each user can only have one active session, therefore it was not needed to pass the config_id
-        on opening a session. It is also possible to login to sessions created by other users.
-
-        :returns: dict
-        """
-        self.ensure_one()
-        if not self.l10n_sv_terminal_id and self.l10n_sv_fiscal_journal:
+    def _check_before_creating_new_session(self):
+        """Override."""
+        super()._check_before_creating_new_session()
+        if self.l10n_sv_fiscal_journal and not self.l10n_sv_terminal_id:
             raise UserError(_("Not found terminal for this TPV."))
-
-        return super().open_ui()

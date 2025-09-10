@@ -2,7 +2,7 @@
 from odoo import models, fields, api
 
 
-class L10nLatamDocumentType(models.Model):
+class L10nSvIdentificationType(models.Model):
     _name = 'l10n_sv.identification.type'
     _inherit = ['l10n_sv.identification.type', 'pos.load.mixin']
 

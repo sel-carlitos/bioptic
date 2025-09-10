@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import { PosOrder } from "@point_of_sale/app/models/pos_order";
 import { patch } from "@web/core/utils/patch";
 
@@ -10,11 +8,7 @@ patch(PosOrder.prototype, {
         if (this.is_sv_country()) {
             this.to_invoice = vals.to_invoice === false ? vals.to_invoice : true;
             this.invoice_type = vals.invoice_type || "consumo";
-//            this.voucher_number = vals.voucher_number || "";
         }
-
-//        if (this.config.only_invoice && !this.get_partner())
-//            this.to_invoice = true;
 
         if (!this.get_partner()) {
             let pos_default_partner = this.config.default_partner_id;
