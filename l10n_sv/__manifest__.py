@@ -12,9 +12,8 @@ Adds accounting chart for El Salvador. It also includes taxes.""",
     'author': "SEGU",
     'depends': ['account'],
     'auto_install': ['account'],
-    # 'data': [
-    #     'views/partner_views.xml',
-    #     # 'security/ir.model.access.csv',
-    # ],
+    'data': [
+        'data/res_country_data.xml',
+    ],
     'license': 'LGPL-3',
 }
