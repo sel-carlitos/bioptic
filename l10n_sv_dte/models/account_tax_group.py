@@ -9,8 +9,8 @@ class AccountTaxGroup(models.Model):
         return [
             ('not_applicable', _('Not Applicable')),
             ('taxable', _('Taxable')),
+            ('taxable10', _('Taxable 10')),
             ('taxable13', _('Taxable 13')),
-            ('tips', _('Tips')),
         ]
 
     l10n_sv_billing_indicator = fields.Selection(

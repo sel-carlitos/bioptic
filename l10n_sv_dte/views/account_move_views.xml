@@ -30,6 +30,9 @@
                 invisible="move_type == 'entry' or not l10n_sv_fiscal_journal or l10n_sv_dte_send_state != 'delivered_accepted'"/>
             </button>
             <xpath expr="//group[@id='header_left_group']" position="inside">
+                <field name="l10n_sv_document_number"
+                       readonly="1"
+                       invisible="move_type != 'in_invoice' or l10n_sv_fiscal_journal"/>
                 <field name="l10n_sv_dte_situation"
                        readonly="1"
                        invisible="move_type == 'entry' or not l10n_sv_fiscal_journal"/>
@@ -78,11 +81,13 @@
             </xpath>
             <xpath expr="//page[@id='other_tab']/group/group[@name='sale_info_group']" position="after">
                 <group string="Exportation Invoice" invisible="not l10n_sv_is_exportation">
-                    <field name="l10n_sv_incoterm"/>
                     <field name="l10n_sv_type_item_to_import"/>
                     <field name="l10n_sv_tax_precinct"/>
                     <field name="l10n_sv_regime"/>
                 </group>
+            </xpath>
+            <xpath expr="//page[@id='other_tab']/group[@id='other_tab_group']/group[@name='accounting_info_group']" position="inside">
+                <field name="l10n_sv_responsible_annulation_id" invisible="not l10n_sv_responsible_annulation_id"/>
             </xpath>
         </field>
     </record>
@@ -99,6 +104,19 @@
                        decoration-success="l10n_sv_dte_send_state == 'delivered_accepted'"
                        decoration-danger="l10n_sv_dte_send_state == 'delivered_refused'"
                        decoration-info="l10n_sv_dte_send_state == 'invalidated'"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_account_invoice_filter_inherit" model="ir.ui.view">
+        <field name="name">view.account.invoice.filter.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/group/filter[@name='status']" position="after">
+                <filter string="Hacienda State" name="l10n_sv_dte_send_state" context="{'group_by': 'l10n_sv_dte_send_state'}"/>
+            </xpath>
+            <field name="name" position="after">
+                <field name="l10n_sv_document_number"/>
             </field>
         </field>
     </record>

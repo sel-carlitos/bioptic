@@ -15,14 +15,25 @@ class TerminalValidateWizard(models.TransientModel):
 
     name = fields.Char()
     terminal_id = fields.Many2one("l10n_sv.terminal", string="Terminal")
+    location_id = fields.Many2one("l10n_sv.location", string="Location")
 
     def confirm_cancel(self):
         self.ensure_one()
         if self.terminal_id:
             action = self._context.get("action", False)
-            if action == "confirm":
-                self.terminal_id._action_confirm()
-            elif action == "cancel":
+            if action == "cancel":
                 self.terminal_id._action_cancel()
+            # if action == "confirm":
+            #     self.terminal_id._action_confirm()
+            # elif action == "cancel":
+            #     self.terminal_id._action_cancel()
+        elif self.location_id:
+            action = self._context.get("action", False)
+            if action == "cancel":
+                self.location_id._action_cancel()
+            # if action == "confirm":
+            #     self.location_id._action_confirm()
+            # elif action == "cancel":
+            #     self.location_id._action_cancel()
         else:
             raise ValidationError(_("There is no terminal to perform this action."))

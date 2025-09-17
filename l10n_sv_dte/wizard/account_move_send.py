@@ -26,7 +26,6 @@ class AccountMoveSend(models.AbstractModel):
                 doc = move.l10_sv_dte_id
                 ir_attachment = self.env['ir.attachment'].sudo()
                 attachment_vals = {'name': str(doc.json_file_name),
-                                   # 'datas': doc.json_file,
                                    'datas': doc.json_file1,
                                    'res_id': move.id,
                                    'res_model': "account.move",

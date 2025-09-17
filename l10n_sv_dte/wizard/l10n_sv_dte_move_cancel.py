@@ -24,6 +24,8 @@ class L10nSvDteCancel(models.TransientModel):
     reason = fields.Text(string="Reason for Cancellation", default="Rescindir de la operación realizada",
                          help="This reason will be printed in the cancellation document.",
                          )
+    l10n_sv_responsible_annulation_id = fields.Many2one("res.users", string="Responsible for Annulation",
+                                                        default=lambda self: self.env.user)
 
     @api.model
     def default_get(self, fields_list):
@@ -42,9 +44,9 @@ class L10nSvDteCancel(models.TransientModel):
         for move in self.move_ids:
             move.write(
                 {
-                    # "state": "cancel",
                     "l10n_sv_cancellation_type": self.l10n_sv_cancellation_type,
                     "l10n_sv_cancellation_reason": self.reason,
+                    "l10n_sv_responsible_annulation_id": self.l10n_sv_responsible_annulation_id.id,
                 }
             )
-            move._l10n_sv_invoice_pos_annul_dte_try()
+            move._l10n_sv_invoice_annul_dte_try()

@@ -4,6 +4,7 @@ from odoo import models, fields, api, _
 SV_TAXES = {"20": "Impuesto al Valor Agregado 13%",
             "D1":"FOVIAL ($0.20 Ctvs. por galón)",
             "C8": "COTRANS ($0.10 Ctvs. por galón)",
+            "C3": "Impuesto al Valor Agregado (exportaciones) 0%",
         }
 
 

@@ -68,11 +68,11 @@ class ContingenciaDTE(GeneratedsSuper):
     def set_emisor(self, emisor):
         self.emisor = emisor
 
-    # def get_documento(self):
-    #     return self.documento
-    #
-    # def set_documento(self, documento):
-    #     self.documento = documento
+    def get_detalleDTE(self):
+        return self.detalleDTE
+
+    def set_detalleDTE(self, detalleDTE):
+        self.detalleDTE = detalleDTE
 
     def get_motivo(self):
         return self.motivo
@@ -84,7 +84,7 @@ class ContingenciaDTE(GeneratedsSuper):
         if (
                 self.identificacion is not None or
                 self.emisor is not None or
-                self.documento is not None or
+                self.detalleDTE is not None or
                 self.motivo is not None
         ):
             return True
@@ -141,23 +141,23 @@ class Identificacion(GeneratedsSuper):
         self.hTransmision = hTransmision
         self.fTransmision = fTransmision
 
-    # def get_version(self):
-    #     return self.version
-    #
-    # def set_version(self, version):
-    #     self.version = version
-    #
-    # def get_ambiente(self):
-    #     return self.ambiente
-    #
-    # def set_ambiente(self, ambiente):
-    #     self.ambiente = ambiente
-    #
-    # def get_codigoGeneracion(self):
-    #     return self.codigoGeneracion
-    #
-    # def set_codigoGeneracion(self, codigoGeneracion):
-    #     self.codigoGeneracion = codigoGeneracion
+    def get_version(self):
+        return self.version
+
+    def set_version(self, version):
+        self.version = version
+
+    def get_ambiente(self):
+        return self.ambiente
+
+    def set_ambiente(self, ambiente):
+        self.ambiente = ambiente
+
+    def get_codigoGeneracion(self):
+        return self.codigoGeneracion
+
+    def set_codigoGeneracion(self, codigoGeneracion):
+        self.codigoGeneracion = codigoGeneracion
 
     def hasContent_(self):
         if (
@@ -461,80 +461,23 @@ class Item(GeneratedsSuper):
         self.codigoGeneracion = codigoGeneracion
         self.tipoDoc = tipoDoc
 
-    # def get_numItem(self):
-    #     return self.numItem
-    #
-    # def set_numItem(self, numItem):
-    #     self.numItem = numItem
-    #
-    # def get_tipoItem(self):
-    #     return self.tipoItem
-    #
-    # def set_tipoItem(self, tipoItem):
-    #     self.tipoItem = tipoItem
-    #
-    # def get_descripcion(self):
-    #     return self.descripcion
-    #
-    # def set_descripcion(self, descripcion):
-    #     self.descripcion = descripcion
-    #
-    # def get_cantidad(self):
-    #     return self.cantidad
-    #
-    # def set_cantidad(self, cantidad):
-    #     self.cantidad = cantidad
-    #
-    # def get_uniMedida(self):
-    #     return self.uniMedida
-    #
-    # def set_uniMedida(self, uniMedida):
-    #     self.uniMedida = uniMedida
-    #
-    # def get_precioUni(self):
-    #     return self.precioUni
-    #
-    # def set_precioUni(self, precioUni):
-    #     self.precioUni = precioUni
-    #
-    # def get_codigo(self):
-    #     return self.codigo
-    #
-    # def set_codigo(self, codigo):
-    #     self.codigo = codigo
-    #
-    # def get_ventaGravada(self):
-    #     return self.ventaGravada
-    #
-    # def set_ventaGravada(self, ventaGravada):
-    #     self.ventaGravada = ventaGravada
-    #
-    # def get_montoDescu(self):
-    #     return self.montoDescu
-    #
-    # def set_montoDescu(self, montoDescu):
-    #     self.montoDescu = montoDescu
-    #
-    # def get_ventaExenta(self):
-    #     return self.ventaExenta
-    #
-    # def set_ventaExenta(self, ventaExenta):
-    #     self.ventaExenta = ventaExenta
-    #
-    # def get_tributos(self):
-    #     return self.tributos
-    #
-    # def set_tributos(self, tributos):
-    #     self.tributos = tributos
-    #
-    # def add_tributos(self, value):
-    #     self.tributos.append(value)
-    #
-    # def insert_tributos_at(self, index, value):
-    #     self.tributos.insert(index, value)
-    #
-    # def replace_tributos_at(self, index, value):
-    #     self.tributos[index] = value
+    def get_noItemm(self):
+        return self.noItem
+
+    def set_noItem(self, noItem):
+        self.noItem = noItem
+
+    def get_codigoGeneracion(self):
+        return self.codigoGeneracion
+
+    def set_codigoGeneracion(self, codigoGeneracion):
+        self.codigoGeneracion = codigoGeneracion
+
+    def get_tipoDoc(self):
+        return self.tipoDoc
+
+    def set_tipoDoc(self, tipoDoc):
+        self.tipoDoc = tipoDoc
 
     def hasContent_(self):
         if (
@@ -612,23 +555,35 @@ class Motivo(GeneratedsSuper):
         self.fFin = fFin
         self.motivoContingencia = motivoContingencia
 
-    # def get_version(self):
-    #     return self.version
-    #
-    # def set_version(self, version):
-    #     self.version = version
-    #
-    # def get_ambiente(self):
-    #     return self.ambiente
-    #
-    # def set_ambiente(self, ambiente):
-    #     self.ambiente = ambiente
-    #
-    # def get_codigoGeneracion(self):
-    #     return self.codigoGeneracion
-    #
-    # def set_codigoGeneracion(self, codigoGeneracion):
-    #     self.codigoGeneracion = codigoGeneracion
+    def get_hFin(self):
+        return self.hFin
+
+    def set_hFin(self, hFin):
+        self.hFin = hFin
+
+    def get_hInicio(self):
+        return self.hInicio
+
+    def set_hInicio(self, hInicio):
+        self.hInicio = hInicio
+
+    def get_fInicio(self):
+        return self.fInicio
+
+    def set_fInicio(self, fInicio):
+        self.fInicio = fInicio
+
+    def get_fFin(self):
+        return self.fFin
+
+    def set_fFin(self, fFin):
+        self.fFin = fFin
+
+    def get_motivoContingencia(self):
+        return self.motivoContingencia
+
+    def set_motivoContingencia(self, motivoContingencia):
+        self.motivoContingencia = motivoContingencia
 
     def hasContent_(self):
         if (

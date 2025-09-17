@@ -55,7 +55,7 @@ class AccountMoveReversal(models.TransientModel):
         the wizard """
         res = super()._prepare_default_reversal(move)
         if self.country_code in ['SV'] and move.l10n_sv_fiscal_journal:
-            now_utc = datetime.now(pytz.timezone('UTC'))
+            now_utc = datetime.now(pytz.timezone('America/El_Salvador'))
             res.update({
                 'l10n_sv_voucher_type_id': self.l10n_sv_voucher_type_id.id,
                 'l10n_sv_generation_type_ref': self.l10n_sv_generation_type,

@@ -13,7 +13,7 @@
                 Dear,
                 <br />
                 <t t-if="object.partner_id">
-                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t> (<t t-out="object.partner_id.name or ''">Azure Interior</t>),
+                    <t t-out="object.partner_id.name or ''">Brandon Freeman</t>,
                 </t>
                 <br />
                 I hereby inform you that your invoice

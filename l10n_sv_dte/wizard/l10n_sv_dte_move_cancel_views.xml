@@ -10,6 +10,7 @@
 
                 <group>
                     <field name="l10n_sv_cancellation_type"/>
+                    <field name="l10n_sv_responsible_annulation_id"/>
                 </group>
                 <field name="reason" placeholder="Reason"/>
                 <footer>

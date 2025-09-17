@@ -8,13 +8,8 @@ from odoo.addons.l10n_sv_dte.wizard.l10n_sv_dte_move_cancel import (
     CANCELLATION_TYPE
 )
 import uuid
-
-L10N_SV_INCOTERMS = [("01", "EXW-En fabrica"),
-                     ("02", "FCA-Libre transportista"),
-                     ("03", "CPT-Transporte pagado hasta"),
-                     ("04", "CIP-Transporte y seguro pagado hasta"),
-                     ("05", "DAP-Entrega en el lugar"),
-                     ]
+import pytz
+from datetime import datetime
 
 
 class AccountMove(models.Model):
@@ -33,6 +28,7 @@ class AccountMove(models.Model):
          ('2', 'Transmisión por contingencia'),
          ],
         string="Status Voucher", required=True, default='1', help="CAT- 004: Tipo de Transmisión")
+    l10n_sv_amount_discount = fields.Monetary(store=True, readonly=True, compute='_compute_amount')
     l10n_sv_dte_contingency_type = fields.Selection(
         [('1', 'No disponibilidad de sistema del MH'),
          ],
@@ -46,19 +42,19 @@ class AccountMove(models.Model):
     l10n_sv_qr_code = fields.Binary(string="Code QR", readonly=True, related="l10_sv_dte_id.l10n_sv_qr_code")
     l10n_sv_electronic_stamp = fields.Text(string="Electronic Stamp", readonly=True, copy=False,
                                            related="l10_sv_dte_id.l10n_sv_electronic_stamp")
-    l10n_sv_incoterm = fields.Selection(L10N_SV_INCOTERMS, string="Incoterms", default="05", help="CAT- 031: INCOTERMS")
+    # Exportation
     l10n_sv_type_item_to_import = fields.Selection([("1", "Bienes"),
                                                     ("2", "Servicios"),
                                                     ("3", "Ambos (Bienes y Servicios, incluye los dos inherente a los Productos o servicios)"),
                                                     ("4", "Otros tributos por ítem"),
-                                                    ], string="Type Item to Import", default="1",
+                                                    ], string="Type Item to Import",
                                                    help="CAT- 011: Tipo de ítem")
     l10n_sv_tax_precinct = fields.Selection([("02", "Marítima de Acajutla"),
                                              ("03", "Aérea Monseñor Óscar Arnulfo Romero"),
-                                             ], string="Tax Precinct", default="02", help="CAT- 027: Recinto fiscal")
+                                             ], string="Tax Precinct", help="CAT- 027: Recinto fiscal")
     l10n_sv_regime = fields.Selection([("EX-1.1000.000", "Exportación Definitiva, Exportación Definitiva, Régimen Común"),
                                        ("EX-1.1040.000", "Exportación Definitiva, Exportación Definitiva Sustitución de Mercancías, Régimen Común"),
-                                       ], string="Regime", default="EX-1.1000.000", help="CAT- 028: Régimen")
+                                       ], string="Regime", help="CAT- 028: Régimen")
 
     # Reference
     l10n_sv_generation_type_ref = fields.Selection(GENERATION_TYPE_SELECTION, string="Generation Type Ref")
@@ -70,8 +66,18 @@ class AccountMove(models.Model):
     l10n_sv_annulation_generation_code = fields.Char(size=36, string="Annulation Generation Code")
     l10n_sv_cancellation_type = fields.Selection(CANCELLATION_TYPE, string="Cancellation Type")
     l10n_sv_cancellation_reason = fields.Text(string="Cancellation Reason")
+    l10n_sv_responsible_annulation_id = fields.Many2one("res.users", string="Responsible for Annulation")
 
     # === COMPUTE METHODS ===#
+
+    def _compute_amount(self):
+        super(AccountMove, self)._compute_amount()
+        for inv in self:
+            if inv.is_invoice(include_receipts=False):
+                line_total_discount = sum(
+                    (line.price_unit * line.quantity * line.discount / 100) for line in inv.invoice_line_ids)
+                total_discount = line_total_discount
+                inv.l10n_sv_amount_discount = total_discount
 
     @api.depends('move_type', 'debit_origin_id', 'partner_id')
     def _compute_l10n_sv_l10n_sv_voucher_type(self):
@@ -88,7 +94,7 @@ class AccountMove(models.Model):
                 code = '11'
             elif rec.debit_origin_id:
                 code = "02"
-            elif rec.partner_id and not rec.partner_id.vat and rec.move_type in ['out_invoice', 'in_invoice']:
+            elif rec.partner_id and not rec.partner_id.vat and rec.move_type in ['out_invoice']:
                 code = "01"
             else:
                 code = sequence[rec.move_type]
@@ -129,7 +135,7 @@ class AccountMove(models.Model):
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        if self.l10n_sv_fiscal_journal and self.country_code in ['SV']:
+        if self.country_code == 'SV' and self.l10n_sv_fiscal_journal:
             return self._get_invoice_report_filename()
 
         return super()._get_report_base_filename()
@@ -141,6 +147,7 @@ class AccountMove(models.Model):
                             default_get(['state', 'company_id', 'l10n_sv_dte_situation', 'ind_state',
                                          'l10n_sv_economic_activity_id']))
 
+            hora_actual = datetime.now(pytz.timezone('UTC')).time()
             default_data.update(
                 invoice_id=self.id,
                 l10n_sv_terminal_id=terminal_id.id,
@@ -151,7 +158,8 @@ class AccountMove(models.Model):
                 name=self.l10n_sv_document_number,
                 situation=self.l10n_sv_dte_situation,
                 l10n_sv_generation_code=self.l10n_sv_generate_uuid(),
-                l10n_sv_invoice_type=self.move_type
+                l10n_sv_invoice_type=self.move_type,
+                date_issue=datetime.combine(self.invoice_date, hora_actual),
             )
             default_data.update(self._l10n_sv_prepare_document_additional_values())
             doc_id = Document.create(default_data)
@@ -172,7 +180,7 @@ class AccountMove(models.Model):
     def _post(self, soft=True):
         # Primero se llama al padre para q genere la fecha de vencimiento, consecutivos, etc.
         for inv in self.filtered(lambda x: x.move_type not in ('entry',)):
-            if inv.country_code in ('SV',):
+            if inv.country_code == 'SV' and inv.l10n_sv_fiscal_journal:
                 if not inv.l10n_sv_terminal_id:
                     # Si no hay terminal en la factura, se establece la primera terminal activa en el sistema.
                     terminal_id = self.env["l10n_sv.terminal"].search([('company_id', '=', self.env.company.id),
@@ -185,7 +193,8 @@ class AccountMove(models.Model):
         res = super(AccountMove, self)._post(soft)
 
         for inv in res.filtered(lambda x: x.move_type not in ('entry',)):
-            if inv.l10n_sv_fiscal_journal and inv.country_code in ('SV',):
+            if inv.country_code == 'SV' and inv.l10n_sv_fiscal_journal:
+                inv._l10n_sv_check_invoice_type_document_type()
                 if inv.move_type in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']:
                     if not inv.l10n_sv_document_number:
                         inv.l10n_sv_document_number = inv.l10n_sv_terminal_id.gen_control_number(inv.l10n_sv_voucher_type_id)
@@ -203,11 +212,41 @@ class AccountMove(models.Model):
         uid_formated = f"{str(uid).upper()}"
         return uid_formated
 
+    @api.constrains("move_type", "l10n_sv_voucher_type_id")
+    def _l10n_sv_check_invoice_type_document_type(self):
+        # for rec in self.filtered('l10n_latam_document_type_id.internal_type'):
+        #     internal_type = rec.l10n_latam_document_type_id.internal_type
+        #     invoice_type = rec.move_type
+        #     if internal_type in ['debit_note', 'invoice'] and invoice_type in ['out_refund', 'in_refund'] and \
+        #             rec.l10n_latam_document_type_id.code != '99':
+        #         raise ValidationError(_('You can not use a %s document type with a refund invoice', internal_type))
+        #     elif internal_type == 'credit_note' and invoice_type in ['out_invoice', 'in_invoice']:
+        #         raise ValidationError(_('You can not use a %s document type with a invoice', internal_type))
+
+        for rec in self.filtered(
+                lambda r: (r.company_id.country_id == self.env.ref("base.sv")
+                           and r.l10n_sv_voucher_type_id)
+        ):
+            l10n_sv_voucher_type_id = rec.l10n_sv_voucher_type_id
+            if rec.move_type in ("out_invoice", "out_refund"):
+                if (
+                        rec.amount_untaxed_signed >= 25000.00
+                        and l10n_sv_voucher_type_id.code == '01'
+                        and (not self.env["l10n_sv.dte.document"].get_document_number(rec.partner_id) or not rec.partner_id.l10n_sv_identification_id)
+                ):
+                    raise UserError(
+                        _(
+                            "If the invoice amount is greater than $25,000.00 "
+                            "the customer should have a VAT and Identification Type to validate the invoice"
+                        )
+                    )
+
     def _l10n_sv_check_move_for_refund(self):
-        failed_orders = self.filtered(lambda o: o.l10n_sv_voucher_type_id and o.l10n_sv_voucher_type_id.code == '01')
+        failed_orders = self.filtered(lambda o: (o.l10n_sv_voucher_type_id
+                                                 and o.l10n_sv_voucher_type_id.code not in ['03', '07']))
         if failed_orders:
             invoices_str = ", ".join(failed_orders.mapped('name'))
-            raise UserError(_("Moves %s not eligible to Credit Note .", invoices_str))
+            raise UserError(_("Moves %s not eligible to Credit Note or Debit Note.", invoices_str))
 
         invoices = self
         return invoices
@@ -217,8 +256,8 @@ class AccountMove(models.Model):
 
                 """
         failed_auth_moves = self.filtered(
-            lambda o: (not o.company_id.l10n_sv_mh_auth_pass or not o.company_id.l10n_sv_mh_auth_user)
-                      and o.country_code == 'SV')
+            lambda o: (o.country_code == 'SV'
+                       and (not o.company_id.l10n_sv_mh_auth_pass or not o.company_id.partner_id.nit)))
         if failed_auth_moves:
             invoices_str = ", ".join(failed_auth_moves.mapped('name'))
             raise UserError(_("Invoices %s not eligible to sent (Not exist credentials to auth).", invoices_str))
@@ -235,7 +274,7 @@ class AccountMove(models.Model):
         invoices = self
         return invoices
 
-    def _l10n_sv_invoice_pos_annul_dte_try(self):
+    def _l10n_sv_invoice_annul_dte_try(self):
         records_sorted = self.sorted('id')
         moves = records_sorted._l10n_sv_check_move_for_annul()
         if len(moves.company_id) != 1:
@@ -270,7 +309,7 @@ class AccountMove(models.Model):
     # ===== BUTTONS =====
 
     def button_draft(self):
-        if self.country_code in ('SV',):
+        if self.country_code == 'SV':
             if self.l10_sv_dte_id and self.l10n_sv_dte_send_state in ['delivered_accepted', 'invalidated']:
                 raise UserError("No puede establecer a borrador una factura enviada a Hacienda.")
             elif self.l10_sv_dte_id and self.l10n_sv_dte_send_state in ['not_sent']:
@@ -283,7 +322,7 @@ class AccountMove(models.Model):
 
     def action_send_to_hacienda(self):
         invoices = self._l10n_sv_check_moves_for_send()
-        for move in invoices:
+        for move in invoices.filtered(lambda x: x.l10n_sv_dte_send_state == 'signed_pending'):  
             move.l10_sv_dte_id.action_send_to_hacienda()
 
     def l10n_sv_action_annul_dte_wizard(self):

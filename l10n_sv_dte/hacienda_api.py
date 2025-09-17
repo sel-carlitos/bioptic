@@ -6,7 +6,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-DTE_VOUCHER_TYE_MAP = {
+DTE_VOUCHER_TYPE_VERSION_MAP = {
     "01": 1,
     "03": 3,
     "04": 3,
@@ -115,7 +115,7 @@ class HaciendaApi:
         headers = {'Authorization': kernel.get('token', ''), 'Content-type': 'application/json'}
         data = {'ambiente': env,
                 'idEnvio': 1,
-                'version': DTE_VOUCHER_TYE_MAP[doc.l10n_sv_voucher_type_id.code],
+                'version': DTE_VOUCHER_TYPE_VERSION_MAP[doc.l10n_sv_voucher_type_id.code],
                 'tipoDte': doc.l10n_sv_voucher_type_id.code,
                 'documento': doc.json_signed,
                 }

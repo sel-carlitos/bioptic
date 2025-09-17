@@ -510,7 +510,7 @@ class Emisor(GeneratedsSuper):
             outfile.write(bytes(('"codPuntoVentaMH":null,%s' % eol_).encode()))
         if self.codPuntoVenta is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('"codPuntoVenta":"%s",%s' % (
+            outfile.write(bytes(('"codPuntoVenta":"%s"%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.codPuntoVenta), input_name='Código del Punto de Venta (Emisor) asignado por el contribuyente')),
                 eol_)).encode()))
         else:
@@ -1026,6 +1026,12 @@ class Resumen(GeneratedsSuper):
     def set_valorTotal(self, valorTotal):
         self.valorTotal = valorTotal
 
+    def get_pagos(self):
+        return self.pagos
+
+    def set_pagos(self, pagos):
+        self.pagos = pagos
+
     def hasContent_(self):
         if (
                 self.valorTotal is not None or
@@ -1076,11 +1082,167 @@ class Resumen(GeneratedsSuper):
                 self.gds_encode(self.gds_format_string(quote_xml(self.totalLetras), input_name='Version')),
                 eol_)).encode()))
         if self.pagos is not None:
-            for pago_ in self.pagos:
-                pago_.export(outfile, level, namespace_, name_='LineaDetalle', pretty_print=pretty_print)
+            self.pagos.export(outfile, level, namespace_, name_='pagos', pretty_print=pretty_print)
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"pagos":null%s' % eol_).encode()))
+
+
+class Pagos(GeneratedsSuper):
+    subclass = None
+    superclass = None
+
+    def __init__(self, Item=None):
+        self.original_tagname_ = None
+        if Item is None:
+            self.Item = []
+        else:
+            self.Item = Item
+
+    def get_Item(self):
+        return self.Item
+
+    def set_Item(self, Item):
+        self.Item = Item
+
+    def add_Item(self, value):
+        self.Item.append(value)
+
+    def insertItem_at(self, index, value):
+        self.Item.insert(index, value)
+
+    def replace_Item_at(self, index, value):
+        self.Item[index] = value
+
+    def hasContent_(self):
+        if (
+                self.Item
+        ):
+            return True
+        else:
+            return False
+
+    def export(self, outfile, level, namespace_='', name_='identificacion', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write(
+            bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+        if self.hasContent_():
+            outfile.write(bytes(('[%s' % (eol_,)).encode()))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            # outfile.write(bytes(('</%s%s>%s' % (namespace_, name_, eol_)).encode()))
+            outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+        else:
+            # outfile.write(bytes(('/>%s' % (eol_,)).encode()))
+            outfile.write(bytes(('null%s' % eol_).encode()))
+
+    def exportChildren(self, outfile, level, namespace_='', name_='DetalleServicioType', fromsubclass_=False,
+                       pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for i, LineaItem_ in enumerate(self.Item, 1):
+            LineaItem_.export(outfile, level, namespace_, name_='Item', pretty_print=pretty_print, enu=i, tam=len(self.Item))
+
+
+class Pago(GeneratedsSuper):
+    subclass = None
+    superclass = None
+
+    def __init__(self, codigo=None, montoPago=None, referencia=None):
+        self.original_tagname_ = None
+        self.codigo = codigo
+        self.montoPago = montoPago
+        self.referencia = referencia
+
+    def get_codigo(self):
+        return self.codigo
+
+    def set_codigo(self, codigo):
+        self.codigo = codigo
+
+    def get_montoPago(self):
+        return self.montoPago
+
+    def set_montoPago(self, montoPago):
+        self.montoPago = montoPago
+
+    def get_referencia(self):
+        return self.referencia
+
+    def set_referencia(self, referencia):
+        self.referencia = referencia
+
+    def hasContent_(self):
+        if (
+                self.codigo is not None or
+                self.montoPago is not None or
+                self.referencia is not None
+        ):
+            return True
+        else:
+            return False
+
+    def export(self, outfile, level, namespace_='', name_='Item', namespacedef_='', pretty_print=True, enu=None, tam=None):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('identificacion')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write(
+            # bytes(('%s"%s":%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+            bytes(('%s%s' % (namespace_, namespacedef_ and ' ' + namespacedef_ or '',)).encode()))
+        if self.hasContent_():
+            outfile.write(bytes(('{%s' % (eol_,)).encode()))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Identificacion', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            # outfile.write(bytes(('</%s%s>%s' % (namespace_, name_, eol_)).encode()))
+            if enu == 1 and tam == 1:
+                outfile.write(bytes(('%s}%s' % (namespace_, eol_)).encode()))
+            elif enu != tam:
+                outfile.write(bytes(('%s},%s' % (namespace_, eol_)).encode()))
+            else:
+                outfile.write(bytes(('%s}%s' % (namespace_, eol_)).encode()))
+
+    def exportChildren(self, outfile, level, namespace_='', name_='EmisorType', fromsubclass_=False,
+                       pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.codigo is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"codigo":"%s",%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.codigo), input_name='Resumen Código de Tributo')),
+                eol_)).encode()))
+        if self.montoPago is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"montoPago":%s,%s' % (
+                self.gds_encode(self.gds_format_float(self.montoPago, input_name='Valor del Tributo')),
+                eol_)).encode()))
+        if self.referencia is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"referencia":"%s"%s' % (
+                self.gds_encode(self.gds_format_string(quote_xml(self.referencia), input_name='Nombre del Tributo')),
+                eol_)).encode()))
+        else:
+            showIndent(outfile, level, pretty_print)
+            outfile.write(bytes(('"referencia":null%s' % eol_).encode()))
 
 
 class OtrosDocumentos(GeneratedsSuper):
@@ -1160,23 +1322,23 @@ class OtroDocumento(GeneratedsSuper):
         self.descDocumento = descDocumento
         self.detalleDocumento = detalleDocumento
 
-    # def get_codigo(self):
-    #     return self.codigo
-    #
-    # def set_codigo(self, codigo):
-    #     self.codigo = codigo
-    #
-    # def get_descripcion(self):
-    #     return self.descripcion
-    #
-    # def set_descripcion(self, descripcion):
-    #     self.descripcion = descripcion
-    #
-    # def get_valor(self):
-    #     return self.valor
-    #
-    # def set_valor(self, valor):
-    #     self.valor = valor
+    def get_codDocAsociado(self):
+        return self.codDocAsociado
+
+    def set_codDocAsociado(self, codDocAsociado):
+        self.codDocAsociado = codDocAsociado
+
+    def get_descDocumento(self):
+        return self.descDocumento
+
+    def set_descDocumento(self, descDocumento):
+        self.descDocumento = descDocumento
+
+    def get_detalleDocumento(self):
+        return self.detalleDocumento
+
+    def set_detalleDocumento(self, detalleDocumento):
+        self.detalleDocumento = detalleDocumento
 
     def hasContent_(self):
         if (

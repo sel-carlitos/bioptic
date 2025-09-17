@@ -121,8 +121,7 @@
                             <br/>
                         </span>
                         <span style="color:#111 !important;">Tipo de establecimiento:
-
-                            <br/>
+                            <span t-field="o.company_id.l10n_sv_establishment_type"/>
                         </span>
                     </address>
                 </div>
@@ -222,15 +221,6 @@
                         <t t-esc="len(lines)"/>
                     </div>
                 </div>
-<!--                <br/>-->
-<!--                <div>-->
-<!--                    <p align="center">-->
-<!--                        Emitida conforme lo establecido en la resolución de Facturación Electrónica,-->
-<!--                        <br/>-->
-<!--                        Nº DGT-R-033-2019.- San José, a las ocho horas veinticinco minutos del día veinte de junio de-->
-<!--                        dos mil diecinueve.-->
-<!--                    </p>-->
-<!--                </div>-->
             </t>
         </xpath>
 <!--        <xpath expr="//div[@id='right-elements']/div/div/table[hasclass('o_total_table')]/t" position="before">-->

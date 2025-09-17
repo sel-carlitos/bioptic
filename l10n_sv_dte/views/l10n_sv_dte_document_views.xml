@@ -42,7 +42,7 @@
                         <group>
                             <field name="l10n_sv_generation_code"/>
                             <field name="invoice_id" invisible="not invoice_id"/>
-                            <field name="l10n_sv_voucher_type_id"/>
+                            <field name="l10n_sv_voucher_type_id" options="{'no_open': True, 'no_create': True}"/>
                             <field name="partner_id"/>
                             <field name="json_signed" invisible="1"/>
                             <field name="json_andte_signed" invisible="1"/>
@@ -149,10 +149,85 @@
             </search>
         </field>
     </record>
+    <record id="l10n_sv_document_view_kanban" model="ir.ui.view">
+        <field name="name">l10n.sv.document.view.kanban</field>
+        <field name="model">l10n_sv.dte.document</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="l10n_sv_generation_code"/>
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="l10n_sv_dte_send_state"/>
+                <field name="json_amount_tax"/>
+                <field name="json_amount_total"/>
+                <field name="l10n_sv_voucher_type_id"/>
+<!--                <field name="invoice_name"/>-->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row mb4">
+                                <div class="col-6 o_kanban_record_headings">
+                                    <strong>
+                                        <span>
+                                            <field name="l10n_sv_voucher_type_id"/>
+                                        </span>
+                                    </strong>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <strong>
+                                        <i class="fa fa-clock-o" aria-label="Date" role="img" title="Date"/>
+                                        <t t-esc="record.create_date.value"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row">
+<!--                                <div class="col-12" id="invoice_name">-->
+<!--                                    <strong>-->
+<!--                                        <span>-->
+<!--                                            <field name="invoice_name"/>-->
+<!--                                        </span>-->
+<!--                                    </strong>-->
+<!--                                </div>-->
+                                <div class="col-12">
+                                    <span>
+                                        <field name="l10n_sv_generation_code"/>
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <span>
+                                        <field name="partner_id"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <span>Total:
+                                        <field name="json_amount_total" widget='monetary'/>
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <span>Tax:
+                                        <field name="json_amount_tax" widget='monetary'/>
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="float-right">
+                                        <field name="l10n_sv_dte_send_state" widget="label_selection"
+                                               options="{'classes': {'to_send': 'default', 'delivered_refused': 'danger', 'delivered_accepted': 'success'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
     <record id="action_ecf_document_action" model="ir.actions.act_window">
         <field name="name">Electronic Documents</field>
         <field name="res_model">l10n_sv.dte.document</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Haga clic para agregar un documento.

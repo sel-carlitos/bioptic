@@ -11,6 +11,9 @@ class ResPartner(models.Model):
     l10n_sv_identification_code = fields.Char(related="l10n_sv_identification_id.code")
     dui = fields.Char(string="DUI")
     nit = fields.Char(string="NIT")
+    passport = fields.Char(string="PASSPORT")
+    other = fields.Char(string="OTHER")
+    residential_card = fields.Char(string="RESIDENTIAL CARD")
 
     # === Economic Activity fields === #
 
@@ -29,7 +32,7 @@ class ResPartner(models.Model):
             domain = []
 
             if partner.company_type == 'person':
-                domain.append(('code', 'in', ['04', '13', '37']))
+                domain.append(('code', 'in', ['02', '04', '13', '37']))
             else:
                 domain.append(('code', 'in', ['36', '37']))
 

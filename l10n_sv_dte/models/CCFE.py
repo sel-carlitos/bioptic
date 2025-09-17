@@ -1080,14 +1080,21 @@ class Item(GeneratedsSuper):
 
             outfile.write(bytes(('[%s' % (eol_,)).encode()))
             showIndent(outfile, level, pretty_print)
-            for tributo_ in self.tributos:
+            # for tributo_ in self.tributos:
+            for i, tributo_ in enumerate(self.tributos, 1):
                 showIndent(outfile, level, pretty_print)
                 outfile.write(bytes(('"%s"%s' % (
                     self.gds_encode(self.gds_format_string(quote_xml(tributo_),
                                                            input_name='Número de documento relacionado')),
                     eol_)).encode()))
                 showIndent(outfile, level, pretty_print)
-            outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+                if i == 1 and len(self.tributos) == 1:
+                    outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+                elif i != len(self.tributos):
+                    outfile.write(bytes(('%s,%s' % (namespace_, eol_)).encode()))
+                else:
+                    outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
+            # outfile.write(bytes(('%s]%s' % (namespace_, eol_)).encode()))
         else:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tributos":null%s' % eol_).encode()))
@@ -1124,10 +1131,6 @@ class Resumen(GeneratedsSuper):
         self.condicionOperacion = condicionOperacion
         self.numPagoElectronico = numPagoElectronico
         self.ivaPerci1 = ivaPerci1
-        # if pagos is None:
-        #     self.pagos = []
-        # else:
-        #     self.pagos = pagos
         self.pagos = pagos
 
     def set_totalLetras(self, totalLetras):

@@ -11,6 +11,17 @@ from odoo.addons.l10n_sv_dte.models.l10n_sv_dte_document import (
 class AccountDebitNote(models.TransientModel):
     _inherit = "account.debit.note"
 
+    @api.model
+    def default_get(self, fields_list):
+        results = super(AccountDebitNote, self).default_get(fields_list)
+        if 'move_ids' in results:
+            source_move = self.env['account.move'].browse(results['move_ids'][0][2])
+            if source_move.country_code in ["SV", ]:
+                invoices = source_move._l10n_sv_check_move_for_refund()
+                results['move_ids'] = [Command.set(invoices.ids)]
+
+        return results
+
     l10n_sv_fiscal_journal = fields.Boolean(related='journal_id.l10n_sv_fiscal_journal')
     l10n_sv_generation_type = fields.Selection(GENERATION_TYPE_SELECTION, string="Generation Type", default='2')
     l10n_sv_voucher_type_id = fields.Many2one('l10n_sv.voucher.type', 'Voucher Type', ondelete='cascade',
@@ -25,7 +36,7 @@ class AccountDebitNote(models.TransientModel):
     def _prepare_default_values(self, move):
         res = super(AccountDebitNote, self)._prepare_default_values(move)
         if self.country_code in ['SV'] and move.l10n_sv_fiscal_journal:
-            now_utc = datetime.now(pytz.timezone('UTC'))
+            now_utc = datetime.now(pytz.timezone('America/El_Salvador'))
             res.update({
                 'l10n_sv_voucher_type_id': self.l10n_sv_voucher_type_id.id,
                 'l10n_sv_generation_type_ref': self.l10n_sv_generation_type,

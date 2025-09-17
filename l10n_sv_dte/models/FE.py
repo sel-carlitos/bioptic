@@ -1163,10 +1163,6 @@ class Resumen(GeneratedsSuper):
         self.descuNoSuj = descuNoSuj
         self.condicionOperacion = condicionOperacion
         self.numPagoElectronico = numPagoElectronico
-        # if pagos is None:
-        #     self.pagos = []
-        # else:
-        #     self.pagos = pagos
         self.pagos = pagos
 
     def set_totalLetras(self, totalLetras):
@@ -1260,7 +1256,6 @@ class Resumen(GeneratedsSuper):
     def set_tributos(self, tributos):
         self.tributos = tributos
     # ------------------------------------------------------*
-
 
     def hasContent_(self):
         if (

@@ -594,8 +594,8 @@ class Receptor(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, tipoDocumento=None, numDocumento=None, rnc=None, nit=None, nombre=None, nrc=None, codActividad=None, nombreComercial=None,
-                 descActividad=None, direccion=None, telefono=None, correo=None):
+    def __init__(self, tipoDocumento=None, numDocumento=None, rnc=None, nit=None, nombre=None, nrc=None,
+                 codActividad=None, nombreComercial=None, descActividad=None, direccion=None, telefono=None, correo=None):
         self.original_tagname_ = None
         self.tipoDocumento = tipoDocumento
         self.numDocumento = numDocumento
@@ -973,16 +973,11 @@ class Resumen(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, totalSujetoRetencion=0.00, totalIVAretenido=0.00, totalIVAretenidoLetras=None,
-                 ):
+    def __init__(self, totalSujetoRetencion=0.00, totalIVAretenido=0.00, totalIVAretenidoLetras=None):
         self.original_tagname_ = None
         self.totalSujetoRetencion = totalSujetoRetencion
         self.totalIVAretenido = totalIVAretenido
         self.totalIVAretenidoLetras = totalIVAretenidoLetras
-        # if pagos is None:
-        #     self.pagos = []
-        # else:
-        #     self.pagos = pagos
 
     def set_totalIVAretenidoLetras(self, totalIVAretenidoLetras):
         self.totalIVAretenidoLetras = totalIVAretenidoLetras

@@ -55,7 +55,7 @@ msgstr ""
 "                <br/>\n"
 "                Por este medio comunico que su factura \n"
 "                <br/>\n"
-"                emitida e: <t t-out=\"object.date_issue or ''\"/> ha sido anulada\n"
+"                emitida el: <t t-out=\"object.date_issue or ''\"/> ha sido anulada\n"
 "                <br/>\n"
 "                Código de Generación: \n"
 "                <br/>\n"
@@ -89,9 +89,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sv_dte
-#: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_terminal_form
+#: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_location_form
 msgid "<span class=\"o_stat_text\">Sequences</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Secuencias</span>"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
@@ -140,7 +140,7 @@ msgstr "<strong>Tipo de transmisión:</strong>"
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_terminal_validate_wizard_form
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #. module: l10n_sv_dte
 #: model:ir.model,name:l10n_sv_dte.model_account_chart_template
@@ -162,8 +162,9 @@ msgstr "Enviar movimiento de cuenta"
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_location__active
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_voucher_type__active
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_terminal__state__active
+#: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_location__state__active
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_report_invoice_document
@@ -178,7 +179,7 @@ msgstr "Actividades Económicas"
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_economic_activity__name
 msgid "Activity"
-msgstr ""
+msgstr "Actividad"
 
 #. module: l10n_sv_dte
 #: model:ir.model,name:l10n_sv_dte.model_account_debit_note
@@ -251,11 +252,23 @@ msgstr ""
 
 #. module: l10n_sv_dte
 #. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_location.py:0
+msgid ""
+"Are you sure want to cancel this Location? Once you cancel this Location "
+"cannot be used."
+msgstr ""
+"¿Seguro que quieres cancelar esta Sucursal? Una vez que la canceles "
+"no podrás usarla."
+
+#. module: l10n_sv_dte
+#. odoo-python
 #: code:addons/l10n_sv_dte/models/l10n_sv_terminal.py:0
 msgid ""
 "Are you sure want to cancel this Terminal? Once you cancel this Terminal "
 "cannot be used."
 msgstr ""
+"¿Seguro que quieres cancelar esta Terminal? Una vez que la canceles "
+"no podrás usarla."
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__account_move__l10n_sv_tax_precinct__03
@@ -293,6 +306,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_dte_move_cancel_view
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_terminal_validate_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_terminal_form
+#: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_location_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -334,6 +348,7 @@ msgstr "Código de generación de anulación"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_terminal__state__cancelled
+#: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_location__state__cancelled
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -357,7 +372,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_res_partner__l10n_sv_identification_code
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_res_users__l10n_sv_identification_code
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_bank_statement_line__l10n_sv_qr_code
@@ -394,7 +409,7 @@ msgstr "Compañías"
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_location__company_id
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_terminal__company_id
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #. module: l10n_sv_dte
 #. odoo-python
@@ -602,7 +617,7 @@ msgstr ""
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_location__description
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_dte_andte_message_detail__display_name
@@ -636,6 +651,7 @@ msgstr ""
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_terminal__state__draft
+#: model:ir.model.fields.selection,name:l10n_sv_dte.selection__l10n_sv_location__state__draft
 msgid "Draft"
 msgstr ""
 
@@ -746,6 +762,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_terminal.py:0
+msgid ""
+"Error getting Consecutive Numbering: \n"
+" %s"
+msgstr ""
+"Error al obtener Numeración Consecutiva: \n"
+" %s"
+
+#. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_res_company__l10n_sv_establishment_type
 msgid "Establishment Type"
 msgstr "Tipo de establecimiento"
@@ -832,7 +858,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_move__l10n_sv_fiscal_journal
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_move_reversal__l10n_sv_fiscal_journal
 msgid "Fiscal Journal"
-msgstr ""
+msgstr "Usa documentos fiscales"
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields.selection,name:l10n_sv_dte.selection__account_debit_note__l10n_sv_generation_type__1
@@ -917,6 +943,16 @@ msgid "Identification Type"
 msgstr "Tipo de identificación"
 
 #. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/account_move.py:0
+msgid ""
+"If the invoice amount is greater than $25,000.00 the customer should have "
+"a VAT and Identification Type to validate the invoice"
+msgstr ""
+"Si el importe de la factura es mayor a $25,000.00 el cliente deberá tener "
+"un VAT y un tipo de identificación para validar la factura"
+
+#. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_bank_statement_line__l10n_sv_incoterm
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_account_move__l10n_sv_incoterm
 msgid "Incoterm"
@@ -930,7 +966,7 @@ msgstr ""
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_voucher_type__internal_type
 msgid "Internal Type"
-msgstr ""
+msgstr "Tipo interno"
 
 #. module: l10n_sv_dte
 #. odoo-python
@@ -1326,6 +1362,7 @@ msgstr ""
 
 #. module: l10n_sv_dte
 #: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_terminal__state
+#: model:ir.model.fields,field_description:l10n_sv_dte.field_l10n_sv_location__state
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.l10n_sv_document_view_search
 msgid "State"
 msgstr "Estado"
@@ -1400,6 +1437,18 @@ msgstr ""
 #. module: l10n_sv_dte
 #. odoo-python
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
+msgid "The Salesperson has not defined an identification number."
+msgstr "No esta definido el numero de identificación del responsable de anulación."
+
+#. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
+msgid "The Salesperson has not defined an identification type."
+msgstr "No esta definido el tipo de identificación de Vendedor/Comercial."
+
+#. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "The contact has not defined a phone."
 msgstr ""
 
@@ -1444,6 +1493,12 @@ msgstr ""
 #: code:addons/l10n_sv_dte/models/l10n_sv_dte_document.py:0
 msgid "The province of partner must be required."
 msgstr ""
+
+#. module: l10n_sv_dte
+#. odoo-python
+#: code:addons/l10n_sv_dte/models/l10n_sv_terminal.py:0
+msgid "The voucher type has no defined sequence."
+msgstr "El tipo de comprobante no tiene una secuencia definida."
 
 #. module: l10n_sv_dte
 #. odoo-python
@@ -1529,7 +1584,7 @@ msgstr ""
 #. module: l10n_sv_dte
 #: model_terms:ir.ui.view,arch_db:l10n_sv_dte.view_company_form_inherit
 msgid "View Detail"
-msgstr ""
+msgstr "Ver detalles"
 
 #. module: l10n_sv_dte
 #: model:ir.model,name:l10n_sv_dte.model_l10n_sv_voucher_type

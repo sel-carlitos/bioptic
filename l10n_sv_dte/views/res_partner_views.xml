@@ -9,6 +9,7 @@
             <form>
                 <!-- Invisible fields -->
                 <field name="l10n_sv_identification_code" invisible="1"/>
+                <field name="l10n_sv_available_identification_ids" invisible="1"/>
             </form>
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <div>
@@ -21,6 +22,12 @@
                           invisible="l10n_sv_identification_code != '36' or 'SV' not in fiscal_country_codes"/>
                     <field name="dui" placeholder="DUI"
                           invisible="l10n_sv_identification_code != '13' or 'SV' not in fiscal_country_codes"/>
+                    <field name="passport" placeholder="PASSPORT"
+                           invisible="l10n_sv_identification_code != '04' or 'SV' not in fiscal_country_codes"/>
+                    <field name="other" placeholder="OTHER"
+                           invisible="l10n_sv_identification_code != '37' or 'SV' not in fiscal_country_codes"/>
+                    <field name="residential_card" placeholder="RESIDENTIAL CARD"
+                           invisible="l10n_sv_identification_code != '02' or 'SV' not in fiscal_country_codes"/>
                 </div>
                 <field name="l10n_sv_commercial_name" placeholder="Commercial Name"
                       invisible="'SV' not in fiscal_country_codes"/>

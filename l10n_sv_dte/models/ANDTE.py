@@ -509,9 +509,6 @@ class Documento(GeneratedsSuper):
             outfile.write(bytes(('"nombre":"%s",%s' % (
                 self.gds_encode(self.gds_format_string(quote_xml(self.nombre), input_name='Version')),
                 eol_)).encode()))
-        # else:
-        #     showIndent(outfile, level, pretty_print)
-        #     outfile.write(bytes(('"nombre":null%s' % eol_).encode()))
         if self.telefono is not None and self.telefono is not False:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"telefono":"%s",%s' % (
@@ -589,11 +586,6 @@ class Motivo(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        # if self.tipoAnulacion is not None:
-        #     showIndent(outfile, level, pretty_print)
-        #     outfile.write(bytes(('"tipoAnulacion":"%s",%s' % (
-        #         self.gds_encode(self.gds_format_string(quote_xml(self.tipoAnulacion), input_name='Version')),
-        #         eol_)).encode()))
         if self.tipoAnulacion is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write(bytes(('"tipoAnulacion":%s,%s' % (
