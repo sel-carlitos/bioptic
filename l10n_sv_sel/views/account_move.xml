@@ -12,4 +12,27 @@
     </field>
   </record>
 
+  <record id="doc_rel_view_move_form_inherit" model="ir.ui.view">
+    <field name="name">account.invoice.form.inherit.l10n.sv.sel</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="l10n_sv_dte.view_move_form_inherit" />
+    <field name="arch" type="xml">
+      <field name="l10n_sv_generation_type_ref" position="after">
+        <field name="dte_reference_doc" />
+        <field name="voucher_type_id_ref" />
+      </field>
+      <xpath expr="//field[@name='l10n_sv_generation_type_ref']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='l10n_sv_generation_code_ref']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='l10n_sv_date_issue_ref']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
 </odoo>
