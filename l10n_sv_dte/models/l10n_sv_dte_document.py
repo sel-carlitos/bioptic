@@ -290,7 +290,6 @@ class DTEDocument(models.Model):
         if not self.json_file:
             self.action_gen_json()
 
-        self.invoice_id._message_log(body=_("Sello Electronico: %s", self.invoice_id.l10n_sv_electronic_stamp))
         hacienda_api = HaciendaApi(company_id=self.company_id)
         response = hacienda_api.recepcion_dte(self)
         self.response_status_code = response.status_code
@@ -308,6 +307,7 @@ class DTEDocument(models.Model):
             }
             self.write(document_vals)
             self.invoice_id._message_log(body=_("Receipt Stamp: %s", response_json['selloRecibido']))
+            self.invoice_id._message_log(body=_("Sello Electronico: %s", self.invoice_id.l10n_sv_electronic_stamp))
         elif response.status_code == 400:
             response_json = response.json()
             document_vals = {
