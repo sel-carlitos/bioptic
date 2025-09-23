@@ -245,8 +245,9 @@ class DTEDocument(models.Model):
         cedoc.set_resumen(summary)
 
     def get_document_number(self, partner_id):
-        if partner_id.l10n_sv_identification_code == '36':
-            document_number = partner_id.nit
-            return document_number.replace('-', '')
-        else:
-            return partner_id.dui or ''
+        """Return document number for a partner.
+        Falls back to VAT if no local identification is found.
+        """
+        if not partner_id.l10n_sv_identification_id:
+            return partner_id.vat or None
+        return super().get_document_number(partner_id)

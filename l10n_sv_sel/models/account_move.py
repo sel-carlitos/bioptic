@@ -21,6 +21,17 @@ class AccountMove(models.Model):
         related='reversed_entry_id.l10n_sv_voucher_type_id',
         copy=False,
     )
+    dte_reference_doc_debit_note = fields.Char(
+        string="Documento de referencia DTE ND",
+        related='debit_origin_id.l10_sv_dte_id.name',
+        copy=False,
+    )
+    voucher_type_id_ref_debit_note = fields.Many2one(
+        'l10n_sv.voucher.type',
+        string="Tipo de comprobante de referencia ND",
+        related='debit_origin_id.l10n_sv_voucher_type_id',
+        copy=False,
+    )
 
     def unlink(self):
         for move in self:
