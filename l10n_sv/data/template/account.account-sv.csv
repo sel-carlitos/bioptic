@@ -3,6 +3,7 @@
 "account_account_template_0_112001","0-Trade accounts receivable","0.112001","asset_receivable","True","","0-Cuentas por cobrar comerciales"
 "account_account_template_0_211001","0-Accounts payable to suppliers","0.211001","liability_payable","True","","0-Cuentas por pagar a proveedores"
 "account_account_template_0_212101","0-Sales tax payable","0.212101","liability_current","True","","0-Impuesto de ventas por pagar"
+"account_account_template_0_210304","0-Impuesto sobre la renta","0.210304","liability_current","True","","0-Impuesto sobre la renta"
 
 "account_account_template_0_450001","0-Exchange differential","0.450001","income","False","","0-Diferencial cambiario"
 "account_account_template_0_410001","0-Category 1","0.410001","income_other","False","account_tax_template_IV_0","0-Categoría 1"

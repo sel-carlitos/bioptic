@@ -26,3 +26,8 @@
 "","","","","","","","","","tax","invoice","account_account_template_0_212101","",""
 "","","","","","","","","","base","refund","","",""
 "","","","","","","","","","tax","refund","account_account_template_0_212101","",""
+
+"ret_10_isr","Retencion ISR 10%","Retencion ISR 10%","Retencion ISR 10%","10","-10.0","percent","purchase","tax_group_retencion_isr_10","base","invoice","","Retención ISR 10%"
+"","","","","","","","","","tax","invoice","account_account_template_0_212101","",""
+"","","","","","","","","","base","refund","","",""
+"","","","","","","","","","tax","refund","account_account_template_0_212101","",""
