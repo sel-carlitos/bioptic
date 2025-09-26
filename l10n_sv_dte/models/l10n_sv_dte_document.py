@@ -677,8 +677,8 @@ class DTEDocument(models.Model):
 
             if not partner_id.vat:
                 raise ValidationError(_('Debe especificar VAT.'))
-            if not partner_id.nit:
-                raise ValidationError(_('Debe especificar NIT.'))
+            if not partner_id.nit and not partner_id.dui:
+                raise ValidationError(_('Debe especificar NIT o DUI.'))
 
             address = classdoc.Direccion(departamento=partner_id.state_id.dte_code,
                                          municipio=partner_id.res_municipality_id.dte_code,
