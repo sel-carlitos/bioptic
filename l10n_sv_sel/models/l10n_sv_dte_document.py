@@ -73,7 +73,7 @@ class DTEDocument(models.Model):
                 product_id = line.product_id
                 product_name = product_id.name if product_id else (line.name or 'S/N')
                 quantity = abs(line.quantity)
-                price_unit_untaxed = self._construct_tax_excluded1(line.price_unit, line)
+                price_unit_untaxed = (subtotal_line_without_iva / line.quantity) if subtotal_line_without_iva else 0.00
                 item = classdoc.Item(
                     numItem=i,
                     descripcion=self.limit(product_name, 80),
