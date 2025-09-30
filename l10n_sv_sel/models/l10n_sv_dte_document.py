@@ -47,6 +47,7 @@ class DTEDocument(models.Model):
         # is_company_currency = self.is_company_currency()
 
         lines = self.invoice_id.invoice_line_ids
+        total_discount = 0.00
         if self.l10n_sv_voucher_type_id.code not in ['07']:
             for i, line in enumerate(
                 self._iterable_products_xml(lines)
@@ -83,7 +84,7 @@ class DTEDocument(models.Model):
                     price_unit = (subtotal_line_with_iva or subtotal_line_without_iva) / line.quantity
                     item.set_precioUni(price_unit)
                 elif self.l10n_sv_voucher_type_id.code not in ['15']:
-                    item.set_precioUni(line.price_subtotal / line.quantity)
+                    item.set_precioUni(price_unit_untaxed)
                 elif self.l10n_sv_voucher_type_id.code in ['15']:
                     item.set_valorUni(price_unit_untaxed)
                     item.set_valor(price_unit_untaxed * item.get_cantidad())
@@ -125,15 +126,16 @@ class DTEDocument(models.Model):
 
                 discount_amount = 0.00
                 if line.discount > 0:
-                    discount_amount = price_unit_untaxed * line.quantity * line.discount / 100
+                    discount_amount = (price_unit_untaxed * line.quantity) * line.discount / 100
                     item.set_montoDescu(abs(discount_amount))
+                    total_discount += discount_amount
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
                     base_line = abs(subtotal_line_with_iva)
                 else:
                     base_line = abs(subtotal_line_without_iva)
 
-                subtotal_line = base_line - discount_amount
+                subtotal_line = base_line
 
                 if self.l10n_sv_voucher_type_id.code in ['01']:
                     if not item.get_ivaItem():
@@ -180,8 +182,8 @@ class DTEDocument(models.Model):
             summary.set_totalSujetoRetencion(abs(self.invoice_id.amount_untaxed_signed))
             summary.set_totalIVAretenido(abs(tax_data['iva_withholding_amount']))
 
-        if self.l10n_sv_voucher_type_id.code not in ['07'] and discount_amount:
-            summary.set_totalDescu(abs(discount_amount))
+        if self.l10n_sv_voucher_type_id.code not in ['07'] and total_discount:
+            summary.set_totalDescu(abs(total_discount))
 
         self.set_summary_additional_vals(summary, cedoc, classdoc)
 
