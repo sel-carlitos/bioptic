@@ -69,11 +69,11 @@ class DTEDocument(models.Model):
                             subtotal_line_with_iva = (
                                 tax_group['base_amount_currency'] + tax_group['tax_amount_currency']
                             )
-
+                tax_amount = sum(line.tax_ids.mapped('amount'))
                 product_id = line.product_id
                 product_name = product_id.name if product_id else (line.name or 'S/N')
                 quantity = abs(line.quantity)
-                price_unit_untaxed = (subtotal_line_without_iva / line.quantity) if subtotal_line_without_iva else 0.00
+                price_unit_untaxed = self._construct_tax_excluded(line.price_unit, tax_amount)
                 item = classdoc.Item(
                     numItem=i,
                     descripcion=self.limit(product_name, 80),
@@ -84,14 +84,14 @@ class DTEDocument(models.Model):
                     price_unit = (subtotal_line_with_iva or subtotal_line_without_iva) / line.quantity
                     item.set_precioUni(price_unit)
                 elif self.l10n_sv_voucher_type_id.code not in ['15']:
-                    item.set_precioUni(price_unit_untaxed)
+                    item.set_precioUni(price_unit_untaxed[0])
                 elif self.l10n_sv_voucher_type_id.code in ['15']:
-                    item.set_valorUni(price_unit_untaxed)
-                    item.set_valor(price_unit_untaxed * item.get_cantidad())
+                    item.set_valorUni(price_unit_untaxed[0])
+                    item.set_valor(price_unit_untaxed[0] * item.get_cantidad())
                     item.set_depreciacion(0)
 
                 if self.l10n_sv_voucher_type_id.code == '14':
-                    item.set_compra(price_unit_untaxed * quantity)
+                    item.set_compra(price_unit_untaxed[0] * quantity)
 
                 item_type = 2 if (product_id and product_id.type == 'service') else 1
                 if self.l10n_sv_voucher_type_id.code not in ['11', '15']:
@@ -126,7 +126,7 @@ class DTEDocument(models.Model):
 
                 discount_amount = 0.00
                 if line.discount > 0:
-                    discount_amount = (price_unit_untaxed * line.quantity) * line.discount / 100
+                    discount_amount = (price_unit_untaxed[0] * line.quantity) * line.discount / 100
                     item.set_montoDescu(abs(discount_amount))
                     total_discount += discount_amount
 
