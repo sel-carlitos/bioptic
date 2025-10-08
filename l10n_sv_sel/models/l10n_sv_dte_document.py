@@ -1,6 +1,7 @@
 from collections import defaultdict
+import re
 
-from odoo import models
+from odoo import models, _
 from odoo.exceptions import ValidationError
 
 from odoo.addons.l10n_sv_dte.models import CCFE, FE
@@ -250,6 +251,12 @@ class DTEDocument(models.Model):
         """Return document number for a partner.
         Falls back to VAT if no local identification is found.
         """
+        if self.invoice_id.l10n_sv_voucher_type_id.code == '01':
+            dui = partner_id.dui
+            if not re.match(r'^[0-9]{8}-[0-9]{1}$', dui or ''):
+                raise ValidationError(_('The DUI number must have the format 00000000-0.'))
+            return dui
+
         if not partner_id.l10n_sv_identification_id:
             return partner_id.vat or None
         return super().get_document_number(partner_id)
