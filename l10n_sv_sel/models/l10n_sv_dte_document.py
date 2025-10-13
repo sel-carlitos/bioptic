@@ -251,7 +251,8 @@ class DTEDocument(models.Model):
         """Return document number for a partner.
         Falls back to VAT if no local identification is found.
         """
-        if self.invoice_id.l10n_sv_voucher_type_id.code == '01':
+        DUI = self.env.ref('l10n_sv_dte.l10n_sv_identification_13', raise_if_not_found=False)
+        if self.invoice_id.l10n_sv_voucher_type_id.code == '01' and partner_id.l10n_sv_identification_id == DUI:
             dui = partner_id.dui
             if not re.match(r'^[0-9]{8}-[0-9]{1}$', dui or ''):
                 raise ValidationError(_('The DUI number must have the format 00000000-0.'))
