@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_stock_warehouse_form_inherit_sel" model="ir.ui.view">
+    <field name="name">stock.warehouse.form.inherit.sel</field>
+    <field name="model">stock.warehouse</field>
+    <field name="inherit_id" ref="stock.view_warehouse" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='code']" position="after">
+        <field name="l10n_sv_location_id" />
+        <field name="l10n_sv_terminal_id" domain="[('location_id', '=', l10n_sv_location_id)]" />
+      </xpath>
+    </field>
+  </record>
+</odoo>

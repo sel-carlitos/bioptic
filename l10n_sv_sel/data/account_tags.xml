@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+
+    <!-- === SALES START === -->
+    <record id="l10n_sv_sel_tag_85" model="account.account.tag">
+      <field name="name">Ventas Internas Exentas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">85+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_86" model="account.account.tag">
+      <field name="name">Ventas Internas No Sujetas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">86+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_88" model="account.account.tag">
+      <field name="name">Ventas Gravadas por Cuenta de Terceros No Domiciliados Comprobante de
+        Liquidación con C.C.F.</field>
+      <field name="applicability">taxes</field>
+      <field name="code">88+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_89" model="account.account.tag">
+      <field name="name">Ventas Gravadas por Cuenta de Terceros No Domiciliados Comprobante de
+        Liquidación con Facturas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">89+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_90" model="account.account.tag">
+      <field name="name">Exportaciones de Bienes (Fuera de Región Centroamericana)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">90+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_91" model="account.account.tag">
+      <field name="name">Exportaciones de Bienes (Región Centroamericana)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">91+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_92" model="account.account.tag">
+      <field name="name">Ventas Internas Exentas No Sujetas a Proporcionalidad</field>
+      <field name="applicability">taxes</field>
+      <field name="code">92+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_93" model="account.account.tag">
+      <field name="name">Ventas Efectuadas a Zonas Francas y D.P.A. (Tasa Cero)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">93+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_94" model="account.account.tag">
+      <field name="name">Exportaciones de Servicios</field>
+      <field name="applicability">taxes</field>
+      <field name="code">94+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_95" model="account.account.tag">
+      <field name="name">Ventas Internas Gravadas con Comprobante de Crédito Fiscal</field>
+      <field name="applicability">taxes</field>
+      <field name="code">95+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_96" model="account.account.tag">
+      <field name="name">Ventas Internas Gravadas con Factura</field>
+      <field name="applicability">taxes</field>
+      <field name="code">96+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_97" model="account.account.tag">
+      <field name="name">Devoluciones, Rebajas, Descuentos u otras Deducciones sobre Ventas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">97-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_98" model="account.account.tag">
+      <field name="name">Operaciones Gravadas con Comprobante de Liquidación</field>
+      <field name="applicability">taxes</field>
+      <field name="code">98+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_99" model="account.account.tag">
+      <field name="name">Operaciones con Comprobante de Liquidación gravadas tasa 0 y/o exentas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">99+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_552" model="account.account.tag">
+      <field name="name">Devoluciones, Rebajas, Descuentos u otras Deducciones Sobre Ventas por
+        precios máximos de combustibles</field>
+      <field name="applicability">taxes</field>
+      <field name="code">552-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_586" model="account.account.tag">
+      <field name="name">Ventas Gravadas de Combustible con tasas diferenciadas de IVA</field>
+      <field name="applicability">taxes</field>
+      <field name="code">586+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_135" model="account.account.tag">
+      <field name="name">Débitos por Ventas con Comprobante Crédito Fiscal</field>
+      <field name="applicability">taxes</field>
+      <field name="code">135+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_140" model="account.account.tag">
+      <field name="name">Débito por Ventas con Facturas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">140+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_141" model="account.account.tag">
+      <field name="name">Débitos por Ventas: Comprobante de Liquidación con Comprobante Crédito
+        Fiscal</field>
+      <field name="applicability">taxes</field>
+      <field name="code">141+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_142" model="account.account.tag">
+      <field name="name">Débitos por Ventas: Comprobante de Liquidación con Factura</field>
+      <field name="applicability">taxes</field>
+      <field name="code">142+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_143" model="account.account.tag">
+      <field name="name">Débito por Devolución, Rebajas, Descuentos u otras Deducciones Sobre Ventas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">143-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_144" model="account.account.tag">
+      <field name="name">Débito Fiscal por operaciones gravadas con Comprobante de Liquidación</field>
+      <field name="applicability">taxes</field>
+      <field name="code">144+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_146" model="account.account.tag">
+      <field name="name">Débito Proveniente de Crédito Negativo</field>
+      <field name="applicability">taxes</field>
+      <field name="code">146-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_150" model="account.account.tag">
+      <field name="name">SUMA DE DÉBITOS</field>
+      <field name="applicability">taxes</field>
+      <field name="code">150-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_587" model="account.account.tag">
+      <field name="name">Débito Fiscal por Ventas Gravadas de Combustible con tasas diferenciadas de
+        IVA</field>
+      <field name="applicability">taxes</field>
+      <field name="code">587+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_553" model="account.account.tag">
+      <field name="name">Débito por Devolución, Rebajas, Descuentos u otras Deducciones Sobre Ventas
+        por precios máximos de combustibles</field>
+      <field name="applicability">taxes</field>
+      <field name="code">553-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+    <!-- === SALES END === -->
+
+    <!-- === PURCHASES START === -->
+    <record id="l10n_sv_sel_tag_65" model="account.account.tag">
+      <field name="name">Compras Internas Exentas y/o No sujetas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">65+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_66" model="account.account.tag">
+      <field name="name">Compras a sujetos excluidos</field>
+      <field name="applicability">taxes</field>
+      <field name="code">66+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_70" model="account.account.tag">
+      <field name="name">Importaciones Exentas y/o No Sujetas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">70+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_77" model="account.account.tag">
+      <field name="name">Importaciones Gravadas de Servicios</field>
+      <field name="applicability">taxes</field>
+      <field name="code">77+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_75" model="account.account.tag">
+      <field name="name">Importaciones Gravadas de Mercancías (Fuera de Región C.A.)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">75+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_76" model="account.account.tag">
+      <field name="name">Internaciones Gravadas de Mercancías (Dentro Región C.A.)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">76+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_80" model="account.account.tag">
+      <field name="name">Compras Internas Gravadas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">80+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_588" model="account.account.tag">
+      <field name="name">Compras Gravadas de Combustible con tasas diferenciadas de IVA</field>
+      <field name="applicability">taxes</field>
+      <field name="code">588+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_81" model="account.account.tag">
+      <field name="name">Devoluciones, Rebajas, Descuentos u otras Deducciones sobre Compras</field>
+      <field name="applicability">taxes</field>
+      <field name="code">81-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_550" model="account.account.tag">
+      <field name="name">Devoluciones, Rebajas, Descuentos u otras Deducciones sobre Compras por
+        precios máximos de combustibles</field>
+      <field name="applicability">taxes</field>
+      <field name="code">550-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_127" model="account.account.tag">
+      <field name="name">Crédito por Importación de Servicios</field>
+      <field name="applicability">taxes</field>
+      <field name="code">127+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_125" model="account.account.tag">
+      <field name="name">Crédito por Importaciones Gravadas de Mercancías (Fuera de Región C.A.)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">125+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_126" model="account.account.tag">
+      <field name="name">Crédito por Internaciones Gravadas de Mercancías (Dentro de Región C.A.)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">126+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_130" model="account.account.tag">
+      <field name="name">Crédito Compras Internas Gravadas</field>
+      <field name="applicability">taxes</field>
+      <field name="code">130+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_589" model="account.account.tag">
+      <field name="name">Crédito Fiscal por Compras Gravadas de Combustible con tasas diferenciadas
+        de IVA</field>
+      <field name="applicability">taxes</field>
+      <field name="code">589+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_131" model="account.account.tag">
+      <field name="name">Crédito por Devolución, Rebajas, Descuentos u otras Deducciones sobre
+        Compras</field>
+      <field name="applicability">taxes</field>
+      <field name="code">131-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_551" model="account.account.tag">
+      <field name="name">Crédito por Devolución, Rebajas, Descuentos u otras Deducciones sobre
+        Compras por precios máximos de</field>
+      <field name="applicability">taxes</field>
+      <field name="code">551-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+    <!-- === PURCHASES END === -->
+
+    <!-- === OTROS CREDITOS START === -->
+    <record id="l10n_sv_sel_tag_110" model="account.account.tag">
+      <field name="name">Remanente de Crédito del Período anterior</field>
+      <field name="applicability">taxes</field>
+      <field name="code">110+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_115" model="account.account.tag">
+      <field name="name">Reintegro Crédito Fiscal IVA por Exportaciones (en el periodo que se
+        notifico Resolución)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">115-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_128" model="account.account.tag">
+      <field name="name">Crédito por Retención 13% IVA a terceros domiciliados (Art. 162 C.T.)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">128+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_132" model="account.account.tag">
+      <field name="name">Crédito IVA por Proporcionalidad mensual (No deducible del Débito)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">132-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_133" model="account.account.tag">
+      <field name="name">Crédito IVA por Ajuste de Proporcionalidad Anual (si resulta Superior al
+        efectivamente Deducido)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">133+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_134" model="account.account.tag">
+      <field name="name">Crédito IVA por Ajuste de Proporcionalidad Anual (si resulta Inferior al
+        efectivamente Deducido)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">134-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_200" model="account.account.tag">
+      <field name="name">Disminución de Saldo a Favor (Remanente de Crédito Fiscal) por aplicación
+        del Art 74-A del C.T.</field>
+      <field name="applicability">taxes</field>
+      <field name="code">200-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_201" model="account.account.tag">
+      <field name="name">Resolución NO.</field>
+      <field name="applicability">taxes</field>
+      <field name="code">201</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_100" model="account.account.tag">
+      <field name="name">SUMA DE COMPRAS (Casillas 65+66+70+77+75+76+80+588-81-550)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">100=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_145" model="account.account.tag">
+      <field name="name">SUMA DE CRÉDITOS (Casillas
+        127+125+126+130-131+589-551+110+115+128-132+133-134-200)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">145=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_155" model="account.account.tag">
+      <field name="name">REMANENTE CRÉDITO PRÓXIMO PERÍODO (Si la Suma de los Créditos "Casilla 145"
+        es Mayor que la Suma de los Débitos "Casilla 150")</field>
+      <field name="applicability">taxes</field>
+      <field name="code">155=</field>
+      <field name="operation">compare</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_160" model="account.account.tag">
+      <field name="name">IMPUESTO DETERMINADO (Si la Suma de los Débitos "Casilla 150" es Mayor que
+        la Suma de los Créditos "Casilla 145")</field>
+      <field name="applicability">taxes</field>
+      <field name="code">160=</field>
+      <field name="operation">compare</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+    <!-- OTROS CREDITOS END -->
+
+    <!-- === WITHHOLDING, PERCEPTION, AND ADVANCE PAYMENT ON ACCOUNT === -->
+    <record id="l10n_sv_sel_tag_161" model="account.account.tag">
+      <field name="name">Anticipo a Cuenta IVA del 2% efectuada al Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">161+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_162" model="account.account.tag">
+      <field name="name">Retención IVA del 1% Efectuada al Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">162+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_163" model="account.account.tag">
+      <field name="name">Percepción IVA del 1% efectuada al Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">163+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_164" model="account.account.tag">
+      <field name="name">Excedente de Impuesto Período Anterior</field>
+      <field name="applicability">taxes</field>
+      <field name="code">164+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_165" model="account.account.tag">
+      <field name="name">Impuesto IVA por Operaciones según Declaración que Modifica</field>
+      <field name="applicability">taxes</field>
+      <field name="code">165+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_166" model="account.account.tag">
+      <field name="name">TOTAL RETENCION, PERCEPCION Y ANTICIPO A CUENTA A FAVOR DEL DECLARANTE
+        (Casillas 161+162+163+164+165)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">166=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_202" model="account.account.tag">
+      <field name="name">Resolución No.</field>
+      <field name="applicability">taxes</field>
+      <field name="code">202</field>
+      <field name="operation">text</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_491" model="account.account.tag">
+      <field name="name">Percepción IVA del 1% Efectuada al Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">491+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_492" model="account.account.tag">
+      <field name="name">Retención IVA del 1% Efectuada al Declarante.</field>
+      <field name="applicability">taxes</field>
+      <field name="code">492+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_493" model="account.account.tag">
+      <field name="name">Anticipo a Cuenta IVA del 2% Efectuada al Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">493+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_203" model="account.account.tag">
+      <field name="name">TOTAL DISMINUCIÓN DE SALDO POR APLICACIÓN DE ART 74-A (Casillas
+        491+492+493)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">203=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_167" model="account.account.tag">
+      <field name="name">EXCEDENTE DEL IMPUESTO PARA PROXIMO PERÍODO A FAVOR DEL DECLARANTE
+        (Casillas 166-160-203, Si Resultado es Positivo)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">167=</field>
+      <field name="operation">compare</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_168" model="account.account.tag">
+      <field name="name">TOTAL DE IMPUESTO POR OPERACIONES DEL PERIODO (Casillas 160-166+203, Si
+        Resultado es Positivo)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">168=</field>
+      <field name="operation">compare</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_520" model="account.account.tag">
+      <field name="name">Acreditación de Retención del Impuesto por Control de Liquidez Conforme
+        Constancias de Retención (Según Inciso 7 de Art. 10 Decreto Legislativo N° 764/2014)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">520-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_525" model="account.account.tag">
+      <field name="name">Acreditación por FOVIAL</field>
+      <field name="applicability">taxes</field>
+      <field name="code">525-</field>
+      <field name="operation">-</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_521" model="account.account.tag">
+      <field name="name">TOTAL DE IMPUESTO POR OPERACIONES DEL PERIODO MENOS ACREDITACION DEL
+        IMPUESTO</field>
+      <field name="applicability">taxes</field>
+      <field name="code">521=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <!-- === AMOUNTS WITHHELD AND COLLECTED BY THE DECLARANT === -->
+    <record id="l10n_sv_sel_tag_401" model="account.account.tag">
+      <field name="name">Percepción 1%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">401+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_403" model="account.account.tag">
+      <field name="name">Retención 1%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">403+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_404" model="account.account.tag">
+      <field name="name">Retención 13%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">404+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_405" model="account.account.tag">
+      <field name="name">Percepción 2%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">405+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_169" model="account.account.tag">
+      <field name="name">Percepción IVA del 1% efectuada por el Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">169+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_170" model="account.account.tag">
+      <field name="name">Retención IVA del 1% Terceros Domiciliados efectuada por el Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">170+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_172" model="account.account.tag">
+      <field name="name">Retención IVA del 13% Terceros Domiciliados Efectuadas por el Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">172+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_171" model="account.account.tag">
+      <field name="name">Anticipo a Cuenta IVA del 2% efectuada por el Declarante</field>
+      <field name="applicability">taxes</field>
+      <field name="code">171+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_187" model="account.account.tag">
+      <field name="name">TOTAL DE RETENCIONES Y/O PERCEPCIONES EFECTUADAS POR EL DECLARANTE
+        (Casillas 169+170+171+172)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">187=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_188" model="account.account.tag">
+      <field name="name">Retenciones y/o Percepciones del Período según Declaración que Modifica
+        (Casillas 401+403+404+405)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">188=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_190" model="account.account.tag">
+      <field name="name">TOTAL DE IMPUESTO POR RETENCIONES Y PERCEPCIONES DEL PERIODO (Casillas
+        187-188 Si el+)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">190=</field>
+      <field name="operation">compare</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_189" model="account.account.tag">
+      <field name="name">EXCEDENTE POR PAGO INDEBIDO O EN EXCESO (SOLICITAR POR ESCRITO)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">189</field>
+      <field name="operation">manual</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_523" model="account.account.tag">
+      <field name="name">Acreditación de Reintegro de IVA Exportador Autorizado</field>
+      <field name="applicability">taxes</field>
+      <field name="code">523</field>
+      <field name="operation">manual</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_524" model="account.account.tag">
+      <field name="name">TOTAL A PAGAR DE IMPUESTO POR RETENCIONES Y PERCEPCIONES DEL PERIODO POR EL
+        DEC</field>
+      <field name="applicability">taxes</field>
+      <field name="code">524=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <!-- === FINES AND INTERESTS === -->
+    <record id="l10n_sv_sel_tag_194" model="account.account.tag">
+      <field name="name">Multa Impuesto</field>
+      <field name="applicability">taxes</field>
+      <field name="code">194+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_192" model="account.account.tag">
+      <field name="name">Multa Percepción 1%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">192+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_199" model="account.account.tag">
+      <field name="name">Multa Anticipo a Cuenta del 2%</field>
+      <field name="applicability">taxes</field>
+      <field name="code">199+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_193" model="account.account.tag">
+      <field name="name">Multa Retención</field>
+      <field name="applicability">taxes</field>
+      <field name="code">193+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_195" model="account.account.tag">
+      <field name="name">TOTAL MULTAS (Casillas 194+192+199+193)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">195=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_196" model="account.account.tag">
+      <field name="name">Intereses</field>
+      <field name="applicability">taxes</field>
+      <field name="code">196+</field>
+      <field name="operation">+</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+    <record id="l10n_sv_sel_tag_198" model="account.account.tag">
+      <field name="name">TOTAL A PAGAR (Casillas 92+524+195+196)</field>
+      <field name="applicability">taxes</field>
+      <field name="code">198=</field>
+      <field name="operation">=</field>
+      <field name="country_id" ref="base.sv" />
+    </record>
+
+  </data>
+</odoo>

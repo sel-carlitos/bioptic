@@ -32,6 +32,11 @@ class AccountMove(models.Model):
         related='debit_origin_id.l10n_sv_voucher_type_id',
         copy=False,
     )
+    annex_report_f07_form_id = fields.Many2one(
+        'l10n_sv.anexo_f07',
+        string="Formulario Anexo F07",
+        copy=False,
+    )
 
     def unlink(self):
         for move in self:

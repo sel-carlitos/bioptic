@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_sv_anexo_f07,access_l10n_sv_anexo_f07,model_l10n_sv_anexo_f07,base.group_user,1,1,1,1
+access_l10n_sv_anexo_sale_consumer_f07,access_l10n_sv_anexo_sale_consumer_f07,model_l10n_sv_anexo_sale_consumer,base.group_user,1,1,1,1
+access_l10n_sv_anexo_sale_taxpayer_f07,access_l10n_sv_anexo_sale_taxpayer_f07,model_l10n_sv_anexo_sale_taxpayer,base.group_user,1,1,1,1
+access_generate_annex_f07_wizard,access_generate_annex_f07_wizard,model_anexo_f07_wizard,base.group_user,1,1,1,1

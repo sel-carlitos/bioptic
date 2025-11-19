@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Form view for account.account.tag to include Code and Operation fields -->
+    <record id="account_tag_view_form_inherit" model="ir.ui.view">
+      <field name="name">account.tag.view.form.inherit</field>
+      <field name="model">account.account.tag</field>
+      <field name="inherit_id" ref="account.account_tag_view_form" />
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="code" />
+          <field name="operation" />
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>

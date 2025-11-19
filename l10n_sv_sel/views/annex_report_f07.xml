@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+  <!-- Form view Anexo -->
+  <record id="view_l10n_sv_anexo_f07_form" model="ir.ui.view">
+    <field name="name">l10n_sv.anexo_f07.form</field>
+    <field name="model">l10n_sv.anexo_f07</field>
+    <field name="arch" type="xml">
+      <form string="Anexo F07">
+        <header>
+          <button string="Generar Ventas Contribuyentes" name="action_generate_sale_contrib"
+            type="object" class="oe_highlight" invisible="state != 'draft'" />
+          <button string="Generar Ventas Consumidor Final"
+            name="action_generate_sale_consu_final" type="object" class="oe_highlight"
+            invisible="state != 'draft'" />
+          <field name="state" widget="statusbar"
+            statusbar_visible="draft,confirmed,replaced,cancelled" />
+        </header>
+        <sheet>
+          <group>
+            <field name="name" />
+            <field name="company_id" />
+            <field name="date_from" />
+            <field name="date_to" />
+            <!-- <field name="tipo_operacion"/>
+            <field name="version"/> -->
+          </group>
+          <notebook>
+            <page string="Resumen">
+              <!-- <group>
+                <field name="line_count"/>
+                                <field name="total_base"/>
+                                <field name="total_impuesto"/>
+                                <field name="total_monto"/>
+                                </group> -->
+              <group>
+                <field name="note" />
+              </group>
+            </page>
+            <page string="Ventas Contribuyentes">
+              <field name="sale_line_ids">
+                <list editable="bottom">
+                  <!-- <field name="sequence" /> -->
+                  <field name="fecha_emision" />
+                  <field name="clase_documento" />
+                  <field name="tipo_documento" />
+                  <field name="numero_resolucion" />
+                  <field name="numero_serie" />
+                  <field name="numero_documento" />
+                  <field name="numero_control_interno" />
+                  <field name="nit_nrc_cliente" />
+                  <field name="nombre_cliente" />
+                  <field name="ventas_exentas" />
+                  <field name="ventas_no_sujetas" />
+                  <field name="ventas_gravadas_locales" />
+                  <field name="debito_fiscal" />
+                  <field name="total_ventas" />
+                  <field name="dui_cliente" />
+                  <field name="tipo_operacion_renta" />
+                  <field name="tipo_ingreso_renta" />
+                  <field name="numero_anexo" />
+                </list>
+              </field>
+            </page>
+            <page string="Ventas Consumidor Final">
+              <field name="sale_consumer_line_ids">
+                <list editable="bottom">
+                  <!-- <field name="sequence" /> -->
+                  <field name="fecha_emision" />
+                  <field name="clase_documento" />
+                  <field
+                    name="tipo_documento" />
+                  <field name="numero_resolucion" />
+                  <field
+                    name="numero_serie" />
+                  <field name="numero_control_interno_del" />
+                  <field name="numero_control_interno_al" />
+                  <field name="numero_documento_del" />
+                  <field name="numero_documento_al" />
+                  <field name="n_cash_register" />
+                  <field name="ventas_exentas" />
+                  <field name="ventas_in_exenta_no_proporcionalidad" />
+                  <field name="ventas_no_sujetas" />
+                  <field name="ventas_gravadas_locales" />
+                  <field name="exportaciones_ca" />
+                  <field name="exportaciones_fuera_ca" />
+                  <field name="exportaciones_servicio" />
+                  <field name="ventas_zna_franca_dpa" />
+                  <field name="ventas_terceros_no_domiciliados" />
+                  <field name="total_ventas" />
+                  <field name="tipo_operacion_renta" />
+                  <field name="tipo_ingreso_renta" />
+                  <field
+                    name="numero_anexo" />
+                </list>
+              </field>
+            </page>
+            <page string="Exportaciones">
+              <field name="note" />
+              <button name="action_export_csv" string="Exportar CSV" type="object"
+                class="oe_highlight" />
+              <button name="action_export_txt" string="Exportar TXT" type="object" />
+            </page>
+          </notebook>
+        </sheet>
+        <footer>
+          <!-- <button string="Confirmar" type="object" name="action_confirm" class="oe_highlight"/> -->
+          <button string="Cancelar" special="cancel" />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <!-- Form view de línea de ventas (inline) -->
+  <!-- <record id="view_l10n_sv_anexo_f07_sale_list" model="ir.ui.view">
+    <field name="name">l10n_sv.anexo_f07.sale.list</field>
+    <field name="model">l10n_sv.anexo_f07.sale</field>
+    <field name="arch" type="xml">
+      <list string="Líneas Ventas"> -->
+        <!-- <field name="sequence" /> -->
+        <!-- <field name="fecha_emision" />
+        <field name="clase_documento" />
+        <field name="tipo_documento" />
+        <field name="numero_resolucion" />
+        <field name="numero_serie" />
+        <field name="numero_documento" />
+        <field name="numero_control_interno" />
+        <field name="nit_nrc_cliente" />
+        <field name="nombre_cliente" />
+        <field name="ventas_gravadas_locales" />
+        <field name="debito_fiscal" />
+        <field name="total_ventas" />
+      </list>
+    </field>
+  </record> -->
+
+  <!-- list view Anexo -->
+  <record id="view_l10n_sv_anexo_f07_list" model="ir.ui.view">
+    <field name="name">l10n_sv.anexo_f07.list</field>
+    <field name="model">l10n_sv.anexo_f07</field>
+    <field name="arch" type="xml">
+      <list string="Anexos F07">
+        <field name="name" />
+        <field name="company_id" />
+        <field name="date_from" />
+        <field name="date_to" />
+        <!-- <field name="version"/> -->
+        <field name="state" />
+        <button name="action_export_csv" string="Export CSV" type="object" />
+        <button name="action_export_txt" string="Export TXT" type="object" />
+      </list>
+    </field>
+  </record>
+
+  <!-- Wizard to open by action (server action can open it) -->
+  <record id="view_anexo_f07_wizard_form" model="ir.ui.view">
+    <field name="name">anexo.f07.wizard.form</field>
+    <field name="model">anexo.f07.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Generar Anexo F07">
+        <group>
+          <field name="company_id" />
+          <field name="date_from" />
+          <field name="date_to" />
+          <field name="tipo_operacion" />
+          <field name="include_drafts" />
+        </group>
+        <footer>
+          <button string="Previsualizar" name="action_preview" type="object" />
+          <button string="Generar" name="action_generate" type="object" class="oe_highlight" />
+          <button string="Cerrar" special="cancel" />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <!-- Action & Menu -->
+  <record id="action_l10n_sv_anexo_f07_list" model="ir.actions.act_window">
+    <field name="name">Anexos F07</field>
+    <field name="res_model">l10n_sv.anexo_f07</field>
+    <field name="view_mode">list,form</field>
+    <field name="help">Gestiona anexos F07 (ventas/compras).</field>
+  </record>
+
+  <menuitem parent="account.menu_finance_reports" id="menu_l10n_sv_anexo" name="Anexos F07"
+    sequence="90" />
+  <menuitem id="menu_l10n_sv_anexo_f07" name="Anexos F07" parent="menu_l10n_sv_anexo"
+    action="action_l10n_sv_anexo_f07_list" />
+
+</odoo>
